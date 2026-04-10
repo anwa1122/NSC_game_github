@@ -18508,7 +18508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDataManager
   playerMoneyText: {fileID: 26805882}
-  money: 10000
+  money: 0
   transitionCG: {fileID: 1513816824}
   fadeDuration: 3.5
 --- !u!4 &1977731071
