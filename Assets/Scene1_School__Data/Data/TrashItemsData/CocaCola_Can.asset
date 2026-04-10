@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b71eeb30c5a01854e89297dfc120bc25, type: 3}
+  m_Name: CocaCola_Can
+  m_EditorClassIdentifier: Assembly-CSharp::TrashData
+  trashName: CocaColaCan
+  type: 4
+  rarity: 0
+  icon: {fileID: 21300000, guid: 0cbb25928ba653b44967e8e899a6c84d, type: 3}
+  model3D: {fileID: 919132149155446097, guid: 8f9ea89cf83ccfc4eb0ed2f5f984be45, type: 3}
+  scoreValue: 10
