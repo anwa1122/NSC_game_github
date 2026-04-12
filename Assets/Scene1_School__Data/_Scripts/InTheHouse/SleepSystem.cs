@@ -163,7 +163,10 @@ public class SleepSystem : MonoBehaviour, IResettable, IDataProvider
     }
 
     IEnumerator SleepSequence()
-{
+{   
+
+    MovementState.Instance.ChangeMovementState(MoveMode.StopMoving);
+
     // 1. หน้าจอค่อยๆ ดำมืดลง
     float alpha = 0;
     while (alpha < 1)
@@ -195,6 +198,8 @@ public class SleepSystem : MonoBehaviour, IResettable, IDataProvider
 
     GameGlobal.Instance.ChangePhase(DayPhase.Morning);
     GameGlobal.Instance.StartNextDay();
+
+    MovementState.Instance.ChangeMovementState(MoveMode.StartMoving);
 
     if (cameraState != null) cameraState.canRotate = true;
 }
