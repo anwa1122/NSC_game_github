@@ -52,6 +52,8 @@ public class PlayerCamera : MonoBehaviour
         yaw = angles.y;
         pitch = angles.x;
         lastState = isPOVMode;
+
+        SetCameraActive(true);
     }
 
     public void SetCameraActive(bool isActive)

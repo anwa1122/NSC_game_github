@@ -48,5 +48,8 @@ public class SitTrigger_Scene2 : MonoBehaviour
         playerTransform.transform.rotation = sitPosition.transform.rotation;
 
         playerCharacterController.enabled = true;
+
+        MovementState.Instance.ChangeMovementState(MoveMode.StopMoving);
+        CameraState.Instance.ChangeCameraState(CameraMode.POVCamera);
     }
 }
