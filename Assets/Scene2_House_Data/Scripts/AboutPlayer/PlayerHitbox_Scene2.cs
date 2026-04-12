@@ -12,7 +12,6 @@ public class PlayerHitbox_Scene2 : MonoBehaviour
     {
         if (other.CompareTag("SitHitbox"))
         {
-            Debug.Log("Stayed");
         }
     }
 
