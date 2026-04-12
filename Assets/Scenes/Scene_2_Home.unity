@@ -561,9 +561,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 349975399}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c85bb82b417b764f9b72a95b1196d23, type: 3}
+  m_Script: {fileID: 11500000, guid: 4bbece7e1b1ac6042a858f80bfd621df, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera_Scene2
+  m_EditorClassIdentifier: Assembly-CSharp::ThirdPersonCamera
   target: {fileID: 968182829}
   povAnchor: {fileID: 1359236999}
   isPOVMode: 0
@@ -593,14 +593,16 @@ GameObject:
   - component: {fileID: 968182827}
   - component: {fileID: 968182825}
   - component: {fileID: 968182824}
-  - component: {fileID: 968182826}
+  - component: {fileID: 968182832}
+  - component: {fileID: 968182831}
+  - component: {fileID: 968182830}
   m_Layer: 0
   m_Name: "\U0001F64EPlayer"
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!143 &968182824
 CharacterController:
   m_ObjectHideFlags: 0
@@ -649,22 +651,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &968182826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 968182823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f54c6fdd80dfed4db31ec7b46825cc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMoveMent_Scene2
-  controller: {fileID: 968182824}
-  speed: 7
-  turnSmoothTime: 0.1
-  gravity: -9.81
 --- !u!23 &968182827
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -740,6 +726,48 @@ Transform:
   - {fileID: 1359236999}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &968182830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968182823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddf23dd0438628049b31b38f5d2e45f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraState
+  playerCamera: {fileID: 349975404}
+--- !u!114 &968182831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968182823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e9c0e5779eb11a4e9d58a5ed6535e36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovementState
+  playerNormalMove: {fileID: 968182832}
+--- !u!114 &968182832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968182823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c75d1c44f7cce4b44981eccbdc60f7c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerNormalMove
+  controller: {fileID: 968182824}
+  speed: 5
+  turnSmoothTime: 0.1
+  gravity: -9.81
 --- !u!1 &1049753427
 GameObject:
   m_ObjectHideFlags: 0
