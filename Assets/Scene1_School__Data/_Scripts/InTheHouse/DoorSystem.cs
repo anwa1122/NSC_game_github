@@ -75,7 +75,7 @@ public class DoorSystem : MonoBehaviour, IResettable ,IDataProvider
 
         canvasGroup.blocksRaycasts = true;
 
-        ThirdPersonCamera.Instance.canRotate = false;
+        CameraState.Instance.ChangeCameraState(CameraMode.FreezeCamera);
 
         onPanel = true;
     }
@@ -85,7 +85,8 @@ public class DoorSystem : MonoBehaviour, IResettable ,IDataProvider
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        ThirdPersonCamera.Instance.canRotate = true;
+        CameraState.Instance.ChangeCameraState(CameraMode.UnFreezeCamera);
+
 
         StartCoroutine(FadeUI(false)); 
 

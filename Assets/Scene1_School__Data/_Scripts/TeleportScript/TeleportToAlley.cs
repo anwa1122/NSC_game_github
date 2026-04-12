@@ -85,7 +85,7 @@ public class TeleportToAlley : MonoBehaviour, IDataProvider
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        ThirdPersonCamera.Instance.canRotate = true;
+        CameraState.Instance.ChangeCameraState(CameraMode.UnFreezeCamera);
 
         StartCoroutine(FadeUI(false)); 
         canExit = false;
@@ -99,7 +99,7 @@ public class TeleportToAlley : MonoBehaviour, IDataProvider
         StopAllCoroutines(); // ป้องกันการรันซ้อนกัน
         StartCoroutine(FadeUI(true)); 
             
-        ThirdPersonCamera.Instance.canRotate = false;
+        CameraState.Instance.ChangeCameraState(CameraMode.FreezeCamera);
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

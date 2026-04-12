@@ -765,7 +765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerNormalMove
   controller: {fileID: 968182824}
-  speed: 5
+  speed: 7
   turnSmoothTime: 0.1
   gravity: -9.81
 --- !u!1 &1049753427

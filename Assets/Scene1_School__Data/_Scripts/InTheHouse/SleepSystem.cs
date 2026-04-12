@@ -29,7 +29,7 @@ public class SleepSystem : MonoBehaviour, IResettable, IDataProvider
 
     private Transform playerTransform;
     private CharacterController playerCharacterController;
-    private ThirdPersonCamera cameraState;
+    private PlayerCamera cameraState;
     private GameObject playerModel;
 
     private Vector3 exitPos;
@@ -72,7 +72,7 @@ public class SleepSystem : MonoBehaviour, IResettable, IDataProvider
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
-            ThirdPersonCamera.Instance.canRotate = false;
+            CameraState.Instance.ChangeCameraState(CameraMode.FreezeCamera);
 
             onPanel = true;
         }
@@ -102,7 +102,7 @@ public class SleepSystem : MonoBehaviour, IResettable, IDataProvider
 
             canSleep = false;
 
-            ThirdPersonCamera.Instance.canRotate = true;
+            CameraState.Instance.ChangeCameraState(CameraMode.UnFreezeCamera);
 
             if (cameraState != null) cameraState.canRotate = true;
         }
@@ -115,7 +115,7 @@ public class SleepSystem : MonoBehaviour, IResettable, IDataProvider
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        ThirdPersonCamera.Instance.canRotate = true;
+        CameraState.Instance.ChangeCameraState(CameraMode.UnFreezeCamera);
 
         onPanel = false;
 
@@ -127,7 +127,7 @@ public class SleepSystem : MonoBehaviour, IResettable, IDataProvider
         StartCoroutine(FadeUI(false)); 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        ThirdPersonCamera.Instance.canRotate = true;
+        CameraState.Instance.ChangeCameraState(CameraMode.UnFreezeCamera);
 
         if (trashMinigameScript.winTheGame && GameGlobal.Instance.currentPhase == DayPhase.Afternoon)
         {       

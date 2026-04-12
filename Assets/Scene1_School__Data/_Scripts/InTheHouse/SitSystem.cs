@@ -85,7 +85,7 @@ public class SitSystem : MonoBehaviour, IDataProvider
         playerTransform.transform.position = sitLocation.transform.position;
         playerTransform.transform.rotation = sitLocation.transform.rotation;
 
-        cameraState.ChangeCameraState("PovCam");
+        cameraState.ChangeCameraState(CameraMode.POVCamera);
         movementState.ChangeMovementState(MoveMode.StopMoving);
 
         onPanel = true;
@@ -104,7 +104,7 @@ public class SitSystem : MonoBehaviour, IDataProvider
         playerTransform.position = exitPos;
         playerTransform.rotation = exitRot;
 
-        cameraState.ChangeCameraState("MainCam");
+        cameraState.ChangeCameraState(CameraMode.MainCamera);
         movementState.ChangeMovementState(MoveMode.StartMoving);
 
         onPanel = false;

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class ThirdPersonCamera : MonoBehaviour
+public class PlayerCamera : MonoBehaviour
 {   
-    public static ThirdPersonCamera Instance;
+    public static PlayerCamera Instance;
 
     [Header("Target References")]
     public Transform target;
