@@ -50,6 +50,6 @@ public class SitTrigger_Scene2 : MonoBehaviour
         playerCharacterController.enabled = true;
 
         MovementState.Instance.ChangeMovementState(MoveMode.StopMoving);
-        CameraState.Instance.ChangeCameraState(CameraMode.POVCamera);
+        CameraState.Instance.ChangeCameraState(CameraMode.PCMode);
     }
 }

@@ -11,6 +11,7 @@ public class PlayerCamera : MonoBehaviour
     [Header("State Control")]
     public bool isPOVMode = false;    
     public bool canRotate = true;
+    public bool isSubtleMouseMode = false; // ตัวแปรใหม่สำหรับโหมดขยับตามเมาส์
 
     [Header("Follow Settings")]
     public float mouseSensitivity = 200f;
@@ -18,17 +19,21 @@ public class PlayerCamera : MonoBehaviour
 
     [Header("Zoom Settings")]
     public float zoomSpeed = 5f;
-    public float minDistance = 0.5f; // ลดระยะต่ำสุดเพื่อให้หมุนในที่แคบได้ดีขึ้น
+    public float minDistance = 0.5f;
     public float maxDistance = 10f;
-    public float smoothSpeed = 15f; // เพิ่มความไวในการตาม
+    public float smoothSpeed = 15f;
 
     [Header("POV Transition")]
     public float transitionSpeed = 5f;
 
+    [Header("POV Subtle Mouse (New)")]
+    public float povMouseInfluence = 2.0f; // ความแรงในการขยับ
+    public float povMouseSmooth = 5.0f;    // ความนุ่มนวล
+
     [Header("Collision Settings")]
     public LayerMask collisionLayers; 
-    public float cameraRadius = 0.25f; // เพิ่มรัศมีหัวกล้องให้กว้างขึ้นอีกนิด
-    public float collisionOffset = 0.2f; // เพิ่มระยะห่างจากกำแพง
+    public float cameraRadius = 0.25f; 
+    public float collisionOffset = 0.2f; 
 
     float yaw;
     float pitch;
@@ -40,10 +45,10 @@ public class PlayerCamera : MonoBehaviour
     {
         if (Instance == null) Instance = this;
     }
+
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        SetCameraActive(true);
 
         currentDistance = 5f;
         targetDistance = currentDistance;
@@ -52,8 +57,6 @@ public class PlayerCamera : MonoBehaviour
         yaw = angles.y;
         pitch = angles.x;
         lastState = isPOVMode;
-
-        SetCameraActive(true);
     }
 
     public void SetCameraActive(bool isActive)
@@ -92,7 +95,14 @@ public class PlayerCamera : MonoBehaviour
         }
         else
         {
+            // ทำการเข้าหา Anchor ปกติ
             HandlePOVTransition();
+
+            // ถ้าเปิดโหมด Subtle ให้คำนวณการหมุนเสริมจากเมาส์
+            if (isSubtleMouseMode)
+            {
+                HandlePOVSubtleMouse();
+            }
         }
     }
 
@@ -127,20 +137,15 @@ public class PlayerCamera : MonoBehaviour
         RaycastHit hit;
         float finalDistance = targetDistance;
 
-        // ใช้ SphereCast เช็คการชน
         if (Physics.SphereCast(focusPosition, cameraRadius, (desiredPosition - focusPosition).normalized, out hit, targetDistance, collisionLayers))
         {
-            // คำนวณระยะที่ควรอยู่จริง
             finalDistance = Mathf.Clamp(hit.distance - collisionOffset, minDistance, targetDistance);
-            
-            // --- เทคนิคพิเศษ: ถ้าของเดิมไกลกว่าระยะที่ชน ให้ดีดกลับมาทันที (ป้องกันการมุดเพราะ Smooth) ---
             if (currentDistance > finalDistance)
             {
                 currentDistance = finalDistance;
             }
         }
 
-        // ใช้ Lerp เฉพาะตอนที่กล้องกำลังจะขยับออกไปที่โล่ง
         currentDistance = Mathf.Lerp(currentDistance, finalDistance, Time.deltaTime * smoothSpeed);
 
         transform.rotation = rotation;
@@ -151,6 +156,28 @@ public class PlayerCamera : MonoBehaviour
     {
         if (povAnchor == null) return;
         transform.position = Vector3.Lerp(transform.position, povAnchor.position, Time.deltaTime * transitionSpeed);
-        transform.rotation = Quaternion.Slerp(transform.rotation, povAnchor.rotation, Time.deltaTime * transitionSpeed);
+        
+        // ถ้าไม่ได้อยู่ในโหมดขยับตามเมาส์ ให้หมุนตาม Anchor ปกติ
+        if (!isSubtleMouseMode)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, povAnchor.rotation, Time.deltaTime * transitionSpeed);
+        }
+    }
+
+    // ฟังก์ชันใหม่: แยกการทำงานออกมาต่างหากสำหรับ Scene 2
+    void HandlePOVSubtleMouse()
+    {
+        if (povAnchor == null) return;
+
+        // คำนวณตำแหน่งเมาส์กลางจอ (-0.5 ถึง 0.5)
+        float mouseX = (Input.mousePosition.x / Screen.width) - 0.5f;
+        float mouseY = (Input.mousePosition.y / Screen.height) - 0.5f;
+
+        // สร้างการหมุนเสริมจากเมาส์
+        Quaternion mouseOffset = Quaternion.Euler(-mouseY * povMouseInfluence, mouseX * povMouseInfluence, 0);
+        Quaternion targetRotation = povAnchor.rotation * mouseOffset;
+
+        // หมุนกล้องอย่างนุ่มนวล
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * povMouseSmooth);
     }
 }
