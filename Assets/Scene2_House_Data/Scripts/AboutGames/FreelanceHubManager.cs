@@ -2,25 +2,27 @@ using UnityEngine;
 using System.Collections.Generic; 
 public class FreelanceHubManager : MonoBehaviour
 {
-    public GameObject slotPrefab;
-    public Transform contentParent;
-    public List<QuestData> allQuests;
+    public GameObject slotPrefab; //Prefab ที่จะเป็นแม่แบบให้มินิเกมต่างๆ
+    public Transform contentParent; //ตำแหน่งที่จะให้เควสไปอยุ่
+    public List<QuestData> allQuests; //List quest ที่เรามีทั้งหมดภายในเกม
     void Start()
     {
-        GenerateQuestList();
+        GenerateQuestList(); //เรียกใช้ฟังชันตอนเริ่มเกมเลย
     }
 
     public void GenerateQuestList()
     {
-        foreach (QuestData data in allQuests)
+        foreach (QuestData data in allQuests) //เรียกแต่ละตัว สร้างตัวแปร data ที่เป็นประเภทสคริปต์ QuestData ที่เอามาจากภายในลิสต์ allQuests
         {
-            GameObject newSlot = Instantiate(slotPrefab, contentParent);
+            GameObject newSlot = Instantiate(slotPrefab, contentParent); //สร้าง ตัวแปรประเภท gameObject เพื่อให้มันไปโผล่ภายในเกม โดยใช้ Instatiate โดย ให้ slotPRefab เป็นแม่แบบ, contentParent เป็นตำแหน่งที่จะโคลนแล้วไปเิกด
 
-            QuestItemSlot slotScript = newSlot.GetComponent<QuestItemSlot>();
+            QuestItemSlot slotScript = newSlot.GetComponent<QuestItemSlot>(); //สร้างตัวแปร slotScript ประเภท QuestItemSlot ไปเอา component QuestIteSlot ในตัว newSlot mี่ถูกสร้างมา
 
-            bool isRare = Random.Range(0f, 100f) <= 20f;
+            bool isRare = Random.Range(0f, 100f) <= 20f; //ให้สุ่มค่า isRare โดยโอกาศ 20% 
 
-            slotScript.Setup(data, isRare);
+            slotScript.Setup(data, isRare); 
+            //เรียกใช้ฟังชันใน slotScript ที่มี QuestItemSlot เป็น component ทำให้เรียกใช้ Setup ฟังชันได้ แล้วก้ใส่ตัวแปร data กับค่าความจริง isRare ที่สุ่มมา
+            //โดยเอา data ไปเพื่อให้กำหนดว่ารูป และ ชื่อ หรือื่นๆมีค่าเป็นไปตาม data ที่เรียงมาในลิสต์
         }
     }
 }
