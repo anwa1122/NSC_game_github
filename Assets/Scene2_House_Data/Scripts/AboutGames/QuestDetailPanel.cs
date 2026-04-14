@@ -4,7 +4,7 @@ using TMPro;
 using NUnit.Framework;
 public class QuestDetailPanel : MonoBehaviour
 {
-    public static QuestDetailPanel Instance;
+    public static QuestDetailPanel Instance; //ถูกเรียกใช้ที่ QuestItemSlot
 
     [Header("UI Elements")]
     public TextMeshProUGUI titleText;
@@ -23,7 +23,7 @@ public class QuestDetailPanel : MonoBehaviour
     private bool doneHide = false;
     
     private RectTransform rect;
-
+    private QuestData currentLoadedData;
     
     
     void Awake()
@@ -75,6 +75,18 @@ public class QuestDetailPanel : MonoBehaviour
     {
         isShow = false;
         rect.anchoredPosition = hidePosition;
+    }
+
+    public void OnAcceptQuest()
+    {
+        //if (currentLoadedData != null)
+    //{
+        //Debug.Log("เริ่มทำเควส: " + currentLoadedData.questName);
+        //Debug.Log("ประเภทเกมคือ: " + currentLoadedData.type);
+        
+        // ขั้นต่อไปเราจะเขียนคำสั่งเปิด Panel เกมตรงนี้
+        //isShow = false; // ปิดหน้าต่าง Detail ลงไปก่อน
+    //}
     }
 
 }
