@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: AiTraining
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
   questName: AiTraining
-  clientMessage: 'Make an Ai data train for me please
-
-'
+  clientMessages:
+  - I dont know how to train ai Please Help!!!
+  - Please train Ai for me with these picture !!!
   questIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  questImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   type: 0
   isRare: 1
   baseReward: 40

@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: CircuitGame
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
   questName: CircuitGame
-  clientMessage: How to circuit?
+  clientMessages:
+  - make a circuit please
+  - I need Help with this!!!!!!
+  - I dont know how to circuit......
   questIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  questImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   type: 1
   isRare: 1
   baseReward: 30
