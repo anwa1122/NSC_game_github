@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic; 
 
 [CreateAssetMenu(fileName = "NewQuest", menuName = "freeLanceBilly/QuestData")]
 public class QuestData : ScriptableObject
@@ -7,8 +8,9 @@ public class QuestData : ScriptableObject
     
     [Header("Quest Info")]
     [TextArea(3, 10)]
-    public string clientMessage; // ข้อความที่คนจ้างทักมา
+    public List<string> clientMessages;
     public Sprite questIcon;      // รูปไอคอนประเภทงาน/รูปคนจ้าง
+    public Sprite questImage; // รูปร่างเควส
     
     public enum GameType { AI_Training, Circuit, Coding }
     public GameType type;        // ประเภทมินิเกมที่จะเล่น
@@ -19,4 +21,5 @@ public class QuestData : ScriptableObject
     
     [Range(1f, 3f)]
     public float difficultyMultiplier = 1f; // ตัวคูณความยาก
+    
 }
