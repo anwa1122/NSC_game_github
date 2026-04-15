@@ -11,6 +11,8 @@ public class CameraState : MonoBehaviour
     void Awake()
     {
         if (Instance == null) Instance = this;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void ChangeCameraState(CameraMode cameraState)
@@ -19,11 +21,15 @@ public class CameraState : MonoBehaviour
         {
             playerCamera.isPOVMode = false;
             playerCamera.isSubtleMouseMode = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
         else if (cameraState == CameraMode.POVCamera)
         {
             playerCamera.isPOVMode = true;
             playerCamera.isSubtleMouseMode = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         else if (cameraState == CameraMode.FreezeCamera)
         {
@@ -38,10 +44,14 @@ public class CameraState : MonoBehaviour
         {
             playerCamera.isPOVMode = true;
             playerCamera.isSubtleMouseMode = true; // เปิดโหมดกล้องขยับตามเมาส์
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         else if (cameraState == CameraMode.ExitPCMode)
         {
             playerCamera.isSubtleMouseMode = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 }

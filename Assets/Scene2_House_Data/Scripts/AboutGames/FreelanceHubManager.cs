@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic; 
 public class FreelanceHubManager : MonoBehaviour
 {
+    public GameObject freelanceCanvas;
     public GameObject slotPrefab; //Prefab ที่จะเป็นแม่แบบให้มินิเกมต่างๆ
     public Transform contentParent; //ตำแหน่งที่จะให้เควสไปอยุ่
     public List<QuestData> allQuests; //List quest ที่เรามีทั้งหมดภายในเกม
@@ -24,5 +25,10 @@ public class FreelanceHubManager : MonoBehaviour
             //เรียกใช้ฟังชันใน slotScript ที่มี QuestItemSlot เป็น component ทำให้เรียกใช้ Setup ฟังชันได้ แล้วก้ใส่ตัวแปร data กับค่าความจริง isRare ที่สุ่มมา
             //โดยเอา data ไปเพื่อให้กำหนดว่ารูป และ ชื่อ หรือื่นๆมีค่าเป็นไปตาม data ที่เรียงมาในลิสต์
         }
+    }
+
+    public void ExitFreeLanceHub()
+    {
+        freelanceCanvas.SetActive(false);
     }
 }
