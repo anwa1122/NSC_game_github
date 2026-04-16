@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using NUnit.Framework;
+using Unity.VisualScripting;
+using System.Collections.Generic;
 public class QuestDetailPanel : MonoBehaviour
 {
     public static QuestDetailPanel Instance; //ถูกเรียกใช้ที่ QuestItemSlot
@@ -24,7 +26,9 @@ public class QuestDetailPanel : MonoBehaviour
     
     private RectTransform rect;
     private QuestData currentLoadedData;
-    
+
+    [UnitHeaderInspectable("UI Minigames")]
+    public List<GameObject> allMinigames;    
     
     void Awake()
     {
@@ -56,6 +60,8 @@ public class QuestDetailPanel : MonoBehaviour
 
     public void DisplayQuest(QuestData data, bool isRare)
     {
+        currentLoadedData = data;
+
         titleText.text = data.questName;
         rewardText.text = "Reward : " + data.baseReward.ToString() + "$";
         descriptionText.text = data.clientMessages[Random.Range(0, data.clientMessages.Count)];;
@@ -79,14 +85,20 @@ public class QuestDetailPanel : MonoBehaviour
 
     public void OnAcceptQuest()
     {
-        //if (currentLoadedData != null)
-    //{
-        //Debug.Log("เริ่มทำเควส: " + currentLoadedData.questName);
-        //Debug.Log("ประเภทเกมคือ: " + currentLoadedData.type);
-        
-        // ขั้นต่อไปเราจะเขียนคำสั่งเปิด Panel เกมตรงนี้
-        //isShow = false; // ปิดหน้าต่าง Detail ลงไปก่อน
-    //}
-    }
+        if (currentLoadedData != null)
+        {
+            Debug.Log("เริ่มทำเควส: " + currentLoadedData.questName);
+            Debug.Log("ประเภทเกมคือ: " + currentLoadedData.type);
 
+            isShow = false; // ปิดหน้าต่าง Detail ลงไปก่อนe
+            foreach (GameObject minigame in allMinigames)
+            {
+                if (minigame.name == currentLoadedData.name)
+                {
+                    minigame.SetActive(true);
+                }
+            }
+        }
+
+    }
 }
