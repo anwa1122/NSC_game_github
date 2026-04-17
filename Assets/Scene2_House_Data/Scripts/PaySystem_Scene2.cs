@@ -16,12 +16,18 @@ public class PaySystem_Scene2 : MonoBehaviour
     public float price;
     public string nextSceneName;     // ชื่อฉากที่จะไป
 
+    public bool passScene2Test = false;
+
     void OnEnable()
     {
         costText.text = "Price : " + price;
         if(fadePanel != null) fadePanel.alpha = 0; // มั่นใจว่าเริ่มมาจอยังไม่ดำ
     }
 
+    void Update()
+    {
+        if (passScene2Test) StartCoroutine(FadeAndChangeScene());
+    }
     public void playerPayMoney()
     {
         if (PlayerDataManager.Instance.money >= price)
