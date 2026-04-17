@@ -1968,9 +1968,8 @@ MonoBehaviour:
   payListPanel: {fileID: 2041990801}
   costText: {fileID: 531548211}
   payButton: {fileID: 683700713}
-  fadePanel: {fileID: 569261276}
   price: 30
-  nextSceneName: Scene_3_Company
+  winScript: {fileID: 1485224696}
 --- !u!4 &517811619
 Transform:
   m_ObjectHideFlags: 0
@@ -2141,7 +2140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &569261275
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2169,9 +2168,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 569261274}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &569261277
 MonoBehaviour:
@@ -2211,6 +2210,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 569261274}
   m_CullTransparentMesh: 1
+--- !u!1 &586927344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 586927345}
+  m_Layer: 0
+  m_Name: "SIGN \U0001F4DC=Scripts ||  \U0001F4E6=Object || \U0001FA9F=Ui"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &586927345
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 586927344}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -25.85523, y: 0, z: 16.58312}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &642133691
 GameObject:
   m_ObjectHideFlags: 0
@@ -5077,6 +5107,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1456051613}
   m_CullTransparentMesh: 1
+--- !u!1 &1485224695
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1485224697}
+  - component: {fileID: 1485224696}
+  m_Layer: 0
+  m_Name: WinTheGameScript
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1485224696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1485224695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd6beddec5fe6140a2152e12a399ac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WinTheGameScript
+  fadePanel: {fileID: 569261276}
+  nextSceneName: Scene_3_Company
+  playerWin: 0
+--- !u!4 &1485224697
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1485224695}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1619.4083, y: 539.84344, z: -9.22435}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1488213679
 GameObject:
   m_ObjectHideFlags: 0
@@ -5302,7 +5379,7 @@ GameObject:
   - component: {fileID: 1547058457}
   - component: {fileID: 1547058456}
   m_Layer: 5
-  m_Name: PlayerUI
+  m_Name: "\U0001FA9FPlayerUI"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5820,7 +5897,7 @@ GameObject:
   - component: {fileID: 1626431078}
   - component: {fileID: 1626431082}
   m_Layer: 0
-  m_Name: Hitbox_Sit
+  m_Name: "\U0001F4DCHitbox_Sit"
   m_TagString: SitHitbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6386,7 +6463,7 @@ GameObject:
   - component: {fileID: 1781512563}
   - component: {fileID: 1781512562}
   m_Layer: 5
-  m_Name: OtherCanavs
+  m_Name: BlackScreemCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6666,7 +6743,7 @@ GameObject:
   - component: {fileID: 1842756029}
   - component: {fileID: 1842756028}
   m_Layer: 0
-  m_Name: FloorTest
+  m_Name: "\U0001F4E6FloorTest"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8032,10 +8109,11 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 2083350124}
+  - {fileID: 586927345}
   - {fileID: 299931235}
+  - {fileID: 1876709537}
   - {fileID: 1408845119}
   - {fileID: 1547058459}
-  - {fileID: 1876709537}
   - {fileID: 968182829}
   - {fileID: 254745231}
   - {fileID: 1842756031}
@@ -8050,3 +8128,4 @@ SceneRoots:
   - {fileID: 1686912014}
   - {fileID: 1448968646}
   - {fileID: 1781512565}
+  - {fileID: 1485224697}
