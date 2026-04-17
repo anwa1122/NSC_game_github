@@ -14,6 +14,7 @@ public class PayTheBillManager : MonoBehaviour
     public ThisBill waterBill;
     public ThisBill FoodsBill;
 
+    [Header("Won the game check")]
     public bool WinTheGame;
 
     private bool isBlinking = false; // เอาไว้เช็คไม่ให้รัน Coroutine ซ้ำ
