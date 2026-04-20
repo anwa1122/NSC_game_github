@@ -56,12 +56,6 @@ public class QuestDetailPanel : MonoBehaviour
                 isShow = false;
             }
         }
-
-        if(this.enabled == false)
-        {
-            rect.anchoredPosition = hidePosition;
-            Debug.Log("hidede");
-        }
     }
 
     public void DisplayQuest(QuestData data, bool isRare)
