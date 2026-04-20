@@ -1,6 +1,6 @@
 using TMPro;
 using UnityEngine;
-using System.Collections; // ต้องมีอันนี้เพื่อใช้ IEnumerator
+using System.Collections;
 
 public class SitSystem_Scene2 : MonoBehaviour
 {
@@ -17,18 +17,21 @@ public class SitSystem_Scene2 : MonoBehaviour
     private bool playerInUi = false;
 
     [Header("AboutUI")]
-    public GameObject MenuCanvas;
-    public float zoomSpeed = 5f; // ความเร็วในการซูม
+    public RectTransform MenuRect; // เปลี่ยนจาก GameObject เป็น RectTransform เพื่อคุมตำแหน่ง UI
+    public float animationSpeed = 4f; // ความเร็วรวม
+    public float startYOffset = -1000f; // จุดเริ่มต้น (อยู่ใต้จอ)
+    public float overshootAmount = 50f; // ระยะที่ให้มันเด้งเลยจุดหมายขึ้นไป
 
     void Update()
     {
         if (canSit == true && Input.GetKeyDown(KeyCode.E))
         {
             if (playerTransform == null) return;
-            playerPressE();
+            if (!playerInUi) playerPressE();
+            
         }
     }
-    
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -78,7 +81,7 @@ public class SitSystem_Scene2 : MonoBehaviour
         playerInUi = true;
         
         StopAllCoroutines(); 
-        StartCoroutine(ZoomInCanvas());
+        StartCoroutine(BounceInCanvas());
     }
 
     public void ExitUi()
@@ -89,44 +92,54 @@ public class SitSystem_Scene2 : MonoBehaviour
         MovementState.Instance.ChangeMovementState(MoveMode.StartMoving);
         CameraState.Instance.ChangeCameraState(CameraMode.MainCamera);
 
-        playerInUi = false;//e
+        playerInUi = false;
 
         StopAllCoroutines(); 
-        StartCoroutine(ZoomOutCanvas());
+        StartCoroutine(SlideOutCanvas());
     }
-    
-    IEnumerator ZoomInCanvas()
-    {
-        MenuCanvas.SetActive(true);
-        MenuCanvas.transform.localScale = Vector3.zero; // เริ่มจาก 0
 
+    IEnumerator BounceInCanvas()
+    {
+        MenuRect.gameObject.SetActive(true);
+        Vector2 endPos = Vector2.zero; // กลางจอ
+        Vector2 startPos = new Vector2(0, startYOffset); // ใต้จอ
+        
         float t = 0;
         while (t < 1)
         {
-            t += Time.deltaTime * zoomSpeed;
-            // ใช้ SmoothStep เพื่อให้การซูมดูนุ่มนวลขึ้น (ช้าช่วงปลาย)
-            float smoothT = Mathf.SmoothStep(0, 1, t);
-            MenuCanvas.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, smoothT);
+            t += Time.deltaTime * animationSpeed;
+
+            // ใช้สูตร Animation Curve แบบเด้ง (Custom Bounce)
+            // สูตรนี้จะเลื่อนขึ้นมา -> เลยจุดหมาย -> แล้วตกลงมาที่จุดเดิม
+            float s = t;
+            float bounceT = s * s * (3.0f - 2.0f * s); // SmoothStep พื้นฐาน
+            
+            // เพิ่มการเด้ง (Overshoot)
+            float sinBounce = Mathf.Sin(t * Mathf.PI) * overshootAmount;
+            
+            Vector2 currentPos = Vector2.Lerp(startPos, endPos, bounceT);
+            if (t < 1) currentPos.y += sinBounce; // เด้งเฉพาะตอนที่ยังรันอยู่
+
+            MenuRect.anchoredPosition = currentPos;
             yield return null;
         }
-        MenuCanvas.transform.localScale = Vector3.one;
+        MenuRect.anchoredPosition = endPos;
     }
 
-    IEnumerator ZoomOutCanvas()
+    IEnumerator SlideOutCanvas()
     {
-        MenuCanvas.transform.localScale = Vector3.one; // เริ่มจากขนาดเต็ม 1
+        Vector2 startPos = MenuRect.anchoredPosition;
+        Vector2 endPos = new Vector2(0, startYOffset); // กลับไปใต้จอ
+        
         float t = 0;
         while (t < 1)
         {
-            t += Time.deltaTime * zoomSpeed;
-            // ใช้ SmoothStep เพื่อให้การซูมดูนุ่มนวลขึ้น (ช้าช่วงปลาย)
+            t += Time.deltaTime * animationSpeed;
             float smoothT = Mathf.SmoothStep(0, 1, t);
-            MenuCanvas.transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, smoothT);
+            
+            MenuRect.anchoredPosition = Vector2.Lerp(startPos, endPos, smoothT);
             yield return null;
         }
-        MenuCanvas.transform.localScale = Vector3.zero;
-        MenuCanvas.SetActive(false);
+        MenuRect.gameObject.SetActive(false);
     }
-
-    
 }

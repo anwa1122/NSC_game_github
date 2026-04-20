@@ -19,6 +19,7 @@ public class PaySystem_Scene2 : MonoBehaviour
     void OnEnable()
     {
         costText.text = "Price : " + price;
+        Debug.Log("Enabled");
     }
 
     public void playerPayMoney()
@@ -30,12 +31,12 @@ public class PaySystem_Scene2 : MonoBehaviour
             // 1. ทำให้ปุ่มกดไม่ได้ทันที
             payButton.interactable = false;
 
-            // 2. เริ่มกระบวนการจอดำและเปลี่ยนฉาก
+            // 2. เริ่มกระบวนการจอดำและเปลี่ยนฉากe
             winScript.PlayerPassScene();
         }
     }
-    public void ExitUi()
+    public void ExitPayUi()
     {
-        payListPanel.SetActive(false);
+        PC_SystemManager.Instance.ExitWindow(payListPanel);
     }
 }

@@ -56,6 +56,12 @@ public class QuestDetailPanel : MonoBehaviour
                 isShow = false;
             }
         }
+
+        if(this.enabled == false)
+        {
+            rect.anchoredPosition = hidePosition;
+            Debug.Log("hidede");
+        }
     }
 
     public void DisplayQuest(QuestData data, bool isRare)
@@ -90,7 +96,7 @@ public class QuestDetailPanel : MonoBehaviour
             Debug.Log("เริ่มทำเควส: " + currentLoadedData.questName);
             Debug.Log("ประเภทเกมคือ: " + currentLoadedData.type);
 
-            isShow = false; // ปิดหน้าต่าง Detail ลงไปก่อนe
+            //isShow = false; // ปิดหน้าต่าง Detail ลงไปก่อนe
             foreach (GameObject minigame in allMinigames)
             {
                 if (minigame.name == currentLoadedData.name)
