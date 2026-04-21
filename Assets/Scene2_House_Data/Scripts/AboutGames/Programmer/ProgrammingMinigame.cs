@@ -1,52 +1,107 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using System.Collections;
 
 public class ProgrammingMinigame : MonoBehaviour
 {
     [Header("UI Elements")]
-    public TextMeshProUGUI targetText;      // ข้อความเป้าหมายที่สุ่มมา
-    public TMP_InputField playerInput;     // ช่องที่ให้ผู้เล่นพิมพ์
+    public TextMeshProUGUI textPrefab; 
+    public TMP_InputField playerInput; 
     public GameObject programmingPanel;
-    
-    [Header("Settings")]
-    public List<string> wordList;          // รายการคำศัพท์ที่อยากให้สุ่ม
-    private string currentWord;            // คำปัจจุบันที่ต้องพิมพ์
+    public Transform parent;             
 
-    // ฟังก์ชันนี้จะทำงานทุกครั้งที่หน้าต่างมินิเกมถูกเปิด (SetActive(true))
+    [Header("Settings")]
+    public List<string> wordList;
+    public float fallSpeed = 400f;       
+    public int totalWordsPerJob = 5;     
+
+    private string currentWord;
+    private int wordsCompleted = 0;
+    private RandomWord currentWordScript; // เก็บสคริปต์ของคำที่กำลังแสดงอยู่
+    private RectTransform currentRect;
+
     void OnEnable()
     {
+        wordsCompleted = 0;
+        playerInput.text = "";
+        playerInput.ActivateInputField(); 
         RandomizeWord();
     }
 
     public void RandomizeWord()
     {
+        if (wordsCompleted >= totalWordsPerJob)
+        {
+            WinGame();
+            return;
+        }
+
         if (wordList.Count > 0)
         {
-            int randomIndex = Random.Range(0, wordList.Count);
-            currentWord = wordList[randomIndex];
-            targetText.text = currentWord;
-            playerInput.text = ""; // ล้างช่องพิมพ์เดิม
+            // 1. สุ่มคำ
+            currentWord = wordList[Random.Range(0, wordList.Count)];
+
+            // 2. สร้างคำใหม่
+            TextMeshProUGUI newWordObj = Instantiate(textPrefab, parent);
+            newWordObj.gameObject.SetActive(true);
+
+            // 3. ตั้งค่าตัวลูก
+            currentWordScript = newWordObj.GetComponent<RandomWord>();
+            if (currentWordScript != null)
+            {
+                currentWordScript.Setup(currentWord);
+            }
+
+            currentRect = newWordObj.GetComponent<RectTransform>();
+            playerInput.text = ""; 
+            playerInput.ActivateInputField();
+
+            StopAllCoroutines();
+            StartCoroutine(FlowDownRoutine());
         }
     }
 
-    public void CheckAnswer()
+    IEnumerator FlowDownRoutine()
     {
-        if (playerInput.text == currentWord)
+        if (currentRect == null) yield break;
+        currentRect.anchoredPosition = new Vector2(0, 500);
+
+        while (currentRect != null && currentRect.anchoredPosition.y > 0.1f)
         {
-            Debug.Log("ชนะ! พิมพ์ถูกต้อง");
-            PlayerDataManager.Instance.AddMoney(40f);
-            // ตรงนี้สามารถเพิ่มระบบให้รางวัล หรือปิดหน้าจอได้
+            currentRect.anchoredPosition = Vector2.MoveTowards(currentRect.anchoredPosition, Vector2.zero, fallSpeed * Time.deltaTime);
+            yield return null;
         }
-        else
+        if (currentRect != null) currentRect.anchoredPosition = Vector2.zero;
+    }
+
+    // ลากใส่ On Value Changed (Dynamic String)
+    public void OnInputChanged(string input)
+    {
+        if (input == currentWord)
         {
-            Debug.Log("ยังไม่ใช่! ลองพิมพ์ใหม่อีกครั้ง");
+            // 1. สั่งตัวลูกที่ถืออยู่ให้ทำลายตัวเองทิ้งทันที
+            if (currentWordScript != null)
+            {
+                currentWordScript.SelfDestruct();
+            }
+
+            // 2. นับคะแนนและเริ่มคำใหม่
+            wordsCompleted++;
+            RandomizeWord();
         }
+    }
+
+    void WinGame()
+    {
+        if(PlayerDataManager.Instance != null) PlayerDataManager.Instance.AddMoney(40f);
+        ExitGame();
     }
 
     public void ExitGame()
     {
-        programmingPanel.gameObject.SetActive(false);
-        Debug.Log("ออกแล้ว");
+        // ล้างคำที่ค้างอยู่ถ้ามี
+        if (currentWordScript != null) currentWordScript.SelfDestruct();
+        programmingPanel.SetActive(false);
     }
 }
