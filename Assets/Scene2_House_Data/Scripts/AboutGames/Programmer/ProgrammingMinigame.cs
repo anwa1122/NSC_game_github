@@ -19,13 +19,33 @@ public class ProgrammingMinigame : MonoBehaviour
     public InputField inputField;
 
 
+    private bool lockedWord;
     void Start()
     {
         OnGameStart();
     }
     public void onValueChange(string word)
     {
-        Debug.Log(word);//e
+    if (string.IsNullOrEmpty(word)) return; // ถ้าช่องว่างไม่ต้องทำอะไร
+
+    if (!lockedWord)
+    {
+        string lastChar = word[word.Length - 1].ToString();
+
+            foreach(Transform child in spawnParent)
+            {
+                TextMeshProUGUI tmpro = child.GetComponentInChildren<TextMeshProUGUI>();
+                if (tmpro.text.StartsWith(lastChar)) 
+                {
+                    ErrorBlock erBlock = child.GetComponentInChildren<ErrorBlock>();
+                    erBlock.LockAndMoveToTop();
+                    lockedWord = true;
+                    Debug.Log(tmpro.text);
+                    // เก็บคำนี้ไว้ในตัวแปรอื่นเพื่อเอาไปจัดการต่อ...
+                    break; // เจอแล้วหยุดหาตัวอื่นในรอบนี้
+                }
+            }
+        }
     }
     public void OnGameStart()
     {

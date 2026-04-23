@@ -1,6 +1,6 @@
 using UnityEngine;
-
-public class UIWanderer : MonoBehaviour
+using UnityEngine.UI;
+public class ErrorBlock  : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 50f;      // ความเร็วในการเคลื่อนที่
@@ -49,4 +49,25 @@ public class UIWanderer : MonoBehaviour
         
         targetPosition = startPosition + new Vector2(randomX, randomY);
     }
+
+    public void LockAndMoveToTop()
+{
+    // 1. สั่งให้ Object นี้ไปอยู่อันดับบนสุดของ Child (ใน Hierarchy)
+    // การเป็น Child ตัวแรกจะทำให้มันถูกวาดอยู่ข้างล่างสุด หรืออยู่อันดับแรกใน Layout
+    transform.SetAsLastSibling();
+
+    // 2. เปลี่ยนสีเป็นสีเขียว
+    // ต้องมั่นใจว่า Object นี้มี Component Image แปะอยู่
+    Image img = GetComponent<Image>();
+    if (img != null)
+    {
+        img.color = Color.green;
+    }
+
+    // 3. ล็อคไม่ให้ขยับ (ปิดการทำงานของสคริปต์นี้)
+    // เมื่อเราปิด enabled = false ฟังก์ชัน Update() จะหยุดทำงานทันที
+    this.enabled = false;
+    
+    Debug.Log(gameObject.name + " has been locked and moved to top!");
+}
 }
