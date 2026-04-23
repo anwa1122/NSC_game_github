@@ -2,106 +2,67 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using System.Collections;
+using Unity.VisualScripting;
+using UnityEngine.UI;
 
 public class ProgrammingMinigame : MonoBehaviour
 {
-    [Header("UI Elements")]
-    public TextMeshProUGUI textPrefab; 
-    public TMP_InputField playerInput; 
-    public GameObject programmingPanel;
-    public Transform parent;             
+    [Header("About Spawning")]
+    public RectTransform leftUpperLimit;
+    public RectTransform rightBelowLimit;
+    public RectTransform spawnParent;
+    public int numberOfObjectToSpawn = 5;
+    public GameObject errorBlockPrefab;
 
-    [Header("Settings")]
-    public List<string> wordList;
-    public float fallSpeed = 400f;       
-    public int totalWordsPerJob = 5;     
+    [Header("Game Settings")]
+    public List<string> allText;
+    public InputField inputField;
 
-    private string currentWord;
-    private int wordsCompleted = 0;
-    private RandomWord currentWordScript; // เก็บสคริปต์ของคำที่กำลังแสดงอยู่
-    private RectTransform currentRect;
 
-    void OnEnable()
+    void Start()
     {
-        wordsCompleted = 0;
-        playerInput.text = "";
-        playerInput.ActivateInputField(); 
-        RandomizeWord();
+        OnGameStart();
+    }
+    public void onValueChange(string word)
+    {
+        Debug.Log(word);//e
+    }
+    public void OnGameStart()
+    {
+        SpawnObject();
     }
 
-    public void RandomizeWord()
+    void SpawnObject()
     {
-        if (wordsCompleted >= totalWordsPerJob)
+        float maxX = leftUpperLimit.anchoredPosition.x;
+        float minX = rightBelowLimit.anchoredPosition.x;
+
+        float maxY = leftUpperLimit.anchoredPosition.y;
+        float minY = rightBelowLimit.anchoredPosition.y;
+
+        for (int i = 0; i < numberOfObjectToSpawn; i++)
         {
-            WinGame();
-            return;
-        }
+            float randomX = Random.Range(minX, maxX);
+            float randomY = Random.Range(minY, maxY);
 
-        if (wordList.Count > 0)
-        {
-            // 1. สุ่มคำ
-            currentWord = wordList[Random.Range(0, wordList.Count)];
+            Vector2 randomPos = new Vector2(randomX, randomY);
 
-            // 2. สร้างคำใหม่
-            TextMeshProUGUI newWordObj = Instantiate(textPrefab, parent);
-            newWordObj.gameObject.SetActive(true);
+            GameObject newObj = Instantiate(errorBlockPrefab, spawnParent);
 
-            // 3. ตั้งค่าตัวลูก
-            currentWordScript = newWordObj.GetComponent<RandomWord>();
-            if (currentWordScript != null)
+            RectTransform rt = newObj.GetComponent<RectTransform>();
+            TextMeshProUGUI objt = newObj.GetComponentInChildren<TextMeshProUGUI>();
+            if (objt != null)
             {
-                currentWordScript.Setup(currentWord);
+                int randomIndex = Random.Range(0,allText.Count);
+
+                string selectedText = allText[randomIndex];
+
+                objt.text = selectedText;
             }
-
-            currentRect = newWordObj.GetComponent<RectTransform>();
-            playerInput.text = ""; 
-            playerInput.ActivateInputField();
-
-            StopAllCoroutines();
-            StartCoroutine(FlowDownRoutine());
-        }
-    }
-
-    IEnumerator FlowDownRoutine()
-    {
-        if (currentRect == null) yield break;
-        currentRect.anchoredPosition = new Vector2(0, 500);
-
-        while (currentRect != null && currentRect.anchoredPosition.y > 0.1f)
-        {
-            currentRect.anchoredPosition = Vector2.MoveTowards(currentRect.anchoredPosition, Vector2.zero, fallSpeed * Time.deltaTime);
-            yield return null;
-        }
-        if (currentRect != null) currentRect.anchoredPosition = Vector2.zero;
-    }
-
-    // ลากใส่ On Value Changed (Dynamic String)
-    public void OnInputChanged(string input)
-    {
-        if (input == currentWord)
-        {
-            // 1. สั่งตัวลูกที่ถืออยู่ให้ทำลายตัวเองทิ้งทันที
-            if (currentWordScript != null)
+            if (rt != null)
             {
-                currentWordScript.SelfDestruct();
+                rt.anchoredPosition = randomPos;
             }
-
-            // 2. นับคะแนนและเริ่มคำใหม่
-            wordsCompleted++;
-            RandomizeWord();
         }
-    }
-
-    void WinGame()
-    {
-        if(PlayerDataManager.Instance != null) PlayerDataManager.Instance.AddMoney(40f);
-        ExitGame();
-    }
-
-    public void ExitGame()
-    {
-        // ล้างคำที่ค้างอยู่ถ้ามี
-        if (currentWordScript != null) currentWordScript.SelfDestruct();
-        programmingPanel.SetActive(false);
     }
 }
