@@ -90,15 +90,27 @@ public class QuestDetailPanel : MonoBehaviour
             Debug.Log("เริ่มทำเควส: " + currentLoadedData.questName);
             Debug.Log("ประเภทเกมคือ: " + currentLoadedData.type);
 
-            //isShow = false; // ปิดหน้าต่าง Detail ลงไปก่อนe
+            isShow = false; // ปิดหน้าต่าง Detail ลงไปก่อนe
+            PC_SystemManager.Instance.CloseAllWindows();
+    }
             foreach (GameObject minigame in allMinigames)
             {
-                if (minigame.name == currentLoadedData.name)
+                foreach (Transform gameObj in minigame.transform)
+                {
+                    if (gameObj.name == currentLoadedData.name)
                 {
                     minigame.SetActive(true);
+                    break;
                 }
+                else
+                {
+                    Debug.Log("Name not matches");
+                    Debug.Log(minigame.name + " : " + currentLoadedData.name);
+                }
+                }
+                
             }
         }
 
     }
-}
+

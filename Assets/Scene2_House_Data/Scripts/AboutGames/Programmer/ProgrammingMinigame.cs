@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine.UI;
+using UnityEditor.UI;
 
 public class ProgrammingMinigame : MonoBehaviour
 {
@@ -16,40 +17,93 @@ public class ProgrammingMinigame : MonoBehaviour
 
     [Header("Game Settings")]
     public List<string> allText;
-    public InputField inputField;
+    public TMP_InputField inputField;
+    public TextMeshProUGUI scoreText;
+    private float scorePoint = 0f;
+    public bool playerWinTheGame = false;
 
 
     private bool lockedWord;
-    void Start()
+    private string errorWord;
+    private ErrorBlock erBlock;
+    private ErrorBlock erBlock2;
+
+    void OnEnable()
     {
         OnGameStart();
     }
+
+    void Update()
+    {
+        if (inputField.text == null || inputField.text == "")
+        {
+            lockedWord = false;
+            erBlock = null;
+            errorWord = "";
+            inputField.text = "";
+            
+            if (erBlock2 != null) erBlock2.UnLock();
+        }
+        if (spawnParent.childCount < 1)
+        {
+            winTheGame();
+            Debug.Log(playerWinTheGame);
+        }
+    }
     public void onValueChange(string word)
     {
-    if (string.IsNullOrEmpty(word)) return; // ถ้าช่องว่างไม่ต้องทำอะไร
+        if (string.IsNullOrEmpty(word)) return; // ถ้าช่องว่างไม่ต้องทำอะไร
 
-    if (!lockedWord)
-    {
         string lastChar = word[word.Length - 1].ToString();
+        
 
-            foreach(Transform child in spawnParent)
+        if (!lockedWord)
+        {
+            foreach(Transform child in spawnParent) //ไปหาลูกๆแต่ละตัว
             {
-                TextMeshProUGUI tmpro = child.GetComponentInChildren<TextMeshProUGUI>();
-                if (tmpro.text.StartsWith(lastChar)) 
+                TextMeshProUGUI tmpro = child.GetComponentInChildren<TextMeshProUGUI>(); //ไปเอาคำมา
+                if (tmpro.text.StartsWith(lastChar))  //ถ้าลูกตัวนั้น คำมันขึ้นต้นด้วย คำหลังสุดที่ Player พิมพ์มา เงื่อนไข = true
                 {
-                    ErrorBlock erBlock = child.GetComponentInChildren<ErrorBlock>();
-                    erBlock.LockAndMoveToTop();
+                    erBlock = child.GetComponentInChildren<ErrorBlock>(); //ไปบอกโค้ดล๊อค
+                    erBlock2 = child.GetComponentInChildren<ErrorBlock>();
+                    erBlock.LockAndMoveToTop(); //ให้อยู่บนสุดหน้า ui เพื่อที่มมันจะได้ไม่ซ้อนอันอื่น
                     lockedWord = true;
-                    Debug.Log(tmpro.text);
-                    // เก็บคำนี้ไว้ในตัวแปรอื่นเพื่อเอาไปจัดการต่อ...
-                    break; // เจอแล้วหยุดหาตัวอื่นในรอบนี้
+                    errorWord = tmpro.text;
+                    break; 
                 }
+            }
+        }
+
+        if (lockedWord)
+        {
+            if(word == errorWord)
+            {
+                erBlock.destroyMySelf();
+                lockedWord = false;
+
+                correctWord();
+
+                erBlock = null;
+                errorWord = "";
+                inputField.text = "";
             }
         }
     }
     public void OnGameStart()
     {
         SpawnObject();
+        scoreText.text = "Score : " + scorePoint;
+    }
+
+    void correctWord()
+    {
+        scorePoint += 10;
+        scoreText.text = "Score : " + scorePoint;
+    }
+
+    void winTheGame()
+    {
+        playerWinTheGame = true;
     }
 
     void SpawnObject()
