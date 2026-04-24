@@ -2498,13 +2498,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1910504014}
-        m_TargetAssemblyTypeName: ProgrammingMinigame, Assembly-CSharp
-        m_MethodName: ExitGame
-        m_Mode: 1
+      - m_Target: {fileID: 1302128818}
+        m_TargetAssemblyTypeName: PC_SystemManager, Assembly-CSharp
+        m_MethodName: ExitWindow
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 2139875344}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4334,6 +4334,7 @@ MonoBehaviour:
   - {fileID: 32237905}
   - {fileID: 2139875344}
   - {fileID: 932948763}
+  - {fileID: 2021642070}
   zoomSpeed: 3
   showSpeed: 5
   hidePosition: {x: 0, y: -750}
@@ -6496,9 +6497,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 517811618}
+      - m_Target: {fileID: 1302128817}
         m_TargetAssemblyTypeName: PaySystem_Scene2, Assembly-CSharp
-        m_MethodName: ExitPayUi
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7147,6 +7148,7 @@ MonoBehaviour:
   inputField: {fileID: 988874936}
   scoreText: {fileID: 1782517946}
   playerWinTheGame: 0
+  programmingPanel: {fileID: 2021642070}
 --- !u!1 &1930753951
 GameObject:
   m_ObjectHideFlags: 0

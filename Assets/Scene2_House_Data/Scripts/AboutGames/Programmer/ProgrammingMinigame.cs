@@ -21,6 +21,7 @@ public class ProgrammingMinigame : MonoBehaviour
     public TextMeshProUGUI scoreText;
     private float scorePoint = 0f;
     public bool playerWinTheGame = false;
+    public GameObject programmingPanel;
 
 
     private bool lockedWord;
@@ -104,6 +105,11 @@ public class ProgrammingMinigame : MonoBehaviour
     void winTheGame()
     {
         playerWinTheGame = true;
+    }
+
+    void ExitGame()
+    {
+        PC_SystemManager.Instance.ExitWindow(programmingPanel);
     }
 
     void SpawnObject()

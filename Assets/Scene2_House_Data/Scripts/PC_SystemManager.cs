@@ -24,7 +24,6 @@ public class PC_SystemManager : MonoBehaviour
     private RectTransform rect;
     private bool isShow;
 
-
     void Awake()
     {
         // เพิ่มส่วนนี้เพื่อให้ Instance ใช้งานได้
@@ -33,6 +32,7 @@ public class PC_SystemManager : MonoBehaviour
         // เริ่มมาให้หน้าต่างแอปปิดอยู่เสมอ
         payWindow.SetActive(false);
         freelanceWindow.SetActive(false);
+
     }
     void Update()
     {
@@ -45,7 +45,6 @@ public class PC_SystemManager : MonoBehaviour
                 isShow = false;
             }
         }
-
     }
 
     public void startFreeLanceWindow()
@@ -66,6 +65,7 @@ public class PC_SystemManager : MonoBehaviour
 
     public void EnterWindow(GameObject targetWindow)
     {
+        
         foreach (GameObject window in allWindows)
         {
             if (window != targetWindow)
