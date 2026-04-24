@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
-using System.Collections.Generic; // ต้องมีอันนี้เพื่อใช้ List
+using System.Collections.Generic;
+using System; // ต้องมีอันนี้เพื่อใช้ List
 
 
 public class PC_SystemManager : MonoBehaviour
@@ -14,7 +15,9 @@ public class PC_SystemManager : MonoBehaviour
     public GameObject freelanceWindow;   // หน้าต่างเลือกงาน (ที่เราทำไว้ก่อนหน้านี้)
     public GameObject menuPanel;
 
+
     public List<GameObject> allWindows = new List<GameObject>();
+    public GameObject currentWindow;
 
     [Header("Ui setting")]
     public float zoomSpeed = 3f;
@@ -24,6 +27,8 @@ public class PC_SystemManager : MonoBehaviour
     private RectTransform rect;
     private bool isShow;
 
+    public List<GameObject> windowLists;
+    private GameObject firstWindow;
     void Awake()
     {
         // เพิ่มส่วนนี้เพื่อให้ Instance ใช้งานได้
@@ -33,6 +38,8 @@ public class PC_SystemManager : MonoBehaviour
         payWindow.SetActive(false);
         freelanceWindow.SetActive(false);
 
+        currentWindow = menuPanel;
+        windowLists.Add(currentWindow);
     }
     void Update()
     {
@@ -45,6 +52,8 @@ public class PC_SystemManager : MonoBehaviour
                 isShow = false;
             }
         }
+
+        
     }
 
     public void startFreeLanceWindow()
@@ -79,7 +88,13 @@ public class PC_SystemManager : MonoBehaviour
                 rect.anchoredPosition = hidePosition;
 
                 isShow = true;
-                window.SetActive(true);
+                //window.SetActive(true);
+                currentWindow = targetWindow;
+                windowLists.Add(currentWindow);
+
+                firstWindow = windowLists[windowLists.Count - 1];
+                Debug.Log(firstWindow);
+                firstWindow.SetActive(true);
             }
         }
     }
@@ -88,6 +103,11 @@ public class PC_SystemManager : MonoBehaviour
     {
         // แก้ไขให้เริ่ม Coroutine ซูมออกแทนการปิดทันที
         StartCoroutine(ZoomOutCanvas(targetWindow));
+        windowLists.RemoveAt(windowLists.Count - 1);
+
+        firstWindow = windowLists[windowLists.Count - 1];
+        Debug.Log(firstWindow);
+        firstWindow.SetActive(true);
     }
 
     public void CloseAllWindows()

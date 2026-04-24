@@ -107,7 +107,7 @@ public class ProgrammingMinigame : MonoBehaviour
         playerWinTheGame = true;
     }
 
-    void ExitGame()
+    public void ExitGame()
     {
         PC_SystemManager.Instance.ExitWindow(programmingPanel);
     }
