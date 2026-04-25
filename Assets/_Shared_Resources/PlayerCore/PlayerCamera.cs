@@ -11,7 +11,7 @@ public class PlayerCamera : MonoBehaviour
     [Header("State Control")]
     public bool isPOVMode = false;    
     public bool canRotate = true;
-    public bool isSubtleMouseMode = false; // ตัวแปรใหม่สำหรับโหมดขยับตามเมาส์
+    public bool isSubtleMouseMode = false;
 
     [Header("Follow Settings")]
     public float mouseSensitivity = 200f;
@@ -27,13 +27,18 @@ public class PlayerCamera : MonoBehaviour
     public float transitionSpeed = 5f;
 
     [Header("POV Subtle Mouse (New)")]
-    public float povMouseInfluence = 2.0f; // ความแรงในการขยับ
-    public float povMouseSmooth = 5.0f;    // ความนุ่มนวล
+    public float povMouseInfluence = 2.0f;
+    public float povMouseSmooth = 5.0f;
 
     [Header("Collision Settings")]
     public LayerMask collisionLayers; 
     public float cameraRadius = 0.25f; 
-    public float collisionOffset = 0.2f; 
+    public float collisionOffset = 0.2f;
+
+    [Header("Lock Position")]
+    public bool isPositionLocked = false;
+    private Vector3 lockedPosition;
+    private Quaternion lockedRotation;
 
     float yaw;
     float pitch;
@@ -79,8 +84,27 @@ public class PlayerCamera : MonoBehaviour
         isPOVMode = active;
     }
 
+    public void LockCameraPosition(Transform target)
+    {
+        if (target == null)
+        {
+            isPositionLocked = false;
+            return;
+        }
+        lockedPosition = target.position;
+        lockedRotation = target.rotation;
+        isPositionLocked = true;
+    }
+
     void LateUpdate()
     {
+        if (isPositionLocked)
+        {
+            transform.position = lockedPosition;
+            transform.rotation = lockedRotation;
+            return;
+        }
+
         if (target == null) return;
 
         if (isPOVMode != lastState)
@@ -95,10 +119,8 @@ public class PlayerCamera : MonoBehaviour
         }
         else
         {
-            // ทำการเข้าหา Anchor ปกติ
             HandlePOVTransition();
 
-            // ถ้าเปิดโหมด Subtle ให้คำนวณการหมุนเสริมจากเมาส์
             if (isSubtleMouseMode)
             {
                 HandlePOVSubtleMouse();
@@ -157,27 +179,22 @@ public class PlayerCamera : MonoBehaviour
         if (povAnchor == null) return;
         transform.position = Vector3.Lerp(transform.position, povAnchor.position, Time.deltaTime * transitionSpeed);
         
-        // ถ้าไม่ได้อยู่ในโหมดขยับตามเมาส์ ให้หมุนตาม Anchor ปกติ
         if (!isSubtleMouseMode)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, povAnchor.rotation, Time.deltaTime * transitionSpeed);
         }
     }
 
-    // ฟังก์ชันใหม่: แยกการทำงานออกมาต่างหากสำหรับ Scene 2
     void HandlePOVSubtleMouse()
     {
         if (povAnchor == null) return;
 
-        // คำนวณตำแหน่งเมาส์กลางจอ (-0.5 ถึง 0.5)
         float mouseX = (Input.mousePosition.x / Screen.width) - 0.5f;
         float mouseY = (Input.mousePosition.y / Screen.height) - 0.5f;
 
-        // สร้างการหมุนเสริมจากเมาส์
         Quaternion mouseOffset = Quaternion.Euler(-mouseY * povMouseInfluence, mouseX * povMouseInfluence, 0);
         Quaternion targetRotation = povAnchor.rotation * mouseOffset;
 
-        // หมุนกล้องอย่างนุ่มนวล
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * povMouseSmooth);
     }
 }

@@ -6,6 +6,15 @@ public class FreelanceHubManager : MonoBehaviour
     public GameObject slotPrefab; //Prefab ที่จะเป็นแม่แบบให้มินิเกมต่างๆ
     public Transform contentParent; //ตำแหน่งที่จะให้เควสไปอยุ่
     public List<QuestData> allQuests; //List quest ที่เรามีทั้งหมดภายในเกม
+
+
+    public static FreelanceHubManager Instance; // ประกาศตัวแปร Static
+
+    void Awake() 
+    {
+        Instance = this; // ตั้งค่าตัวมันเองให้เป็น Instance กลาง
+    }
+
     void Start()
     {
         GenerateQuestList(); //เรียกใช้ฟังชันตอนเริ่มเกมเลย

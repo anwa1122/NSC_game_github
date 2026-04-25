@@ -54,4 +54,9 @@ public class CameraState : MonoBehaviour
             Cursor.visible = false;
         }
     }
+
+    public void ChangeCameraPosition(Transform target)
+{
+    playerCamera.LockCameraPosition(target); // target = null คือ unlock
+}
 }
