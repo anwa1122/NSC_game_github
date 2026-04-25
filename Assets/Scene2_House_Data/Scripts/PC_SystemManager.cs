@@ -93,7 +93,7 @@ public class PC_SystemManager : MonoBehaviour
                 windowLists.Add(currentWindow);
 
                 firstWindow = windowLists[windowLists.Count - 1];
-                Debug.Log(firstWindow);
+                Debug.Log("firstwindow = "+firstWindow);
                 firstWindow.SetActive(true);
             }
         }
@@ -106,7 +106,7 @@ public class PC_SystemManager : MonoBehaviour
         windowLists.RemoveAt(windowLists.Count - 1);
 
         firstWindow = windowLists[windowLists.Count - 1];
-        Debug.Log(firstWindow);
+        Debug.Log("firstwindow = "+firstWindow);
         firstWindow.SetActive(true);
     }
 
@@ -138,7 +138,6 @@ public class PC_SystemManager : MonoBehaviour
     // เพิ่มฟังก์ชันซูมออกตามที่ต้องการ
     IEnumerator ZoomOutCanvas(GameObject gameObject)
     {
-        if (menuPanel != null) menuPanel.SetActive(true);
         float t = 0;
         while (t < 1)
         {
