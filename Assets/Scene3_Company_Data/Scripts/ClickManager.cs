@@ -40,8 +40,6 @@ public class ClickManager : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-
-
         RaycastHit[] hits = Physics.RaycastAll(ray, 100f);
 
         for (int i = 0; i < hits.Length; i++)

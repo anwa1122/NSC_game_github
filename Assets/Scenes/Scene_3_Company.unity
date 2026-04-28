@@ -481,6 +481,7 @@ GameObject:
   - component: {fileID: 250387248}
   - component: {fileID: 250387247}
   - component: {fileID: 250387246}
+  - component: {fileID: 250387251}
   m_Layer: 6
   m_Name: BlueBlock
   m_TagString: interactAble3D
@@ -589,7 +590,87 @@ Transform:
   m_GameObject: {fileID: 250387245}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22.51, y: 2.46, z: 3.39}
+  m_LocalPosition: {x: 0.42668915, y: 1.96, z: -2.46678}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1614746370}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &250387251
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250387245}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!1 &435992679
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 435992681}
+  - component: {fileID: 435992680}
+  m_Layer: 0
+  m_Name: SlotManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &435992680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435992679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d40d86a2700926547bc1917184bb42fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlotManager
+  allObj:
+  - {fileID: 1889906857}
+  - {fileID: 1430758972}
+  - {fileID: 1946880717}
+  - {fileID: 1091579228}
+  redWin: 1
+  blueWin: 0
+  yellowWin: 0
+  greenWin: 0
+--- !u!4 &435992681
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435992679}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -22.13568, y: 0.5, z: 6.81158}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -832,6 +913,41 @@ Transform:
   m_LocalScale: {x: 82.8294, y: 1, z: 38.117836}
   m_ConstrainProportionsScale: 0
   m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &509649735
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 509649736}
+  m_Layer: 0
+  m_Name: Slot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &509649736
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509649735}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -21.76138, y: 0.5, z: 6.17664}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1430758976}
+  - {fileID: 1889906861}
+  - {fileID: 1946880721}
+  - {fileID: 1091579232}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &533591230
@@ -1105,8 +1221,9 @@ GameObject:
   - component: {fileID: 752239004}
   - component: {fileID: 752239003}
   - component: {fileID: 752239007}
+  - component: {fileID: 752239008}
   m_Layer: 6
-  m_Name: RedBlock
+  m_Name: YellowBlock
   m_TagString: interactAble3D
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1158,7 +1275,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ead5e697a6d05e343a0b593d5cc33382, type: 2}
+  - {fileID: 2100000, guid: 92e710feda2cfb84a84f84b700114771, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1199,11 +1316,11 @@ Transform:
   m_GameObject: {fileID: 752239002}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22.51, y: 2.46, z: 5.16}
+  m_LocalPosition: {x: 0.42668915, y: 1.96, z: -0.6967802}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1614746370}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &752239007
 MonoBehaviour:
@@ -1219,6 +1336,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BlockMoveToMouse
   blockTransform: {fileID: 0}
   playerHold: 0
+--- !u!54 &752239008
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752239002}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &825049658
 GameObject:
   m_ObjectHideFlags: 0
@@ -1365,7 +1509,8 @@ GameObject:
   - component: {fileID: 914204618}
   - component: {fileID: 914204617}
   - component: {fileID: 914204616}
-  m_Layer: 6
+  - component: {fileID: 914204621}
+  m_Layer: 0
   m_Name: RedBlock
   m_TagString: interactAble3D
   m_Icon: {fileID: 0}
@@ -1401,7 +1546,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1473,12 +1618,39 @@ Transform:
   m_GameObject: {fileID: 914204615}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -24.45, y: 2.46, z: 5.16}
+  m_LocalPosition: {x: -1.5133114, y: 1.96, z: -0.6967802}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1614746370}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &914204621
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914204615}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &940990217
 GameObject:
   m_ObjectHideFlags: 0
@@ -1788,6 +1960,7 @@ GameObject:
   - component: {fileID: 1091579231}
   - component: {fileID: 1091579230}
   - component: {fileID: 1091579229}
+  - component: {fileID: 1091579233}
   m_Layer: 0
   m_Name: YellowSlot
   m_TagString: Untagged
@@ -1881,13 +2054,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091579228}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.47, y: 1.67, z: 0.38}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.29138, y: 1.17, z: -5.79664}
   m_LocalScale: {x: 4.8559747, y: 3.097968, z: 3.9363644}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 509649736}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1091579233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091579228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c863c9528d90b40be0cdda08a2555f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::YellowSlotScript
+  target: {fileID: 752239002}
+  thiswin: 0
 --- !u!1 &1093165165
 GameObject:
   m_ObjectHideFlags: 0
@@ -2167,6 +2354,7 @@ GameObject:
   - component: {fileID: 1400514763}
   - component: {fileID: 1400514762}
   - component: {fileID: 1400514761}
+  - component: {fileID: 1400514766}
   m_Layer: 6
   m_Name: GreenBlock
   m_TagString: interactAble3D
@@ -2275,12 +2463,39 @@ Transform:
   m_GameObject: {fileID: 1400514760}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -20.73, y: 2.46, z: 3.39}
+  m_LocalPosition: {x: 2.2066898, y: 1.96, z: -2.46678}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1614746370}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1400514766
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400514760}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1430758972
 GameObject:
   m_ObjectHideFlags: 0
@@ -2293,6 +2508,7 @@ GameObject:
   - component: {fileID: 1430758975}
   - component: {fileID: 1430758974}
   - component: {fileID: 1430758973}
+  - component: {fileID: 1430758977}
   m_Layer: 0
   m_Name: BlueSlot
   m_TagString: Untagged
@@ -2386,13 +2602,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1430758972}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.3716, y: 1.67, z: 0.2921}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.61022, y: 1.17, z: -5.88454}
   m_LocalScale: {x: 4.8559747, y: 3.097968, z: 3.9363644}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 509649736}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1430758977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430758972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ae3fd4432332a54fa40bd2f55753b66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlueSlotScript
+  target: {fileID: 250387245}
+  thiswin: 0
 --- !u!1 &1441053352
 GameObject:
   m_ObjectHideFlags: 0
@@ -2790,6 +3020,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1533146023}
   m_CullTransparentMesh: 1
+--- !u!1 &1614746369
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1614746370}
+  m_Layer: 0
+  m_Name: Block
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1614746370
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614746369}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -22.93669, y: 0.5, z: 5.85678}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 752239006}
+  - {fileID: 250387250}
+  - {fileID: 1400514765}
+  - {fileID: 914204620}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1695819743
 GameObject:
   m_ObjectHideFlags: 0
@@ -2929,6 +3194,7 @@ GameObject:
   - component: {fileID: 1889906860}
   - component: {fileID: 1889906859}
   - component: {fileID: 1889906858}
+  - component: {fileID: 1889906862}
   m_Layer: 0
   m_Name: RedSlot
   m_TagString: Untagged
@@ -3022,13 +3288,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1889906857}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.55, y: 1.67, z: 9.21}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.78862, y: 1.17, z: 3.03336}
   m_LocalScale: {x: 4.8559747, y: 3.097968, z: 3.9363644}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 509649736}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1889906862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889906857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf6c8a73083d9d64aa9c17e29854b115, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RedSlotScript
+  target: {fileID: 914204615}
+  thiswin: 0
 --- !u!1 &1912338038
 GameObject:
   m_ObjectHideFlags: 0
@@ -3265,6 +3545,7 @@ GameObject:
   - component: {fileID: 1946880720}
   - component: {fileID: 1946880719}
   - component: {fileID: 1946880718}
+  - component: {fileID: 1946880722}
   m_Layer: 0
   m_Name: GreenSlot
   m_TagString: Untagged
@@ -3358,13 +3639,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1946880717}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.31, y: 1.67, z: 9.56}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.45138, y: 1.17, z: 3.3833604}
   m_LocalScale: {x: 4.8559747, y: 3.097968, z: 3.9363644}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 509649736}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1946880722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946880717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1751d67026e8da64baaba2a259c75dfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GreenSlotScript
+  target: {fileID: 1400514760}
+  thiswin: 0
 --- !u!1 &1993732183
 GameObject:
   m_ObjectHideFlags: 0
@@ -3614,11 +3909,6 @@ SceneRoots:
   - {fileID: 1125646375}
   - {fileID: 1918183591}
   - {fileID: 1999914838}
-  - {fileID: 752239006}
-  - {fileID: 250387250}
-  - {fileID: 1400514765}
-  - {fileID: 914204620}
-  - {fileID: 1430758976}
-  - {fileID: 1889906861}
-  - {fileID: 1946880721}
-  - {fileID: 1091579232}
+  - {fileID: 509649736}
+  - {fileID: 1614746370}
+  - {fileID: 435992681}
