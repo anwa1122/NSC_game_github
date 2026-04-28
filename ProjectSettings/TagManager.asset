@@ -10,7 +10,7 @@ TagManager:
   - BeginSlot
   - SitHitbox
   - SleepHitbox
-  - 3DButton
+  - interactAble3D
   layers:
   - Default
   - TransparentFX

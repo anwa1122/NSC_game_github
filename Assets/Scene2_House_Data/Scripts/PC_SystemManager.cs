@@ -106,7 +106,6 @@ public class PC_SystemManager : MonoBehaviour
         windowLists.RemoveAt(windowLists.Count - 1);
 
         firstWindow = windowLists[windowLists.Count - 1];
-        Debug.Log("firstwindow = "+firstWindow);
         firstWindow.SetActive(true);
     }
 

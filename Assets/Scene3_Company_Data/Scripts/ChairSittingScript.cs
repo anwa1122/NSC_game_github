@@ -4,7 +4,7 @@ using UnityEngine;
 public class ChairSittingScript : MonoBehaviour
 {
 
-    public GameObject leaveBtn;
+    public GameObject menuPanel;
     public Transform sitTransform;
 
 
@@ -23,8 +23,9 @@ public class ChairSittingScript : MonoBehaviour
 
     void Start()
     {
-        leaveBtn.SetActive(false);
+        menuPanel.SetActive(false);
     }
+
     void Update()
     {
         if (canSit && Input.GetKeyDown(KeyCode.E))
@@ -35,7 +36,7 @@ public class ChairSittingScript : MonoBehaviour
 
         if (ClickManager.Instance.playerClick)
         {
-            leaveBtn.SetActive(false);
+            menuPanel.SetActive(false);
         }
 
     }
@@ -82,14 +83,15 @@ public class ChairSittingScript : MonoBehaviour
         playerMovementState.ChangeMovementState(MoveMode.StopMoving);
         playerCharacterController.enabled = true;
 
-        leaveBtn.SetActive(true);
+        Debug.Log(menuPanel);
+        UIController_Scene3.Instance.LaunchInterface(menuPanel);
     }
 
     public void playerLeave()
     {
         playerCharacterController.enabled = true;
 
-        leaveBtn.SetActive(false);
+        UIController_Scene3.Instance.ExitInterface(menuPanel);
 
         playerTransform.position = exitPos;
         playerTransform.rotation = exitRot;

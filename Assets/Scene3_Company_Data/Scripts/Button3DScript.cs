@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class Button3DScript : MonoBehaviour
 {
-    public GameObject panel;
+    public GameObject minigameInterface;
     public Transform targetPosition;
     void Update()
     {
         if (this.gameObject == ClickManager.Instance.clickedObject)
         {
-            panel.SetActive(true);
+            UIController_Scene3.Instance.LaunchInterface(minigameInterface);
             CameraState.Instance.ChangeCameraPosition(targetPosition);
         }
     }
 
     public void playerExit()
     {
-        panel.SetActive(false);
+        UIController_Scene3.Instance.ExitInterface(minigameInterface);
         CameraState.Instance.ChangeCameraPosition(null);
     }
 }
