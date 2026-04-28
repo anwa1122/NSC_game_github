@@ -1,15 +1,17 @@
 using UnityEngine;
 
-public class Button3DScript : MonoBehaviour
+public class Blue3DScript : MonoBehaviour
 {
     public GameObject minigameInterface;
     public Transform targetPosition;
+
     void Update()
     {
         if (this.gameObject == ClickManager.Instance.clickedObject)
         {
-            UIController_Scene3.Instance.LaunchInterface(minigameInterface);
+
             CameraState.Instance.ChangeCameraPosition(targetPosition);
+            UIController_Scene3.Instance.LaunchInterface(minigameInterface);
         }
     }
 

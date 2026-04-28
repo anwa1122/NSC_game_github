@@ -9,9 +9,10 @@ public class UIController_Scene3 : MonoBehaviour
 
     private GameObject firstGameObj;
     public List<GameObject> windowList;
+
     void Awake()
     {
-        if(Instance == null) Instance = this;
+        if (Instance == null) Instance = this;
     }
 
     public void LaunchInterface(GameObject target)
@@ -24,13 +25,12 @@ public class UIController_Scene3 : MonoBehaviour
     {
         windowList.RemoveAt(windowList.Count - 1);
         target.SetActive(false);
-        
         if (windowList.Count > 0)
         {
             firstGameObj = windowList[windowList.Count - 1];
             firstGameObj.SetActive(true);
         }
-        
+
     }
-    
+
 }
