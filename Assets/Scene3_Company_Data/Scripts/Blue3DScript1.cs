@@ -11,7 +11,7 @@ public class Blue3DScript : MonoBehaviour
         {
 
             CameraState.Instance.ChangeCameraPosition(targetPosition);
-            UIController_Scene3.Instance.LaunchInterface(minigameInterface);
+            if (ClickManager.Instance.playerClick) UIController_Scene3.Instance.LaunchInterface(minigameInterface);
         }
     }
 
