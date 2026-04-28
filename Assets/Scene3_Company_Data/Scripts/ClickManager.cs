@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ClickManager : MonoBehaviour
@@ -9,6 +10,8 @@ public class ClickManager : MonoBehaviour
 
     public Vector3 mouseWorldPosition;
     public Vector3 grabOffset; // เพิ่มตัวแปรเก็บระยะห่าง
+
+    public List<GameObject> allTouchedObj;
 
     void Awake()
     {
@@ -36,25 +39,31 @@ public class ClickManager : MonoBehaviour
     void UpdateRaycast(bool isFirstClick) //ฟังชัน เรียกใช้ให้มันเก็บยค่าจากเม้าส์
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
+
+
+        RaycastHit[] hits = Physics.RaycastAll(ray, 100f);
+
+        for (int i = 0; i < hits.Length; i++)
         {
-            mouseWorldPosition = hit.point; //เก็บค่าตำแหน่งของเม้าส์
+            RaycastHit hit = hits[i];
 
-            if (hit.collider.CompareTag("interactAble3D")) //ถ้า raycast ยิงไปโดน tag ที่ชื่อ interactAble3D
+            mouseWorldPosition = hit.point;
+
+            if (hit.collider.CompareTag("interactAble3D"))
             {
-                if (isFirstClick) //ถ้าเป็นการคลิกครั้งแรก
+
+                if (isFirstClick)
                 {
-                    clickedObject = hit.collider.gameObject; //เก็บค่า gameObject ที่เม้าส์ยิงไปโดน
-                    playerClick = true; //ให้ตัวแปร playerClick เป็นจริงเพื่อให้โค้ดอื่นเอาไปใช้ได้่ เอาไว้บอกว่า อันนี้ Player คลิกนะ ไม่ได้คลิกค้าง
-                    
-                    grabOffset = clickedObject.transform.position - hit.point; //ไม่แน่ใจ
+                    clickedObject = hit.collider.gameObject;
+                    playerClick = true;
+
+                    grabOffset = clickedObject.transform.position - hit.point;
                 }
 
                 if (Input.GetMouseButton(0))
                 {
-                    playerHold = true; //Player กดค้างเป็นจจริง
+                    playerHold = true;
                 }
             }
         }
