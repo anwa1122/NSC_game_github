@@ -1,0 +1,197 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(LineRenderer))]
+public class WireConnector : MonoBehaviour
+{
+    public static WireConnector Instance;
+
+    [Header("=== สไตล์เส้น ===")]
+    public WireStyle wireStyle = WireStyle.LShape;   // รูปแบบการหักมุม
+
+    [Header("=== ขนาดและสี ===")]
+    public float wireWidth = 0.05f;               // ความหนาของเส้น
+    public Color wireColor = Color.yellow;         // สีเส้นปกติ
+    public Color previewColor = new Color(1f, 1f, 0f, 0.4f); // สีตอนกำลังลาก
+    public Material wireMaterial;                    // Material (ไม่ใส่ = default)
+
+    [Header("=== จุดหักมุม ===")]
+    [Range(0f, 1f)]
+    public float bendPosition = 0.5f;               // จุดที่เส้นจะหักมุม (0=ชิดต้นทาง, 1=ชิดปลายทาง)
+
+    [Header("=== ความเรียบ (เฉพาะ Bezier) ===")]
+    [Range(5, 40)]
+    public int curveResolution = 20;                // ความละเอียดเส้นโค้ง
+
+    // ---- private ----
+    private LineRenderer previewLine;
+    private List<WireConnection> connections = new List<WireConnection>();
+    private WirePort draggingFrom = null;
+    private bool isDragging = false;
+
+    public enum WireStyle
+    {
+        LShape,      // หักมุมครั้งเดียว (แบบ L)
+        ZShape,      // หักมุมสองครั้ง (แบบ Z หรือ S)
+        Straight,    // เส้นตรง
+        Bezier,      // โค้ง Bezier
+    }
+
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else { Destroy(gameObject); return; }
+
+        previewLine = GetComponent<LineRenderer>();
+        SetupLineRenderer(previewLine, previewColor);
+        previewLine.enabled = false;
+    }
+
+    void Update()
+    {
+        if (!isDragging || draggingFrom == null) return;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane plane = new Plane(-Camera.main.transform.forward, draggingFrom.transform.position);
+        if (plane.Raycast(ray, out float dist))
+        {
+            Vector3 mouseWorld = ray.GetPoint(dist);
+            DrawWire(previewLine, draggingFrom.transform.position, mouseWorld);
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            TryConnectToPort();
+            StopDragging();
+        }
+    }
+
+    public void StartDragging(WirePort fromPort)
+    {
+        draggingFrom = fromPort;
+        isDragging = true;
+        previewLine.enabled = true;
+    }
+
+    void TryConnectToPort()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        foreach (var hit in Physics.RaycastAll(ray, 100f))
+        {
+            WirePort target = hit.collider.GetComponent<WirePort>();
+            if (target != null && target != draggingFrom)
+            {
+                CreateConnection(draggingFrom, target);
+                return;
+            }
+        }
+    }
+
+    void StopDragging()
+    {
+        isDragging = false;
+        draggingFrom = null;
+        previewLine.enabled = false;
+    }
+
+    public void CreateConnection(WirePort from, WirePort to)
+    {
+        foreach (var c in connections)
+            if ((c.from == from && c.to == to) || (c.from == to && c.to == from)) return;
+
+        GameObject wireObj = new GameObject($"Wire_{from.name}_{to.name}");
+        LineRenderer lr = wireObj.AddComponent<LineRenderer>();
+        SetupLineRenderer(lr, wireColor);
+        DrawWire(lr, from.transform.position, to.transform.position);
+
+        connections.Add(new WireConnection { from = from, to = to, lineRenderer = lr });
+        Debug.Log($"[Wire] {from.name} → {to.name}");
+    }
+
+    public void RemoveAllConnections()
+    {
+        foreach (var c in connections)
+            if (c.lineRenderer != null) Destroy(c.lineRenderer.gameObject);
+        connections.Clear();
+    }
+
+    // ---- วาดเส้นตามสไตล์ที่เลือก ----
+    void DrawWire(LineRenderer lr, Vector3 start, Vector3 end)
+    {
+        switch (wireStyle)
+        {
+            case WireStyle.LShape: DrawLShape(lr, start, end); break;
+            case WireStyle.ZShape: DrawZShape(lr, start, end); break;
+            case WireStyle.Straight: DrawStraight(lr, start, end); break;
+            case WireStyle.Bezier: DrawBezier(lr, start, end); break;
+        }
+    }
+
+    // L-shape: ไปแนวนอนก่อน แล้วหักขึ้น/ลง
+    void DrawLShape(LineRenderer lr, Vector3 s, Vector3 e)
+    {
+        float midX = Mathf.Lerp(s.x, e.x, bendPosition);
+        Vector3 corner = new Vector3(midX, s.y, s.z + (e.z - s.z) * 0f);
+        // จุดหักมุม: ไปแกน X ก่อน แล้วหัก Z
+        Vector3 mid = new Vector3(midX, s.y, e.z);
+        SetPoints(lr, s, mid, e);
+    }
+
+    // Z-shape: หักสองครั้ง (แบบบันได)
+    void DrawZShape(LineRenderer lr, Vector3 s, Vector3 e)
+    {
+        float midX = Mathf.Lerp(s.x, e.x, bendPosition);
+        Vector3 p1 = new Vector3(midX, s.y, s.z);
+        Vector3 p2 = new Vector3(midX, e.y, e.z);
+        SetPoints(lr, s, p1, p2, e);
+    }
+
+    // เส้นตรง
+    void DrawStraight(LineRenderer lr, Vector3 s, Vector3 e)
+    {
+        SetPoints(lr, s, e);
+    }
+
+    // Bezier โค้งนิดหน่อย
+    void DrawBezier(LineRenderer lr, Vector3 s, Vector3 e)
+    {
+        Vector3 dir = (e - s);
+        Vector3 ctrl1 = s + new Vector3(dir.x * 0.5f, 0, 0);
+        Vector3 ctrl2 = e - new Vector3(dir.x * 0.5f, 0, 0);
+
+        lr.positionCount = curveResolution;
+        for (int i = 0; i < curveResolution; i++)
+        {
+            float t = i / (float)(curveResolution - 1);
+            float u = 1 - t;
+            lr.SetPosition(i, u * u * u * s + 3 * u * u * t * ctrl1 + 3 * u * t * t * ctrl2 + t * t * t * e);
+        }
+    }
+
+    // helper ใส่จุดใน LineRenderer
+    void SetPoints(LineRenderer lr, params Vector3[] pts)
+    {
+        lr.positionCount = pts.Length;
+        for (int i = 0; i < pts.Length; i++) lr.SetPosition(i, pts[i]);
+    }
+
+    void SetupLineRenderer(LineRenderer lr, Color color)
+    {
+        lr.startWidth = wireWidth;
+        lr.endWidth = wireWidth;
+        lr.useWorldSpace = true;
+        lr.startColor = color;
+        lr.endColor = color;
+        lr.material = wireMaterial != null
+            ? wireMaterial
+            : new Material(Shader.Find("Sprites/Default"));
+    }
+}
+
+[System.Serializable]
+public class WireConnection
+{
+    public WirePort from;
+    public WirePort to;
+    public LineRenderer lineRenderer;
+}

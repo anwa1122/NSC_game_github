@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
-{   
+{
     public static PlayerCamera Instance;
 
     [Header("Target References")]
@@ -9,7 +9,7 @@ public class PlayerCamera : MonoBehaviour
     public Transform povAnchor;
 
     [Header("State Control")]
-    public bool isPOVMode = false;    
+    public bool isPOVMode = false;
     public bool canRotate = true;
     public bool isSubtleMouseMode = false;
 
@@ -31,8 +31,8 @@ public class PlayerCamera : MonoBehaviour
     public float povMouseSmooth = 5.0f;
 
     [Header("Collision Settings")]
-    public LayerMask collisionLayers; 
-    public float cameraRadius = 0.25f; 
+    public LayerMask collisionLayers;
+    public float cameraRadius = 0.25f;
     public float collisionOffset = 0.2f;
 
     [Header("Lock Position")]
@@ -57,11 +57,13 @@ public class PlayerCamera : MonoBehaviour
 
         currentDistance = 5f;
         targetDistance = currentDistance;
-        
+
         Vector3 angles = transform.eulerAngles;
         yaw = angles.y;
         pitch = angles.x;
         lastState = isPOVMode;
+
+
     }
 
     public void SetCameraActive(bool isActive)
@@ -135,13 +137,13 @@ public class PlayerCamera : MonoBehaviour
             Vector3 angles = transform.localEulerAngles;
             yaw = angles.y;
             pitch = angles.x;
-            targetDistance = 3f; 
+            targetDistance = 3f;
         }
     }
 
     void HandleThirdPerson()
     {
-        if (canRotate) 
+        if (canRotate)
         {
             yaw += Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
             pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
@@ -153,7 +155,7 @@ public class PlayerCamera : MonoBehaviour
         }
 
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0);
-        Vector3 focusPosition = target.position + Vector3.up * 1.5f; 
+        Vector3 focusPosition = target.position + Vector3.up * 1.5f;
         Vector3 desiredPosition = focusPosition - (rotation * Vector3.forward * targetDistance);
 
         RaycastHit hit;
@@ -178,7 +180,7 @@ public class PlayerCamera : MonoBehaviour
     {
         if (povAnchor == null) return;
         transform.position = Vector3.Lerp(transform.position, povAnchor.position, Time.deltaTime * transitionSpeed);
-        
+
         if (!isSubtleMouseMode)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, povAnchor.rotation, Time.deltaTime * transitionSpeed);

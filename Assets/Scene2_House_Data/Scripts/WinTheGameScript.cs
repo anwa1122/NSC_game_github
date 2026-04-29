@@ -5,8 +5,8 @@ using System.Collections;
 public class WinTheGameScript : MonoBehaviour
 {
     [Header("Ui and Scene")]
-    public CanvasGroup fadePanel;  
-    public string nextSceneName;    
+    public CanvasGroup fadePanel;
+    public string nextSceneName;
 
     [Header("Win or not")]
     public bool playerWin = false;
@@ -14,13 +14,13 @@ public class WinTheGameScript : MonoBehaviour
 
     void Start()
     {
-        if(fadePanel != null) fadePanel.alpha = 0; 
+        if (fadePanel != null) fadePanel.alpha = 0;
     }
 
     void Update()
     {
         // เช็คว่าชนะและ "ยังไม่ได้กำลังเปลี่ยนฉาก" ถึงจะรัน
-        if (playerWin && !isChangingScene) 
+        if (playerWin && !isChangingScene)
         {
             StartCoroutine(FadeAndChangeScene());
         }
@@ -36,10 +36,10 @@ public class WinTheGameScript : MonoBehaviour
         isChangingScene = true; // ล็อคไว้ว่ากำลังทำงานนะ
 
         // --- 1. รอ 2 วินาทีก่อนเริ่ม Fade ---
-        
+
 
         // --- 2. เริ่มการ Fade จอดำ ---
-        float duration = 1f; 
+        float duration = 1f;
         float currentTime = 0;
 
         if (fadePanel != null)
@@ -52,7 +52,7 @@ public class WinTheGameScript : MonoBehaviour
             }
         }
 
-        yield return new WaitForSeconds(2f); 
+        yield return new WaitForSeconds(2f);
         // --- 3. เปลี่ยนฉาก ---
         SceneManager.LoadScene(nextSceneName);
     }

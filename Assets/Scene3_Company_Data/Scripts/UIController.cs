@@ -7,7 +7,8 @@ public class UIController_Scene3 : MonoBehaviour
 {
     public static UIController_Scene3 Instance;
 
-    private GameObject firstGameObj;
+    public GameObject firstGameObjInList;
+    public GameObject lastGameObj;
     public List<GameObject> windowList;
 
     void Awake()
@@ -17,18 +18,27 @@ public class UIController_Scene3 : MonoBehaviour
 
     public void LaunchInterface(GameObject target)
     {
+        if (lastGameObj != null)
+        {
+            lastGameObj.SetActive(false);
+        }
+        else
+        {
+            lastGameObj = target;
+        }
         windowList.Add(target);
-        target.SetActive(true);
+        firstGameObjInList = windowList[windowList.Count - 1];
+        firstGameObjInList.SetActive(true);
     }
 
-    public void ExitInterface(GameObject target)
+    public void ExitInterface()
     {
         windowList.RemoveAt(windowList.Count - 1);
-        target.SetActive(false);
+        firstGameObjInList.SetActive(false);
         if (windowList.Count > 0)
         {
-            firstGameObj = windowList[windowList.Count - 1];
-            firstGameObj.SetActive(true);
+            firstGameObjInList = windowList[windowList.Count - 1];
+            firstGameObjInList.SetActive(true);
         }
 
     }

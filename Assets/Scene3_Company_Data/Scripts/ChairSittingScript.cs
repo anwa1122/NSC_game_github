@@ -91,7 +91,7 @@ public class ChairSittingScript : MonoBehaviour
     {
         playerCharacterController.enabled = true;
 
-        UIController_Scene3.Instance.ExitInterface(menuPanel);
+        UIController_Scene3.Instance.ExitInterface();
 
         playerTransform.position = exitPos;
         playerTransform.rotation = exitRot;

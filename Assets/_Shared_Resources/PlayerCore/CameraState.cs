@@ -15,6 +15,7 @@ public class CameraState : MonoBehaviour
         Cursor.visible = false;
     }
 
+
     public void ChangeCameraState(CameraMode cameraState)
     {
         if (cameraState == CameraMode.MainCamera)
@@ -56,7 +57,7 @@ public class CameraState : MonoBehaviour
     }
 
     public void ChangeCameraPosition(Transform target)
-{
-    playerCamera.LockCameraPosition(target); // target = null คือ unlock
-}
+    {
+        playerCamera.LockCameraPosition(target); // target = null คือ unlock
+    }
 }

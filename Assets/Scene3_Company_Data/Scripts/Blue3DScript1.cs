@@ -7,17 +7,17 @@ public class Blue3DScript : MonoBehaviour
 
     void Update()
     {
-        if (this.gameObject == ClickManager.Instance.clickedObject)
+        if (this.gameObject == ClickManager.Instance.clickedObject && ClickManager.Instance.playerClick)
         {
-
             CameraState.Instance.ChangeCameraPosition(targetPosition);
-            if (ClickManager.Instance.playerClick) UIController_Scene3.Instance.LaunchInterface(minigameInterface);
+            UIController_Scene3.Instance.LaunchInterface(minigameInterface);
+            ClickManager.Instance.playerClick = false;
         }
     }
 
     public void playerExit()
     {
-        UIController_Scene3.Instance.ExitInterface(minigameInterface);
+        UIController_Scene3.Instance.ExitInterface();
         CameraState.Instance.ChangeCameraPosition(null);
     }
 }

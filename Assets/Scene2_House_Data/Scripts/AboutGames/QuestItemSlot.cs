@@ -10,7 +10,8 @@ public class QuestItemSlot : MonoBehaviour
 
     private bool isRainbow = false; //ตัวแปรเอาไว้บอกว่า เป็น rainbow ยัง
     private bool isRare = false;
-    private QuestData currentData; //ตัวแปร currenData โดยจะกำหนดใช้ในสคริปต์อื่นจะมีค่าข้มูลเป็นสคริปต์ของ QuestData
+    [HideInInspector]
+    public QuestData currentData; //ตัวแปร currenData โดยจะกำหนดใช้ในสคริปต์อื่นจะมีค่าข้มูลเป็นสคริปต์ของ QuestData
 
     public void Setup(QuestData data, bool isRareThisTime) //ฟังชัน Setup เอาไว้ setup ข้อมูลต่างๆ โดยจะเรียกใช้ ข้อมูลในสคริปต์ QuestData และเอาข้อมูลว่ามันแรร์มั้ย
     {
@@ -20,8 +21,8 @@ public class QuestItemSlot : MonoBehaviour
 
         isRainbow = isRareThisTime; //ถ้ามันแรร์ก้ให้เป็น rainbow
         isRare = isRareThisTime;
-        
-        if(frameImage != null) //ถ้ามี frameImage
+
+        if (frameImage != null) //ถ้ามี frameImage
         {
             frameImage.gameObject.SetActive(isRareThisTime); //ให้มันแสดง frame ออกมาเพื่อให้ผู้เล่นได้เห็นสี rainbow
         }

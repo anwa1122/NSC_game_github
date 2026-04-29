@@ -1,16 +1,22 @@
 using UnityEngine;
-using System.Collections.Generic; 
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine.UI;
+using Unity.VisualScripting;
 public class FreelanceHubManager : MonoBehaviour
 {
+    [Header("Game Settings")]
     public GameObject freelancePanel;
     public GameObject slotPrefab; //Prefab ที่จะเป็นแม่แบบให้มินิเกมต่างๆ
     public Transform contentParent; //ตำแหน่งที่จะให้เควสไปอยุ่
+    public float questBaseReward;
     public List<QuestData> allQuests; //List quest ที่เรามีทั้งหมดภายในเกม
 
 
     public static FreelanceHubManager Instance; // ประกาศตัวแปร Static
+    private QuestData data;
 
-    void Awake() 
+    void Awake()
     {
         Instance = this; // ตั้งค่าตัวมันเองให้เป็น Instance กลาง
     }
@@ -29,7 +35,7 @@ public class FreelanceHubManager : MonoBehaviour
 
             bool isRare = Random.Range(0f, 100f) <= 20f; //ให้สุ่มค่า isRare โดยโอกาศ 20% 
 
-            slotScript.Setup(data, isRare); 
+            slotScript.Setup(data, isRare);
             //เรียกใช้ฟังชันใน slotScript ที่มี QuestItemSlot เป็น component ทำให้เรียกใช้ Setup ฟังชันได้ แล้วก้ใส่ตัวแปร data กับค่าความจริง isRare ที่สุ่มมา
             //โดยเอา data ไปเพื่อให้กำหนดว่ารูป และ ชื่อ หรือื่นๆมีค่าเป็นไปตาม data ที่เรียงมาในลิสต์e
         }
@@ -38,5 +44,18 @@ public class FreelanceHubManager : MonoBehaviour
     public void ExitFreeLanceHub()
     {
         PC_SystemManager.Instance.ExitWindow(freelancePanel);
+    }
+
+    public void RemoveQuest(string target)
+    {
+        foreach (Transform child in contentParent)
+        {
+            data = child.gameObject.GetComponent<QuestItemSlot>().currentData;
+            if (data.questName == target)
+            {
+                questBaseReward = data.baseReward;
+                Destroy(child.gameObject);
+            }
+        }
     }
 }

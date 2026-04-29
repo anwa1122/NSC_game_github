@@ -8,6 +8,9 @@ using UnityEditor.UI;
 
 public class ProgrammingMinigame : MonoBehaviour
 {
+    [Header("QuestName")]
+    public string questname = "Programming";
+
     [Header("About Spawning")]
     public RectTransform leftUpperLimit;
     public RectTransform rightBelowLimit;
@@ -19,11 +22,14 @@ public class ProgrammingMinigame : MonoBehaviour
     public List<string> allText;
     public TMP_InputField inputField;
     public TextMeshProUGUI scoreText;
-    private float scorePoint = 0f;
-    public bool playerWinTheGame = false;
+    public float scoreRatio = 100f;
     public GameObject programmingPanel;
 
+    [Header("Winning bool")]
+    public bool playerWinTheGame = false;
 
+    private float scorePoint = 0f;
+    private bool addOneTime = false;
     private bool lockedWord;
     private string errorWord;
     private ErrorBlock erBlock;
@@ -33,7 +39,10 @@ public class ProgrammingMinigame : MonoBehaviour
     {
         OnGameStart();
     }
+    public void ResetGame()
+    {
 
+    }
     void Update()
     {
         if (inputField.text == null || inputField.text == "")
@@ -42,13 +51,12 @@ public class ProgrammingMinigame : MonoBehaviour
             erBlock = null;
             errorWord = "";
             inputField.text = "";
-            
+
             if (erBlock2 != null) erBlock2.UnLock();
         }
         if (spawnParent.childCount < 1)
         {
             winTheGame();
-            Debug.Log(playerWinTheGame);
         }
     }
     public void onValueChange(string word)
@@ -56,11 +64,11 @@ public class ProgrammingMinigame : MonoBehaviour
         if (string.IsNullOrEmpty(word)) return; // ถ้าช่องว่างไม่ต้องทำอะไร
 
         string lastChar = word[word.Length - 1].ToString();
-        
+
 
         if (!lockedWord)
         {
-            foreach(Transform child in spawnParent) //ไปหาลูกๆแต่ละตัว
+            foreach (Transform child in spawnParent) //ไปหาลูกๆแต่ละตัว
             {
                 TextMeshProUGUI tmpro = child.GetComponentInChildren<TextMeshProUGUI>(); //ไปเอาคำมา
                 if (tmpro.text.StartsWith(lastChar))  //ถ้าลูกตัวนั้น คำมันขึ้นต้นด้วย คำหลังสุดที่ Player พิมพ์มา เงื่อนไข = true
@@ -70,14 +78,14 @@ public class ProgrammingMinigame : MonoBehaviour
                     erBlock.LockAndMoveToTop(); //ให้อยู่บนสุดหน้า ui เพื่อที่มมันจะได้ไม่ซ้อนอันอื่น
                     lockedWord = true;
                     errorWord = tmpro.text;
-                    break; 
+                    break;
                 }
             }
         }
 
         if (lockedWord)
         {
-            if(word == errorWord)
+            if (word == errorWord)
             {
                 erBlock.destroyMySelf();
                 lockedWord = false;
@@ -105,6 +113,15 @@ public class ProgrammingMinigame : MonoBehaviour
     void winTheGame()
     {
         playerWinTheGame = true;
+        FreelanceHubManager.Instance.RemoveQuest(questname);
+
+        if (!addOneTime)
+        {
+            Debug.Log(scorePoint / scoreRatio * FreelanceHubManager.Instance.questBaseReward);
+            PlayerDataManager.Instance.money += scorePoint / scoreRatio * FreelanceHubManager.Instance.questBaseReward;
+            addOneTime = true;
+        }
+
     }
 
     public void ExitGame()
@@ -133,7 +150,7 @@ public class ProgrammingMinigame : MonoBehaviour
             TextMeshProUGUI objt = newObj.GetComponentInChildren<TextMeshProUGUI>();
             if (objt != null)
             {
-                int randomIndex = Random.Range(0,allText.Count);
+                int randomIndex = Random.Range(0, allText.Count);
 
                 string selectedText = allText[randomIndex];
 

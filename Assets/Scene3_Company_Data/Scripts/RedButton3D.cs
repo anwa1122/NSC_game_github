@@ -14,12 +14,13 @@ public class Red3DScript : MonoBehaviour
             CameraState.Instance.ChangeCameraPosition(targetPosition);
             UIController_Scene3.Instance.LaunchInterface(minigameInterface);
 
+            ClickManager.Instance.playerClick = false;
         }
 
     }
     public void playerExit()
     {
-        UIController_Scene3.Instance.ExitInterface(minigameInterface);
+        UIController_Scene3.Instance.ExitInterface();
         CameraState.Instance.ChangeCameraPosition(null);
     }
 }

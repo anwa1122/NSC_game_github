@@ -22,13 +22,18 @@ public class SitSystem_Scene2 : MonoBehaviour
     public float startYOffset = -1000f; // จุดเริ่มต้น (อยู่ใต้จอ)
     public float overshootAmount = 50f; // ระยะที่ให้มันเด้งเลยจุดหมายขึ้นไป
 
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
     void Update()
     {
         if (canSit == true && Input.GetKeyDown(KeyCode.E))
         {
             if (playerTransform == null) return;
             if (!playerInUi) playerPressE();
-            
+
         }
     }
 
@@ -46,7 +51,7 @@ public class SitSystem_Scene2 : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             canSit = true;
-            if(!playerInUi) E_toSitText.SetActive(true);
+            if (!playerInUi) E_toSitText.SetActive(true);
         }
     }
 
@@ -79,8 +84,8 @@ public class SitSystem_Scene2 : MonoBehaviour
     {
         E_toSitText.SetActive(false);
         playerInUi = true;
-        
-        StopAllCoroutines(); 
+
+        StopAllCoroutines();
         StartCoroutine(BounceInCanvas());
     }
 
@@ -94,7 +99,7 @@ public class SitSystem_Scene2 : MonoBehaviour
 
         playerInUi = false;
 
-        StopAllCoroutines(); 
+        StopAllCoroutines();
         StartCoroutine(SlideOutCanvas());
     }
 
@@ -103,7 +108,7 @@ public class SitSystem_Scene2 : MonoBehaviour
         MenuRect.gameObject.SetActive(true);
         Vector2 endPos = Vector2.zero; // กลางจอ
         Vector2 startPos = new Vector2(0, startYOffset); // ใต้จอ
-        
+
         float t = 0;
         while (t < 1)
         {
@@ -113,10 +118,10 @@ public class SitSystem_Scene2 : MonoBehaviour
             // สูตรนี้จะเลื่อนขึ้นมา -> เลยจุดหมาย -> แล้วตกลงมาที่จุดเดิม
             float s = t;
             float bounceT = s * s * (3.0f - 2.0f * s); // SmoothStep พื้นฐาน
-            
+
             // เพิ่มการเด้ง (Overshoot)
             float sinBounce = Mathf.Sin(t * Mathf.PI) * overshootAmount;
-            
+
             Vector2 currentPos = Vector2.Lerp(startPos, endPos, bounceT);
             if (t < 1) currentPos.y += sinBounce; // เด้งเฉพาะตอนที่ยังรันอยู่
 
@@ -130,13 +135,13 @@ public class SitSystem_Scene2 : MonoBehaviour
     {
         Vector2 startPos = MenuRect.anchoredPosition;
         Vector2 endPos = new Vector2(0, startYOffset); // กลับไปใต้จอ
-        
+
         float t = 0;
         while (t < 1)
         {
             t += Time.deltaTime * animationSpeed;
             float smoothT = Mathf.SmoothStep(0, 1, t);
-            
+
             MenuRect.anchoredPosition = Vector2.Lerp(startPos, endPos, smoothT);
             yield return null;
         }
