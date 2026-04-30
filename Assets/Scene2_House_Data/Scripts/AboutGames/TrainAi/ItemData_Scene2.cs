@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// หมวดหมู่หลัก (สุ่มมาทีละหมวด)
+// หมวดหมู่หลัก
 public enum ItemCategory_Scene2
 {
     Trash,
@@ -10,38 +10,36 @@ public enum ItemCategory_Scene2
 // ประเภทย่อยของขยะ
 public enum TrashType_Scene2
 {
-    Recyclable,   // รีไซเคิล
-    Organic,      // เศษอาหาร
-    Hazardous,    // อันตราย
-    General       // ทั่วไป
+    None,
+    Glass,   // 0
+    Plastic,      // 1
+    Metal,    // 2
+    Aluminium       // 3
 }
 
 // ประเภทย่อยของสัตว์
 public enum AnimalType_Scene2
 {
-    Dog,
-    Cat,
-    Pig,
-    Chicken
+    None,
+    Dog,          // 0
+    Cat,          // 1
+    Pig,          // 2
+    Chicken       // 3
 }
 
-// ข้อมูลของไอเทมแต่ละชิ้น
-[System.Serializable]
-public class ItemData
+[CreateAssetMenu(fileName = "New Item", menuName = "TrainAI/Item Data")]
+public class ItemData_Scene2 : ScriptableObject
 {
     public string itemName;
     public ItemCategory_Scene2 category;
 
-    // ใช้ int เก็บค่า enum ย่อย เพื่อให้รองรับทั้งสองหมวด
-    // ถ้า category == Trash → subType คือ (TrashType)
-    // ถ้า category == Animal → subType คือ (AnimalType)
-    public int subType;
+    // แยกออกมาเป็น Dropdown ให้เลือกได้เลยใน Unity
+    public TrashType_Scene2 trashType;
+    public AnimalType_Scene2 animalType;
 
-    public Sprite icon; // ใส่รูปทีหลัง ตอนนี้ปล่อยว่างได้
+    public Sprite icon;
 
-    // Helper: ดึง subType เป็น TrashType
-    public TrashType_Scene2 GetTrashType() => (TrashType_Scene2)subType;
-
-    // Helper: ดึง subType เป็น AnimalType
-    public AnimalType_Scene2 GetAnimalType() => (AnimalType_Scene2)subType;
+    // ปรับ Helper ให้ดึงค่าจากตัวแปรที่เลือกไว้โดยตรง
+    public TrashType_Scene2 GetTrashType() => trashType;
+    public AnimalType_Scene2 GetAnimalType() => animalType;
 }

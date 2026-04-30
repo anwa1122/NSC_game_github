@@ -1039,6 +1039,7 @@ RectTransform:
   - {fileID: 32237906}
   - {fileID: 2139875345}
   - {fileID: 2132404673}
+  - {fileID: 1708085705}
   - {fileID: 2021642071}
   - {fileID: 1900983599}
   - {fileID: 2070737068}
@@ -1739,7 +1740,7 @@ GameObject:
   - component: {fileID: 449670229}
   - component: {fileID: 449670228}
   m_Layer: 0
-  m_Name: Slot (3)
+  m_Name: Slot4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2147,6 +2148,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 480468058}
   m_CullTransparentMesh: 1
+--- !u!1 &501468232
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 501468233}
+  m_Layer: 0
+  m_Name: === Name Tag ====
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &501468233
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501468232}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2021642071}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &517811617
 GameObject:
   m_ObjectHideFlags: 0
@@ -3033,7 +3069,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 688745329}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1288466582}
+        m_TargetAssemblyTypeName: TrainAiMinigame, Assembly-CSharp
+        m_MethodName: ExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &688745329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3916,7 +3964,7 @@ GameObject:
   - component: {fileID: 971251678}
   - component: {fileID: 971251680}
   m_Layer: 5
-  m_Name: QuestDetail_Panel
+  m_Name: QuestDetail_Panel_ForUi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4471,7 +4519,7 @@ GameObject:
   - component: {fileID: 1009325294}
   - component: {fileID: 1009325293}
   m_Layer: 0
-  m_Name: Slot (1)
+  m_Name: Slot2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5298,6 +5346,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1288466581}
+  - component: {fileID: 1288466582}
   m_Layer: 0
   m_Name: TrainAi______manager
   m_TagString: Untagged
@@ -5320,6 +5369,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1448968646}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1288466582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288466580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b81f2893af107946841aba94cdcaab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrainAiMinigame
+  aiTrainingPanel: {fileID: 1900983598}
+  allItems: []
+  itemPrefab: {fileID: 0}
+  spawnLocation: {fileID: 0}
 --- !u!1 &1302128817
 GameObject:
   m_ObjectHideFlags: 0
@@ -5357,6 +5422,7 @@ MonoBehaviour:
   - {fileID: 2139875344}
   - {fileID: 932948763}
   - {fileID: 2021642070}
+  - {fileID: 1900983598}
   currentWindow: {fileID: 0}
   zoomSpeed: 3
   showSpeed: 5
@@ -5606,6 +5672,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1423479590
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1423479591}
+  m_Layer: 0
+  m_Name: === Name Tag ====
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1423479591
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423479590}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1900983599}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1428302809
 GameObject:
   m_ObjectHideFlags: 0
@@ -5920,7 +6021,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1453525983}
   m_Layer: 0
-  m_Name: Ai_Training
+  m_Name: AiTraining
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6233,7 +6334,7 @@ GameObject:
   - component: {fileID: 1482240641}
   - component: {fileID: 1482240640}
   m_Layer: 0
-  m_Name: Slot (2)
+  m_Name: Slot3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7682,6 +7783,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1700549934}
   m_CullTransparentMesh: 1
+--- !u!1 &1708085704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1708085705}
+  m_Layer: 0
+  m_Name: Always name each panel what it is
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1708085705
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708085704}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -923.09644, y: -540, z: 11.97475}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 205994863}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1721785684
 GameObject:
   m_ObjectHideFlags: 0
@@ -8103,7 +8235,7 @@ GameObject:
   - component: {fileID: 1801875253}
   - component: {fileID: 1801875252}
   m_Layer: 0
-  m_Name: Slot
+  m_Name: Slot1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8388,7 +8520,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 191048204}
-  - {fileID: 1453525983}
   - {fileID: 439890417}
   - {fileID: 1801875251}
   - {fileID: 1009325292}
@@ -8399,6 +8530,8 @@ RectTransform:
   - {fileID: 690189883}
   - {fileID: 113573543}
   - {fileID: 1556325574}
+  - {fileID: 1423479591}
+  - {fileID: 1453525983}
   m_Father: {fileID: 205994863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -8982,6 +9115,7 @@ RectTransform:
   - {fileID: 988874935}
   - {fileID: 1056426987}
   - {fileID: 1782517948}
+  - {fileID: 501468233}
   - {fileID: 1680644461}
   m_Father: {fileID: 205994863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

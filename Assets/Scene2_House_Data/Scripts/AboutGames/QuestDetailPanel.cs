@@ -23,13 +23,13 @@ public class QuestDetailPanel : MonoBehaviour
 
     private bool isShow = false;
     private bool doneHide = false;
-    
+
     private RectTransform rect;
     private QuestData currentLoadedData;
 
     [UnitHeaderInspectable("UI Minigames")]
-    public List<GameObject> allMinigames;    
-    
+    public List<GameObject> allMinigames;
+
     void Awake()
     {
         rect = GetComponent<RectTransform>();
@@ -42,13 +42,13 @@ public class QuestDetailPanel : MonoBehaviour
     void Update()
     {
         if (isShow)
-        {          
+        {
             if (!doneHide)
             {
                 rect.anchoredPosition = hidePosition;
                 doneHide = true;
             }
-        
+
             rect.anchoredPosition = Vector2.Lerp(rect.anchoredPosition, showPosition, Time.deltaTime * showSpeed);
 
             if (rect.anchoredPosition.x == showPosition.x + 100f)
@@ -64,14 +64,14 @@ public class QuestDetailPanel : MonoBehaviour
 
         titleText.text = data.questName;
         rewardText.text = "Reward : " + data.baseReward.ToString() + "$";
-        descriptionText.text = data.clientMessages[Random.Range(0, data.clientMessages.Count)];;
+        descriptionText.text = data.clientMessages[Random.Range(0, data.clientMessages.Count)]; ;
         previewImage.sprite = data.questImage;
 
         if (isRare)
         {
             rarityText.text = "Rarity : rare";
         }
-        else  rarityText.text = "Rarity : common";
+        else rarityText.text = "Rarity : common";
 
         isShow = true;
         doneHide = false;
@@ -92,22 +92,26 @@ public class QuestDetailPanel : MonoBehaviour
 
             isShow = false; // ปิดหน้าต่าง Detail ลงไปก่อนe
             PC_SystemManager.Instance.CloseAllWindows();
-    }
-            foreach (GameObject minigame in allMinigames)
+        }
+        foreach (GameObject minigame in allMinigames)
+        {
+            foreach (Transform gameObj in minigame.transform)
             {
-                foreach (Transform gameObj in minigame.transform)
-                {
-                    if (gameObj.name == currentLoadedData.name)
+                if (gameObj.name == currentLoadedData.name)
                 {
                     //minigame.SetActive(true);
                     PC_SystemManager.Instance.EnterWindow(minigame);
                     //Debug.Log("Founded");
                     break;
                 }
+                else
+                {
+                    //Debug.Log(gameObj.name + " : " + currentLoadedData.name);
                 }
-                
             }
-        }
 
+        }
     }
+
+}
 
