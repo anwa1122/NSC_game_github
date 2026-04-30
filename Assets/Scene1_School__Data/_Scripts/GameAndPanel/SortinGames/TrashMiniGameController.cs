@@ -5,7 +5,7 @@ using System.Collections;
 using TMPro;
 
 public class TrashMiniGameController : MonoBehaviour, IResettable
-{   
+{
     [Header("Ui")]
     public Button confirmButton;
     public GameObject sortingGamePanel;
@@ -24,7 +24,7 @@ public class TrashMiniGameController : MonoBehaviour, IResettable
 
     private bool firstTime = true;
     private float playerMoney;
-    
+
     private List<GameObject> spawnedTrashes = new List<GameObject>();
 
     // --- ระบบ Reset สำหรับวันใหม่ ---
@@ -32,14 +32,14 @@ public class TrashMiniGameController : MonoBehaviour, IResettable
     {
         winTheGame = false;
         firstTime = true;
-        
+
         if (sortingGamePanel != null) sortingGamePanel.SetActive(false);
 
-        foreach (Transform child in ItemFather) 
+        foreach (Transform child in ItemFather)
         {
             if (child != null) Destroy(child.gameObject);
         }
-        
+
         spawnedTrashes.Clear();
         if (confirmButton != null) confirmButton.interactable = false;
 
@@ -69,7 +69,7 @@ public class TrashMiniGameController : MonoBehaviour, IResettable
         }
         else
         {
-            foreach (Transform child in ItemFather) 
+            foreach (Transform child in ItemFather)
             {
                 child.transform.localPosition = GetRandomPosInArea();
             }
@@ -79,15 +79,15 @@ public class TrashMiniGameController : MonoBehaviour, IResettable
     public void ConfirmSelection()
     {
         float allMoney = 0;
-        foreach (Transform child in ItemFather) 
+        foreach (Transform child in ItemFather)
         {
             DraggableTrash dragTrashScript = child.GetComponent<DraggableTrash>();
             InventoryManager.Instance.RemoveItem(dragTrashScript.data);
 
-            if(dragTrashScript.currentSlot == dragTrashScript.data.type)
+            if (dragTrashScript.currentSlot == dragTrashScript.data.type)
             {
                 PlayerDataManager.Instance.AddMoney(dragTrashScript.data.scoreValue);
-                allMoney += dragTrashScript.data.scoreValue;    
+                allMoney += dragTrashScript.data.scoreValue;
             }
         }
         confirmButton.interactable = false;
@@ -134,7 +134,7 @@ public class TrashMiniGameController : MonoBehaviour, IResettable
     IEnumerator FadeUI(bool fadeIn)
     {
         float targetAlpha = fadeIn ? 1f : 0f; // ถ้า fadeIn เป็น true เป้าหมายคือ 1 (เข้ม)
-        
+
         if (fadeIn) canvasGroup.gameObject.SetActive(true);
 
         // วนลูปจนกว่า Alpha จะใกล้เคียงเป้าหมาย
@@ -144,7 +144,7 @@ public class TrashMiniGameController : MonoBehaviour, IResettable
             canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, targetAlpha, fadeSpeed * Time.deltaTime);
             yield return null; // รอเฟรมถัดไป
         }
-        
+
         if (!fadeIn) canvasGroup.gameObject.SetActive(false);
     }
 
@@ -152,10 +152,10 @@ public class TrashMiniGameController : MonoBehaviour, IResettable
     {
         // 1. ค่อยๆ ปรากฏขึ้นมา
         yield return StartCoroutine(FadeUI(true));
-    
+
         // 2. รอตามเวลาที่กำหนด
         yield return new WaitForSeconds(duration);
-    
+
         // 3. ค่อยๆ จางหายไป
         yield return StartCoroutine(FadeUI(false));
     }

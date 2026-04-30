@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
 // ประเภทขยะ (ใส่ None ไว้กันพลาด)
-public enum TrashType { None, Glass, Plastic , Metal , Aluminium}
+public enum TrashType { None, Glass, Plastic, Metal, Aluminium }
 // ความหายาก
 public enum TrashRarity { Common, Rare }
 
-[CreateAssetMenu(fileName = "NewTrashData", menuName = "NSC/Trash Data")]
+[CreateAssetMenu(fileName = "NewTrashData", menuName = "trash/Trash Data")]
 public partial class TrashData : ScriptableObject
 {
     [Header("ข้อมูลพื้นฐานขยะ")]

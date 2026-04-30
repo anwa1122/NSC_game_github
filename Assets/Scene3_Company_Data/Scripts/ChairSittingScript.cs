@@ -19,7 +19,7 @@ public class ChairSittingScript : MonoBehaviour
 
 
     private bool canSit;
-    private bool isSitting;
+    //private bool isSitting;
 
     void Start()
     {
@@ -30,7 +30,6 @@ public class ChairSittingScript : MonoBehaviour
     {
         if (canSit && Input.GetKeyDown(KeyCode.E))
         {
-            isSitting = true;
             playerSitState();
         }
 

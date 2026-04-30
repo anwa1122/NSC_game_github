@@ -1666,7 +1666,7 @@ GameObject:
   - component: {fileID: 439890418}
   m_Layer: 0
   m_Name: spawnLocation
-  m_TagString: Untagged
+  m_TagString: BeginSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1741,7 +1741,7 @@ GameObject:
   - component: {fileID: 449670228}
   m_Layer: 0
   m_Name: Slot4
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4520,7 +4520,7 @@ GameObject:
   - component: {fileID: 1009325293}
   m_Layer: 0
   m_Name: Slot2
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5348,7 +5348,7 @@ GameObject:
   - component: {fileID: 1288466581}
   - component: {fileID: 1288466582}
   m_Layer: 0
-  m_Name: TrainAi______manager
+  m_Name: TrainAi_Trash_manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5381,10 +5381,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b81f2893af107946841aba94cdcaab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainAiMinigame
+  questname: Programming
   aiTrainingPanel: {fileID: 1900983598}
-  allItems: []
-  itemPrefab: {fileID: 0}
-  spawnLocation: {fileID: 0}
+  allItems:
+  - {fileID: 11400000, guid: 209a97be31eda6c41a5de544a7cbe38e, type: 2}
+  - {fileID: 11400000, guid: bd67f4f6486f2844f907f7c455e1dad6, type: 2}
+  - {fileID: 11400000, guid: 78299bfc88e70cb45b1ffb16fc1de5a1, type: 2}
+  - {fileID: 11400000, guid: 7f2ab00ad0213d44f89141ce7291b1d6, type: 2}
+  itemPrefab: {fileID: 4606708071861331945, guid: e2bfbf6e2629bc3438276dd038e7dd88, type: 3}
+  spawnArea: {fileID: 439890417}
 --- !u!1 &1302128817
 GameObject:
   m_ObjectHideFlags: 0
@@ -6335,7 +6340,7 @@ GameObject:
   - component: {fileID: 1482240640}
   m_Layer: 0
   m_Name: Slot3
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8236,7 +8241,7 @@ GameObject:
   - component: {fileID: 1801875252}
   m_Layer: 0
   m_Name: Slot1
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8501,7 +8506,7 @@ GameObject:
   - component: {fileID: 1900983601}
   - component: {fileID: 1900983600}
   m_Layer: 0
-  m_Name: "\U0001FA9FAi Training minigames panel"
+  m_Name: "\U0001FA9FAiT_Trash minigames panel"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8520,7 +8525,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 191048204}
-  - {fileID: 439890417}
   - {fileID: 1801875251}
   - {fileID: 1009325292}
   - {fileID: 1482240639}
@@ -8532,6 +8536,7 @@ RectTransform:
   - {fileID: 1556325574}
   - {fileID: 1423479591}
   - {fileID: 1453525983}
+  - {fileID: 439890417}
   m_Father: {fileID: 205994863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

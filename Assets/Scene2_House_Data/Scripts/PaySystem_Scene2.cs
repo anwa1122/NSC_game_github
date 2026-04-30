@@ -19,7 +19,6 @@ public class PaySystem_Scene2 : MonoBehaviour
     void OnEnable()
     {
         costText.text = "Price : " + price;
-        Debug.Log("Enabled");
     }
 
     public void playerPayMoney()
@@ -27,7 +26,7 @@ public class PaySystem_Scene2 : MonoBehaviour
         if (PlayerDataManager.Instance.money >= price)
         {
             PlayerDataManager.Instance.money -= price;
-            
+
             // 1. ทำให้ปุ่มกดไม่ได้ทันที
             payButton.interactable = false;
 

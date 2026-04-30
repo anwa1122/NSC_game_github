@@ -11,6 +11,7 @@ TagManager:
   - SitHitbox
   - SleepHitbox
   - interactAble3D
+  - Slot
   layers:
   - Default
   - TransparentFX

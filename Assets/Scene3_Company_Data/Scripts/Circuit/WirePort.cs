@@ -14,8 +14,8 @@ public class WirePort : MonoBehaviour
     private Color originalColor;
 
     [Header("Colors")]
-    public Color normalColor  = Color.white;
-    public Color hoverColor   = Color.cyan;
+    public Color normalColor = Color.white;
+    public Color hoverColor = Color.cyan;
     public Color draggingColor = Color.yellow;
 
     void Start()
