@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0dd01837258dc5f4eb6719e7a16c87d9, type: 3}
-  m_Name: AiTraining
+  m_Name: AiTraining_Trash
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
   questName: AiTraining
   clientMessages:

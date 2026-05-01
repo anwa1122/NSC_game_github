@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
 {
@@ -10,13 +13,17 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
 
     [Header("Ui Settings")]
     public GameObject aiTrainingPanel;
-
+    public TextMeshProUGUI scoreText;
 
     [Header("Item Database")]
     public List<TrashData_Scene2> allItems; // ลากไฟล์ ScriptableObject ที่สร้างไว้มาใส่ที่นี่ให้หมด
     public GameObject itemPrefab;    // ตัว Prefab ที่มี DraggableItem_Scene2 ติดอยู่
     public RectTransform spawnArea;  // จุดที่จะให้ไอเทมไปเกิด (เช่น UI Panel)
 
+    [Header("Game Settings")]
+    public int allItemsInGames = 4;
+    public List<Transform> allSlots;
+    public float score;
 
     void Awake()
     {
@@ -24,8 +31,9 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
     }
     void Start()
     {
-        SpawnRandomItems(4);
+        SpawnRandomItems(allItemsInGames);
     }
+
 
     public void SpawnRandomItems(int count)
     {
@@ -47,6 +55,31 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
             }
         }
     }
+
+    public void CheckItemInSlot()
+    {
+        if (spawnArea.childCount > 0) return;
+
+        foreach (Transform slot in allSlots)
+        {
+            foreach (Transform child in slot)
+            {
+                TrashData_Scene2 itemData = child.GetComponent<DraggableTrash_Scene2>().itemData;
+                TrashType_Scene2 trashSlotType = slot.GetComponent<TrashSlot_Scene2>().trashType;
+                if (itemData.trashType == trashSlotType)
+                {
+                    Debug.Log("Correct");
+                    score += 10;
+                    scoreText.text = "Score : " + score;
+                }
+                else
+                {
+                    Debug.Log("InCorrect");
+                }
+            }
+        }
+    }
+
 
     public void ExitGame()
     {
