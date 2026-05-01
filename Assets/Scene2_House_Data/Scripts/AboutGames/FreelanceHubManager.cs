@@ -11,6 +11,7 @@ public class FreelanceHubManager : MonoBehaviour
     public Transform contentParent; //ตำแหน่งที่จะให้เควสไปอยุ่
     public float questBaseReward;
     public List<QuestData> allQuests; //List quest ที่เรามีทั้งหมดภายในเกม
+    public float rarity = 20f;
 
 
     public static FreelanceHubManager Instance; // ประกาศตัวแปร Static
@@ -33,7 +34,7 @@ public class FreelanceHubManager : MonoBehaviour
 
             QuestItemSlot slotScript = newSlot.GetComponent<QuestItemSlot>(); //สร้างตัวแปร slotScript ประเภท QuestItemSlot ไปเอา component QuestIteSlot ในตัว newSlot mี่ถูกสร้างมา
 
-            bool isRare = Random.Range(0f, 100f) <= 20f; //ให้สุ่มค่า isRare โดยโอกาศ 20% 
+            bool isRare = Random.Range(0f, 100f) <= rarity; //ให้สุ่มค่า isRare โดยโอกาศ 20% 
 
             slotScript.Setup(data, isRare);
             //เรียกใช้ฟังชันใน slotScript ที่มี QuestItemSlot เป็น component ทำให้เรียกใช้ Setup ฟังชันได้ แล้วก้ใส่ตัวแปร data กับค่าความจริง isRare ที่สุ่มมา

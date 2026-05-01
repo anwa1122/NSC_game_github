@@ -21,6 +21,8 @@ public class QuestDetailPanel : MonoBehaviour
     public Vector2 showPosition;
     public Vector2 hidePosition;
 
+    public bool isQuestRare;
+    public bool sendQuestRare;
     private bool isShow = false;
     private bool doneHide = false;
 
@@ -70,8 +72,13 @@ public class QuestDetailPanel : MonoBehaviour
         if (isRare)
         {
             rarityText.text = "Rarity : rare";
+            isQuestRare = isRare;
         }
-        else rarityText.text = "Rarity : common";
+        else
+        {
+            rarityText.text = "Rarity : common";
+            isQuestRare = false;
+        }
 
         isShow = true;
         doneHide = false;
@@ -101,12 +108,8 @@ public class QuestDetailPanel : MonoBehaviour
                 {
                     //minigame.SetActive(true);
                     PC_SystemManager.Instance.EnterWindow(minigame);
-                    //Debug.Log("Founded");
+                    sendQuestRare = isQuestRare;
                     break;
-                }
-                else
-                {
-                    //Debug.Log(gameObj.name + " : " + currentLoadedData.name);
                 }
             }
 
