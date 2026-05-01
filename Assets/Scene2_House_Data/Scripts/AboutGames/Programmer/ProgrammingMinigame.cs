@@ -114,9 +114,11 @@ public class ProgrammingMinigame : MonoBehaviour
     {
         playerWinTheGame = true;
         FreelanceHubManager.Instance.RemoveQuest(questname);
+        //ไปเอาค่า questBaseReward ด้วย
 
         if (!addOneTime)
         {
+            Debug.Log(FreelanceHubManager.Instance.questBaseReward);
             Debug.Log(scorePoint / scoreRatio * FreelanceHubManager.Instance.questBaseReward);
             PlayerDataManager.Instance.money += scorePoint / scoreRatio * FreelanceHubManager.Instance.questBaseReward;
             addOneTime = true;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd01837258dc5f4eb6719e7a16c87d9, type: 3}
   m_Name: AiTraining_Trash
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
-  questName: AiTraining
+  questName: AiTraining_Trash
   clientMessages:
   - I dont know how to train ai Please Help!!!
   - Please train Ai for me with these picture !!!

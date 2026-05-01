@@ -10,7 +10,7 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
     public static AiT_Trash_Minigame_Scene2 Instance;
 
     [Header("QuestName")]
-    public string questname = "Programming";
+    public string questname = "AiTraining_Trash";
 
     [Header("Ui Settings")]
     public GameObject aiTrainingPanel;
@@ -18,6 +18,7 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
     public TextMeshProUGUI rarityText;
     public TextMeshProUGUI itemLeftText;
     public Image fillImage;
+    public TextMeshProUGUI barText;
 
     [Header("Item Database")]
     public List<TrashData_Scene2> allItems; // ลากไฟล์ ScriptableObject ที่สร้างไว้มาใส่ที่นี่ให้หมด
@@ -25,59 +26,46 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
     public RectTransform spawnArea;  // จุดที่จะให้ไอเทมไปเกิด (เช่น UI Panel)
 
     [Header("Game Settings")]
-    public bool thisGameStart = false;
     public int allItemsInGames = 4;
     public List<Transform> allSlots;
     public float score = 0f;
+    public float percent = 0f;
     public bool thisRare = false;
+    public bool thisGameStart = false;
+    public bool playerWinTheGame = false;
 
+    private bool onTrainingAi = false;
     private bool gameAlreadyStart = false;
     private bool alreadyChecked = false;
+    private bool addMoney = false;
+
+    private float allItemsCount;
+    private float correctItem;
+    private float incorrectItem;
 
     void Awake()
     {
         if (Instance == null) Instance = this;
         scoreText.text = "Score : " + score;
         itemLeftText.enabled = false;
+        barText.enabled = false;
+
+        Debug.Log(FreelanceHubManager.Instance.questBaseReward);
     }
 
     void ResetGame()
     {
         gameAlreadyStart = false;
         alreadyChecked = false;
-    }
-    public void StartSmoothLoading(float duration)
-    {
-        StartCoroutine(SmoothFillRoutine(duration));
+        playerWinTheGame = false;
     }
 
-    IEnumerator SmoothFillRoutine(float duration)
-    {
-        float elapsed = 0f;
-        float pauseAt = Random.Range(0.3f, 0.7f); // จุดที่จะหยุดสุ่มที่ 30-70%
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float progress = elapsed / duration;
-            fillImage.fillAmount = progress;
-
-            // ถ้าถึงจุดที่สุ่มไว้ ให้หยุดรอแป๊บนึง (0.2 - 0.5 วิ)
-            if (progress >= pauseAt)
-            {
-                yield return new WaitForSeconds(Random.Range(0.2f, 0.5f));
-                pauseAt = 2f; // ตั้งค่าให้เกิน 1 เพื่อไม่ให้หยุดซ้ำ
-            }
-            yield return null;
-        }
-        fillImage.fillAmount = 1f;
-    }
     void Update()
     {
         if (aiTrainingPanel.activeSelf && !thisGameStart && !gameAlreadyStart)
         {
             thisGameStart = true;
-            StartSmoothLoading(5f);
+
             thisRare = QuestDetailPanel.Instance.sendQuestRare;
             if (thisRare)
             {
@@ -132,6 +120,7 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
         }
 
         itemLeftText.enabled = false;
+        alreadyChecked = true;
 
         foreach (Transform slot in allSlots)
         {
@@ -139,25 +128,48 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
             {
                 TrashData_Scene2 itemData = child.GetComponent<DraggableTrash_Scene2>().itemData;
                 TrashType_Scene2 trashSlotType = slot.GetComponent<TrashSlot_Scene2>().trashType;
+                allItemsCount++;
                 if (itemData.trashType == trashSlotType)
                 {
+                    correctItem++;
                     Debug.Log("Correct");
                     score += 10;
                     scoreText.text = "Score : " + score;
-                    alreadyChecked = true;
+
+
                 }
                 else
                 {
+                    incorrectItem++;
                     Debug.Log("InCorrect");
                 }
             }
         }
+
+        StartSmoothLoading(5f);
+        //มีสคริปต์สรุปผลเปอร์เซ็นถูกต้องด้วย
     }
 
 
     public void ExitGame()
     {
-        PC_SystemManager.Instance.ExitWindow(aiTrainingPanel);
+        if (!onTrainingAi)
+        {
+            PC_SystemManager.Instance.ExitWindow(aiTrainingPanel);
+        }
+    }
+
+    public void winAiTraining_TrashGame()
+    {
+        playerWinTheGame = true;
+        FreelanceHubManager.Instance.RemoveQuest(questname);
+        //ไปเอาค่า questBaseReward ด้วย
+
+        if (!addMoney)
+        {
+            addMoney = true;
+            Debug.Log(FreelanceHubManager.Instance.questBaseReward);
+        }
     }
 
     private Vector3 GetRandomPosInArea()
@@ -176,5 +188,43 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         itemLeftText.enabled = false;
+    }
+
+    public void StartSmoothLoading(float duration)
+    {
+        StartCoroutine(SmoothFillRoutine(duration));
+    }
+
+    IEnumerator SmoothFillRoutine(float duration)
+    {
+        float elapsed = 0f;
+        float pauseAt = Random.Range(0.3f, 0.7f); // จุดที่จะหยุดสุ่มที่ 30-70%
+        barText.enabled = true;
+        barText.text = "Loading";
+
+        onTrainingAi = true;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float progress = elapsed / duration;
+            fillImage.fillAmount = progress;
+
+            // ถ้าถึงจุดที่สุ่มไว้ ให้หยุดรอแป๊บนึง (0.2 - 0.5 วิ)
+            if (progress >= pauseAt)
+            {
+                yield return new WaitForSeconds(Random.Range(0.2f, 0.5f));
+                pauseAt = 2f; // ตั้งค่าให้เกิน 1 เพื่อไม่ให้หยุดซ้ำ
+            }
+            yield return null;
+        }
+
+        onTrainingAi = false;
+
+        fillImage.fillAmount = 1f;
+        percent = (correctItem / allItemsCount) * 100;
+        barText.text = "Done Accuracy : " + percent + "%";
+
+        winAiTraining_TrashGame();
     }
 }

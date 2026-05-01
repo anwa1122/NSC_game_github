@@ -52,6 +52,7 @@ public class FreelanceHubManager : MonoBehaviour
         foreach (Transform child in contentParent)
         {
             data = child.gameObject.GetComponent<QuestItemSlot>().currentData;
+            Debug.Log(data.questName + " : " + target);
             if (data.questName == target)
             {
                 questBaseReward = data.baseReward;
