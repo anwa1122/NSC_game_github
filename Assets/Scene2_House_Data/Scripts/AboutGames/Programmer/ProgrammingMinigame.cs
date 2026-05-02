@@ -117,7 +117,7 @@ public class ProgrammingMinigame : MonoBehaviour
         //FreelanceHubManager.Instance.RemoveQuest(questType);
         //ไปเอาค่า questBaseReward ด้วย
         FreelanceHubManager.Instance.GetQuestData(questType, out thisQuestData);
-        Debug.Log(thisQuestData);
+        Debug.Log("Got quest data : " + thisQuestData);
 
         if (!addOneTime)
         {

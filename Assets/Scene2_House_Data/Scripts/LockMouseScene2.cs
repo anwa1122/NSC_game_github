@@ -6,7 +6,7 @@ public class LockMouseScene2 : MonoBehaviour
     void Start()
     {
         // สั่งให้เริ่มทำงานหลังจากรอ 0.1 วินาที
-        StartCoroutine(LockCursorRoutine());
+        //StartCoroutine(LockCursorRoutine());
     }
 
     IEnumerator LockCursorRoutine()
