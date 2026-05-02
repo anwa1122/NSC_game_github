@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+public enum GameType { AiTraining_Trash, Circuit, Programming }
+
 [CreateAssetMenu(fileName = "NewQuest", menuName = "freeLanceBilly/QuestData")]
 public class QuestData : ScriptableObject
 {
@@ -12,7 +14,7 @@ public class QuestData : ScriptableObject
     public Sprite questIcon;      // รูปไอคอนประเภทงาน/รูปคนจ้าง
     public Sprite questImage; // รูปร่างเควส
 
-    public enum GameType { AiTraining_Trash, Circuit, Programming }
+
     public GameType type;        // ประเภทมินิเกมที่จะเล่น
 
     [Header("Settings")]

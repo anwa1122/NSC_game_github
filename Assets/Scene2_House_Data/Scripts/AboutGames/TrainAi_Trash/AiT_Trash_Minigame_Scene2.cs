@@ -10,7 +10,7 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
     public static AiT_Trash_Minigame_Scene2 Instance;
 
     [Header("QuestName")]
-    public string questname = "AiTraining_Trash";
+    public GameType questType;
 
     [Header("Ui Settings")]
     public GameObject aiTrainingPanel;
@@ -34,6 +34,8 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
     public bool thisGameStart = false;
     public bool playerWinTheGame = false;
 
+    private QuestData thisQuestData = null;
+
     private bool onTrainingAi = false;
     private bool gameAlreadyStart = false;
     private bool alreadyChecked = false;
@@ -49,8 +51,6 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
         scoreText.text = "Score : " + score;
         itemLeftText.enabled = false;
         barText.enabled = false;
-
-        Debug.Log(FreelanceHubManager.Instance.questBaseReward);
     }
 
     void ResetGame()
@@ -162,13 +162,18 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
     public void winAiTraining_TrashGame()
     {
         playerWinTheGame = true;
-        FreelanceHubManager.Instance.RemoveQuest(questname);
+        //FreelanceHubManager.Instance.RemoveQuest(questType);
         //ไปเอาค่า questBaseReward ด้วย
+        FreelanceHubManager.Instance.GetQuestData(questType, out thisQuestData);
+        Debug.Log(thisQuestData);
 
         if (!addMoney)
         {
             addMoney = true;
-            Debug.Log(FreelanceHubManager.Instance.questBaseReward);
+            FreelanceHubManager.Instance.RemoveQuest(questType);
+            if (PlayerDataManager.Instance == null) return;
+            //PlayerDataManager.Instance.money += scorePoint / scoreRatio * thisQuestData.baseReward;
+
         }
     }
 
@@ -192,10 +197,10 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
 
     public void StartSmoothLoading(float duration)
     {
-        StartCoroutine(SmoothFillRoutine(duration));
+        StartCoroutine(SmoothFillRoutineAndWinTheGame(duration));
     }
 
-    IEnumerator SmoothFillRoutine(float duration)
+    IEnumerator SmoothFillRoutineAndWinTheGame(float duration)
     {
         float elapsed = 0f;
         float pauseAt = Random.Range(0.3f, 0.7f); // จุดที่จะหยุดสุ่มที่ 30-70%

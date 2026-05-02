@@ -5517,7 +5517,6 @@ MonoBehaviour:
   freelancePanel: {fileID: 2139875344}
   slotPrefab: {fileID: 9146711200615047809, guid: 89a1d390bf6b2fb478fa0e9440759a03, type: 3}
   contentParent: {fileID: 1136338848}
-  questBaseReward: 0
   allQuests:
   - {fileID: 11400000, guid: 45dc5c2ca2d8f4b4e811f948a9ab82a2, type: 2}
   - {fileID: 11400000, guid: 829cd0f772667b64c88107966f1442d0, type: 2}
@@ -5700,7 +5699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b81f2893af107946841aba94cdcaab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainAiMinigame
-  questname: AiTraining_Trash
+  questType: 0
   aiTrainingPanel: {fileID: 1900983598}
   scoreText: {fileID: 690189884}
   rarityText: {fileID: 413796427}
@@ -8178,7 +8177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1708085705}
   m_Layer: 0
-  m_Name: Always name each panel what it is
+  m_Name: Always name each name tag under panel what it is
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9161,18 +9160,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1447f3f6e452f346a138bd2c6542952, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProgrammingMinigame
-  questname: Programming
+  questType: 2
   leftUpperLimit: {fileID: 661567719}
   rightBelowLimit: {fileID: 480468059}
   spawnParent: {fileID: 1056426987}
   numberOfObjectToSpawn: 5
   errorBlockPrefab: {fileID: 8950283936289302860, guid: 4b3517b69f33ee24cbbd78947ae86892, type: 3}
   allText:
-  - a
-  - b
-  - c
   - d
-  - e
+  - d
+  - d
+  - d
+  - d
   inputField: {fileID: 988874936}
   scoreText: {fileID: 1782517946}
   scoreRatio: 100

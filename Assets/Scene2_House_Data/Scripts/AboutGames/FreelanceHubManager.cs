@@ -9,7 +9,6 @@ public class FreelanceHubManager : MonoBehaviour
     public GameObject freelancePanel;
     public GameObject slotPrefab; //Prefab ที่จะเป็นแม่แบบให้มินิเกมต่างๆ
     public Transform contentParent; //ตำแหน่งที่จะให้เควสไปอยุ่
-    public float questBaseReward;
     public List<QuestData> allQuests; //List quest ที่เรามีทั้งหมดภายในเกม
     public float rarity = 20f;
 
@@ -47,16 +46,32 @@ public class FreelanceHubManager : MonoBehaviour
         PC_SystemManager.Instance.ExitWindow(freelancePanel);
     }
 
-    public void RemoveQuest(string target)
+    public void GetQuestData(GameType target, out QuestData outData)
+    {
+        outData = null;
+
+        foreach (Transform child in contentParent)
+        {
+            data = child.gameObject.GetComponent<QuestItemSlot>().currentData;
+            GameType gameType = data.type;
+            if (gameType == target)
+            {
+                outData = child.gameObject.GetComponent<QuestItemSlot>().currentData;
+                Debug.Log("Done");
+            }
+            //Debug.Log(gameType + " : " + target);
+        }
+    }
+    public void RemoveQuest(GameType target)
     {
         foreach (Transform child in contentParent)
         {
             data = child.gameObject.GetComponent<QuestItemSlot>().currentData;
-            Debug.Log(data.questName + " : " + target);
-            if (data.questName == target)
+            GameType gameType = data.type;
+            if (gameType == target)
             {
-                questBaseReward = data.baseReward;
                 Destroy(child.gameObject);
+                return;
             }
         }
     }

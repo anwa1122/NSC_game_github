@@ -9,7 +9,7 @@ using UnityEditor.UI;
 public class ProgrammingMinigame : MonoBehaviour
 {
     [Header("QuestName")]
-    public string questname = "Programming";
+    public GameType questType;
 
     [Header("About Spawning")]
     public RectTransform leftUpperLimit;
@@ -28,6 +28,7 @@ public class ProgrammingMinigame : MonoBehaviour
     [Header("Winning bool")]
     public bool playerWinTheGame = false;
 
+    private QuestData thisQuestData = null;
     private float scorePoint = 0f;
     private bool addOneTime = false;
     private bool lockedWord;
@@ -56,7 +57,7 @@ public class ProgrammingMinigame : MonoBehaviour
         }
         if (spawnParent.childCount < 1)
         {
-            winTheGame();
+            if (!playerWinTheGame) winTheGame();
         }
     }
     public void onValueChange(string word)
@@ -113,17 +114,19 @@ public class ProgrammingMinigame : MonoBehaviour
     void winTheGame()
     {
         playerWinTheGame = true;
-        FreelanceHubManager.Instance.RemoveQuest(questname);
+        //FreelanceHubManager.Instance.RemoveQuest(questType);
         //ไปเอาค่า questBaseReward ด้วย
+        FreelanceHubManager.Instance.GetQuestData(questType, out thisQuestData);
+        Debug.Log(thisQuestData);
 
         if (!addOneTime)
         {
-            Debug.Log(FreelanceHubManager.Instance.questBaseReward);
-            Debug.Log(scorePoint / scoreRatio * FreelanceHubManager.Instance.questBaseReward);
-            PlayerDataManager.Instance.money += scorePoint / scoreRatio * FreelanceHubManager.Instance.questBaseReward;
             addOneTime = true;
-        }
+            FreelanceHubManager.Instance.RemoveQuest(questType);
+            if (PlayerDataManager.Instance == null) return;
+            PlayerDataManager.Instance.money += scorePoint / scoreRatio * thisQuestData.baseReward;
 
+        }
     }
 
     public void ExitGame()
