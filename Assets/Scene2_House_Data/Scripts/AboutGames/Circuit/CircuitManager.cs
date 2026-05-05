@@ -16,7 +16,6 @@ public class CircuitManager : MonoBehaviour
 
     public void addDevice(DeviceType newDevice)
     {
-
         if (lastDevice != newDevice)
         {
             allDevice.Add(newDevice);
