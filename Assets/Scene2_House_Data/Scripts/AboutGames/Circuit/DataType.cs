@@ -14,6 +14,19 @@ public enum DeviceType
     Servo
 }
 
+public enum DeviceClass
+{
+    Battery,
+    Controller,
+    Output
+}
+
+public enum NodeClass
+{
+    Send,
+    Get
+}
+
 public enum NodeType
 {
     Red, // ขั้วบวก (แดง)

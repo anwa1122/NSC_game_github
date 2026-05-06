@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,8 +9,11 @@ public class WireManager : MonoBehaviour
     public GameObject wirePrefab;
     public Canvas mainCanvas;
     public RectTransform wireSpace;
+    public Transform wireSpaceObj;
+    public List<GameObject> allWires;
 
-    private GameObject currentWire;
+    [HideInInspector]
+    public GameObject currentWire;
     private RectTransform wireRect;
     private RectTransform activeStartNode;
 
@@ -21,6 +26,11 @@ public class WireManager : MonoBehaviour
 
         // สร้างสายไฟไว้ภายใต้ Parent เดียวกับ Node เพื่อให้ Layer ถูกต้อง
         currentWire = Instantiate(wirePrefab, wireSpace);
+
+        currentWire.AddComponent<ConnectionInfo>();
+
+        allWires.Add(currentWire);
+
         wireRect = currentWire.GetComponent<RectTransform>();
 
         // --- เพิ่มตรงนี้ครับ ---
@@ -84,8 +94,20 @@ public class WireManager : MonoBehaviour
         }
         else
         {
-            //Debug.Log("พังแม่ง");
-            Destroy(currentWire);
+            if (allWires.Count > 0)
+            {
+                int lastIndex = allWires.Count - 1;
+
+                // 1. ทำลายตัวตนในโลกความเป็นจริง
+                if (allWires[lastIndex] != null)
+                {
+                    Destroy(allWires[lastIndex]);
+                }
+
+                // 2. ลบชื่อออกจากบัญชีคนเป็น (List)
+                allWires.RemoveAt(lastIndex);
+                CircuitManager.Instance.removeDevice();
+            }
         }
 
         currentWire = null;
@@ -111,5 +133,28 @@ public class WireManager : MonoBehaviour
         wireRect.sizeDelta = new Vector2(finalLength, wireRect.sizeDelta.y);
 
         //Debug.Log("Snap to Node: " + targetNode.name);
+    }
+
+    public void UndoLastAction()
+    {
+        if (allWires.Count > 0)
+        {
+            int lastIndex = allWires.Count - 1;
+
+            // 1. ทำลายตัวตนในโลกความเป็นจริง
+            if (allWires[lastIndex] != null)
+            {
+                Destroy(allWires[lastIndex]);
+            }
+
+            // 2. ลบชื่อออกจากบัญชีคนเป็น (List)
+            allWires.RemoveAt(lastIndex);
+            CircuitManager.Instance.removeDevice();
+        }
+
+        foreach (Transform child in wireSpaceObj)
+        {
+            Debug.Log(child.GetComponent<ConnectionInfo>().firstDevice + " : " + child.GetComponent<ConnectionInfo>().secondDevice);
+        }
     }
 }

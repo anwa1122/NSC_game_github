@@ -4,28 +4,38 @@ using System.Collections.Generic;
 
 public class WireNode : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
+    [Header("Node Type")]
     public NodeType nodeType;
-    private WireManager manager;
+    public NodeClass nodeClass;
+
+    private WireManager wireManager;
 
     void Start()
     {
         // หา Manager ใน Scene
-        manager = Object.FindFirstObjectByType<WireManager>();
+        wireManager = Object.FindFirstObjectByType<WireManager>();
 
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (nodeClass == NodeClass.Get) return;
         // เริ่มลากเส้นจากโหนดนี้
-        manager.BeginDragWire(GetComponent<RectTransform>(), eventData.position);
+        wireManager.BeginDragWire(GetComponent<RectTransform>(), eventData.position);
+
+
+        wireManager.currentWire.GetComponent<ConnectionInfo>().firstDevice = this.transform.parent.gameObject.GetComponent<DeviceData>().deviceType;
+        //Debug.Log(this.transform.parent.gameObject.GetComponent<DeviceData>().deviceType);
+
         DeviceData device = transform.parent.GetComponent<DeviceData>();
         CircuitManager.Instance.addDevice(device.deviceType);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (nodeClass == NodeClass.Get) return;
         // อัปเดตตำแหน่งเส้นตามเมาส์ขณะลาก
-        manager.UpdateWirePosition(eventData.position);
+        wireManager.UpdateWirePosition(eventData.position);
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -42,15 +52,16 @@ public class WireNode : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
             WireNode node = result.gameObject.GetComponent<WireNode>();
 
             // เงื่อนไข: ต้องเป็น WireNode และ "ไม่ใช่ตัวมันเอง"
-            if (node != null && node != this)
+            if (node != null && node != this && node.nodeClass != this.nodeClass)
             {
                 targetNode = node;
                 // เข้าถึง GameObject ของพ่อ   /////เฮ้ targetNode! ช่วยไปดูที่ Transform ของ GameObject ที่เธอแปะอยู่ให้หน่อยสิ! //มองย้อนกลับไปหา "พ่อ" // ไปเอาพ่อมันมา
                 GameObject parentObj = targetNode.transform.parent.gameObject;
-                //Debug.Log("ชื่อของพ่อคือ: " + parentObj.name);
                 DeviceData device = parentObj.GetComponent<DeviceData>();
 
-                Debug.Log(device.deviceType);
+                wireManager.currentWire.GetComponent<ConnectionInfo>().secondDevice = device.deviceType;
+                //Debug.Log(device.deviceType);
+
                 CircuitManager.Instance.addDevice(device.deviceType);
                 break; // เจอโหนดเป้าหมายแล้ว หยุดหาทันที
             }
@@ -59,14 +70,14 @@ public class WireNode : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         if (targetNode != null)
         {
             // ถ้าเจอโหนดปลายทาง ส่งค่า true และส่ง RectTransform ของโหนดนั้นไปให้ Manager ล็อค
-            manager.EndDragWire(true, targetNode.GetComponent<RectTransform>());
-            Debug.Log("ปล่อยเมาส์เจอโหนดปลายทาง");
+            wireManager.EndDragWire(true, targetNode.GetComponent<RectTransform>());
+            //Debug.Log("ปล่อยเมาส์เจอโหนดปลายทาง");
         }
         else
         {
             // ถ้าไม่เจออะไรเลย ส่งค่า false เพื่อลบเส้น
-            manager.EndDragWire(false);
-            Debug.Log("ไม่เจอโหนดปลายทาง ลบเส้นทิ้ง");
+            wireManager.EndDragWire(false);
+            //Debug.Log("ไม่เจอโหนดปลายทาง ลบเส้นทิ้ง");
         }
     }
 }
