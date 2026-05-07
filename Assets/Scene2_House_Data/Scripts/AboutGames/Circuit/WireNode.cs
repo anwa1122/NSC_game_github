@@ -25,10 +25,11 @@ public class WireNode : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
 
         wireManager.currentWire.GetComponent<ConnectionInfo>().firstDevice = this.transform.parent.gameObject.GetComponent<DeviceData>().deviceType;
+        wireManager.currentWire.GetComponent<ConnectionInfo>().nodeType = nodeType;
         //Debug.Log(this.transform.parent.gameObject.GetComponent<DeviceData>().deviceType);
 
         DeviceData device = transform.parent.GetComponent<DeviceData>();
-        CircuitManager.Instance.addDevice(device.deviceType);
+        //CircuitManager.Instance.addDevice(device.deviceType);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -62,7 +63,7 @@ public class WireNode : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
                 wireManager.currentWire.GetComponent<ConnectionInfo>().secondDevice = device.deviceType;
                 //Debug.Log(device.deviceType);
 
-                CircuitManager.Instance.addDevice(device.deviceType);
+                CircuitManager.Instance.RefreshRemainDevice();
                 break; // เจอโหนดเป้าหมายแล้ว หยุดหาทันที
             }
         }
