@@ -8,21 +8,70 @@ public class CircuitManager : MonoBehaviour
 {
     public static CircuitManager Instance;
 
-    public List<DeviceType> allDevice; // เก็บประวัติการต่อทั้งหมด (ถ้ายังจำเป็นต้องใช้)
     public List<DeviceType> remainDevice; // ลำดับอุปกรณ์ปัจจุบันที่จะโชว์บนหน้าจอ
-
-    public TextMeshProUGUI text;
+    public List<DeviceType> requestDevice;
+    public TextMeshProUGUI debugText;
+    public TextMeshProUGUI requestText;
     public Transform wireSpaceObj; // ตัวเก็บสายไฟ (ลูกๆ)
+
+
+    private int score;
+
+    private DeviceType batteryDevice;
+    private DeviceType controlDevice;
+    private DeviceType outputDevice;
 
     void Awake()
     {
         if (Instance == null) Instance = this;
+        StartCircuitgame();
     }
 
     // --- 🦋 Hu Tao บอกว่า: เอา Distinct ออกจาก Update ไปเลยนะจ๊ะ! 🦋 ---
     void Update()
     {
-        // ปล่อยว่างไว้ หรือเอาไว้ใช้ทำอย่างอื่นที่ไม่ใช่การจัดการ List นี้จ้ะ
+
+    }
+
+
+    public void StartCircuitgame()
+    {
+        if (requestText != null)
+        {
+            RandomDeviceType();
+            requestText.text = $"i want to connect {batteryDevice} through {controlDevice} and then {outputDevice}";
+
+            requestDevice.Add(batteryDevice);
+            requestDevice.Add(controlDevice);
+            requestDevice.Add(outputDevice);
+        }
+    }
+
+    public void RandomDeviceType()
+    {
+        batteryDevice = DataType.GetRandomDeviceByClass(DeviceClass.Battery);
+        Debug.Log(batteryDevice);
+
+        controlDevice = DataType.GetRandomDeviceByClass(DeviceClass.Controller);
+        outputDevice = DataType.GetRandomDeviceByClass(DeviceClass.Output);
+    }
+
+    public void checkResult()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (requestDevice[i] == remainDevice[i])//e
+            {
+                Debug.Log("+1");
+                score += 10;
+            }
+            else
+            {
+                score -= 5;
+            }
+        }
+
+        Debug.Log(score);
     }
 
     public void RefreshRemainDevice()
@@ -77,12 +126,9 @@ public class CircuitManager : MonoBehaviour
 
     private void UpdateDisplayText()
     {
-        Debug.Log(text);
-        if (text != null)
+        if (debugText != null)
         {
-            // แปลงลิสต์เป็นข้อความสวยๆ เช่น "Battery -> Switch -> LED"
-            Debug.Log("ez");
-            text.text = string.Join(" -> ", remainDevice);
+            debugText.text = string.Join(" -> ", remainDevice);
         }
     }
 
