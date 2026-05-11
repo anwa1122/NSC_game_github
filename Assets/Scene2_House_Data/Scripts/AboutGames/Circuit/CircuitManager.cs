@@ -3,17 +3,24 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 using System.Linq;
+using UnityEditor.PackageManager.Requests;
 
 public class CircuitManager : MonoBehaviour
 {
     public static CircuitManager Instance;
 
+    [Header("Get Device (Blanked Only)")]
     public List<DeviceType> remainDevice; // ลำดับอุปกรณ์ปัจจุบันที่จะโชว์บนหน้าจอ
     public List<DeviceType> requestDevice;
+
+    [Header("Ui management")]
+    public TextMeshProUGUI scoreText;
     public TextMeshProUGUI debugText;
     public TextMeshProUGUI requestText;
     public Transform wireSpaceObj; // ตัวเก็บสายไฟ (ลูกๆ)
 
+    [Header("End game bool")]
+    public bool endCircuitGame = false;
 
     private int score;
 
@@ -27,23 +34,22 @@ public class CircuitManager : MonoBehaviour
         StartCircuitgame();
     }
 
-    // --- 🦋 Hu Tao บอกว่า: เอา Distinct ออกจาก Update ไปเลยนะจ๊ะ! 🦋 ---
-    void Update()
-    {
 
-    }
 
 
     public void StartCircuitgame()
     {
         if (requestText != null)
         {
+            scoreText.text = "Score : " + score;
             RandomDeviceType();
             requestText.text = $"i want to connect {batteryDevice} through {controlDevice} and then {outputDevice}";
 
             requestDevice.Add(batteryDevice);
             requestDevice.Add(controlDevice);
             requestDevice.Add(outputDevice);
+
+            debugText.text = "None";
         }
     }
 
@@ -58,11 +64,17 @@ public class CircuitManager : MonoBehaviour
 
     public void checkResult()
     {
+        if (endCircuitGame) return;
+        Debug.Log("checked");
         for (int i = 0; i < 3; i++)
         {
-            if (requestDevice[i] == remainDevice[i])//e
+            if (i > remainDevice.Count - 1 || i > requestDevice.Count - 1)
             {
-                Debug.Log("+1");
+                Debug.Log("more");
+                return;
+            }
+            else if (requestDevice[i] == remainDevice[i])//e
+            {
                 score += 10;
             }
             else
@@ -71,7 +83,8 @@ public class CircuitManager : MonoBehaviour
             }
         }
 
-        Debug.Log(score);
+        scoreText.text = "Score : " + score;
+        endCircuitGame = true;
     }
 
     public void RefreshRemainDevice()
@@ -132,15 +145,11 @@ public class CircuitManager : MonoBehaviour
         }
     }
 
-    // ฟังก์ชันสำหรับปุ่ม Undo ในเกม
-    public void removeDevice()
-    {
-        // แค่สั่ง Undo สายไฟ แล้วระบบ Refresh จะจัดการที่เหลือเองจ้ะ!
-        UndoLastWire();
-    }
-
     public void UndoLastWire()
     {
+        if (endCircuitGame) return;
+        Debug.Log("undo");
+
         int childCount = wireSpaceObj.childCount;
         if (childCount > 0)
         {

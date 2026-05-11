@@ -106,7 +106,7 @@ public class WireManager : MonoBehaviour
 
                 // 2. ลบชื่อออกจากบัญชีคนเป็น (List)
                 allWires.RemoveAt(lastIndex);
-                CircuitManager.Instance.removeDevice();
+                CircuitManager.Instance.UndoLastWire();
             }
         }
 
@@ -133,28 +133,5 @@ public class WireManager : MonoBehaviour
         wireRect.sizeDelta = new Vector2(finalLength, wireRect.sizeDelta.y);
 
         //Debug.Log("Snap to Node: " + targetNode.name);
-    }
-
-    public void UndoLastAction()
-    {
-        if (allWires.Count > 0)
-        {
-            int lastIndex = allWires.Count - 1;
-
-            // 1. ทำลายตัวตนในโลกความเป็นจริง
-            if (allWires[lastIndex] != null)
-            {
-                Destroy(allWires[lastIndex]);
-            }
-
-            // 2. ลบชื่อออกจากบัญชีคนเป็น (List)
-            allWires.RemoveAt(lastIndex);
-            CircuitManager.Instance.removeDevice();
-        }
-
-        foreach (Transform child in wireSpaceObj)
-        {
-            Debug.Log(child.GetComponent<ConnectionInfo>().firstDevice + " : " + child.GetComponent<ConnectionInfo>().secondDevice);
-        }
     }
 }

@@ -23,22 +23,29 @@ public class WirePort : MonoBehaviour
         rend = GetComponent<Renderer>();
         if (rend != null)
         {
+            // สร้างสีเริ่มต้นแบบโปร่งแสง (ค่า A คือความใส 0.0 - 1.0)
+            // สมมติให้ตอนแรกใสมากๆ (0.2f)
+            normalColor.a = 0.1f;
+
+            // อย่าลืมปรับสี Hover และ Dragging ให้มีความใสตามที่ต้องการด้วยนะจ๊ะ
+            hoverColor.a = 0.8f;
+            draggingColor.a = 1.0f;
+
             rend.material.color = normalColor;
             originalColor = normalColor;
         }
     }
-
     void OnMouseDown()
     {
         // เริ่ม drag จาก port นี้
         WireConnector.Instance.StartDragging(this);
-        if (rend != null) rend.material.color = draggingColor;
+        if (rend != null) rend.material.color = normalColor;
     }
 
     void OnMouseEnter()
     {
         isHovered = true;
-        if (rend != null) rend.material.color = hoverColor;
+        if (rend != null) rend.material.color = normalColor;
     }
 
     void OnMouseExit()
