@@ -23,6 +23,7 @@ public class PaySystem_Scene2 : MonoBehaviour
 
     public void playerPayMoney()
     {
+        /*
         if (PlayerDataManager.Instance.money >= price)
         {
             PlayerDataManager.Instance.money -= price;
@@ -32,6 +33,13 @@ public class PaySystem_Scene2 : MonoBehaviour
 
             // 2. เริ่มกระบวนการจอดำและเปลี่ยนฉากe
             winScript.PlayerPassScene();
+        }
+        */
+
+        if (PlayerMoneyTest_Scene2.Instance.playerMoney >= price)
+        {
+            PlayerMoneyTest_Scene2.Instance.playerMoney -= price;
+            payButton.interactable = false;
         }
     }
     public void ExitPayUi()

@@ -57,9 +57,7 @@ public class FreelanceHubManager : MonoBehaviour
             if (gameType == target)
             {
                 outData = child.gameObject.GetComponent<QuestItemSlot>().currentData;
-                Debug.Log("Done send Data");
             }
-            //Debug.Log(gameType + " : " + target);
         }
     }
     public void RemoveQuest(GameType target)

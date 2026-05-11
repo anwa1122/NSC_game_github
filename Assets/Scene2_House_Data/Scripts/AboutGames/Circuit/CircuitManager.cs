@@ -9,21 +9,30 @@ public class CircuitManager : MonoBehaviour
 {
     public static CircuitManager Instance;
 
+    [Header("QuestName")]
+    public GameType questType;
+
+    [Header("Other")]
+    public int componentCount;
+
     [Header("Get Device (Blanked Only)")]
     public List<DeviceType> remainDevice; // ลำดับอุปกรณ์ปัจจุบันที่จะโชว์บนหน้าจอ
     public List<DeviceType> requestDevice;
 
     [Header("Ui management")]
+    public GameObject circuitGamePanel;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI debugText;
     public TextMeshProUGUI requestText;
     public Transform wireSpaceObj; // ตัวเก็บสายไฟ (ลูกๆ)
 
     [Header("End game bool")]
-    public bool endCircuitGame = false;
+    public bool completeCircuitGame = false;
 
+    private bool addMoney = false;
     private int score;
 
+    private QuestData thisQuestData = null;
     private DeviceType batteryDevice;
     private DeviceType controlDevice;
     private DeviceType outputDevice;
@@ -56,21 +65,17 @@ public class CircuitManager : MonoBehaviour
     public void RandomDeviceType()
     {
         batteryDevice = DataType.GetRandomDeviceByClass(DeviceClass.Battery);
-        Debug.Log(batteryDevice);
-
         controlDevice = DataType.GetRandomDeviceByClass(DeviceClass.Controller);
         outputDevice = DataType.GetRandomDeviceByClass(DeviceClass.Output);
     }
 
     public void checkResult()
     {
-        if (endCircuitGame) return;
-        Debug.Log("checked");
-        for (int i = 0; i < 3; i++)
+        if (completeCircuitGame) return;
+        for (int i = 0; i < componentCount; i++)
         {
-            if (i > remainDevice.Count - 1 || i > requestDevice.Count - 1)
+            if (3 > remainDevice.Count || componentCount > requestDevice.Count)
             {
-                Debug.Log("more");
                 return;
             }
             else if (requestDevice[i] == remainDevice[i])//e
@@ -84,7 +89,7 @@ public class CircuitManager : MonoBehaviour
         }
 
         scoreText.text = "Score : " + score;
-        endCircuitGame = true;
+        completeCircuitMinigame();
     }
 
     public void RefreshRemainDevice()
@@ -147,8 +152,7 @@ public class CircuitManager : MonoBehaviour
 
     public void UndoLastWire()
     {
-        if (endCircuitGame) return;
-        Debug.Log("undo");
+        if (completeCircuitGame) return;
 
         int childCount = wireSpaceObj.childCount;
         if (childCount > 0)
@@ -170,6 +174,27 @@ public class CircuitManager : MonoBehaviour
             // ถ้าสายไฟหมดแล้ว ก็ล้างลิสต์โชว์ให้ว่างเปล่า
             remainDevice.Clear();
             UpdateDisplayText();
+        }
+    }
+
+    public void ExitGame()
+    {
+        PC_SystemManager.Instance.ExitWindow(circuitGamePanel);
+    }
+
+    public void completeCircuitMinigame()
+    {
+        completeCircuitGame = true;
+
+        FreelanceHubManager.Instance.GetQuestData(questType, out thisQuestData);
+
+        if (!addMoney)
+        {
+            addMoney = true;
+            FreelanceHubManager.Instance.RemoveQuest(questType);
+            if (PlayerMoneyTest_Scene2.Instance == null) return;
+            PlayerMoneyTest_Scene2.Instance.AddMoney(score / 10 * thisQuestData.baseReward);
+
         }
     }
 }
