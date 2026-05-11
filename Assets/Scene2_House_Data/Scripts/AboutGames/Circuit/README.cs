@@ -1,16 +1,18 @@
-using UnityEngine;
+/*
+ตอนจะเพิ่มอันใหม่ ให้ใส DeviceData จะเป็นตัวเก็บข้อมูลว่า Device ตัวนี้ประเภทอะไรแล้ว Node มันคือไรบ้าง
 
-public class README : MonoBehaviour
-{
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+WireNode เอาไปใส่ที่ตัวจุดเอาไว้ลาก เลือกสีและก็ type ด้วย 
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-}
+WireManager จะควบคุมการลาก ร่วมกันกับ WireNode WireNode ทำหน้าที่เช็คว่ากดยัง
+
+DataType เก็ยค่าประเภทต่างๆ
+
+COnnectionInfo เอาไว้บอกว่าตอนนี้สายไฟอันนี้ลากจากอะไรไปไหน
+
+CircuitManager ตัวพ่อควบคุมตัวเกมทั้งการชนะ Undo Check
+
+
+
+
+
+*/

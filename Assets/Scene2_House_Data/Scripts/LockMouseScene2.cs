@@ -3,10 +3,13 @@ using System.Collections;
 
 public class LockMouseScene2 : MonoBehaviour
 {
+    public bool lockMouse = true;
     void Start()
     {
-        // สั่งให้เริ่มทำงานหลังจากรอ 0.1 วินาที
-        //StartCoroutine(LockCursorRoutine());
+        if (lockMouse)
+        {
+            StartCoroutine(LockCursorRoutine());
+        }
     }
 
     IEnumerator LockCursorRoutine()

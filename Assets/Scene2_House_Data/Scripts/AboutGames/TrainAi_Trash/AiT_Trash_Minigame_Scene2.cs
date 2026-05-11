@@ -159,21 +159,19 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
         }
     }
 
-    public void winAiTraining_TrashGame()
+    public void completeAiTraining_TrashGame()
     {
         playerWinTheGame = true;
         //FreelanceHubManager.Instance.RemoveQuest(questType);
         //ไปเอาค่า questBaseReward ด้วย
         FreelanceHubManager.Instance.GetQuestData(questType, out thisQuestData);
-        Debug.Log(thisQuestData);
 
         if (!addMoney)
         {
             addMoney = true;
             FreelanceHubManager.Instance.RemoveQuest(questType);
-            if (PlayerDataManager.Instance == null) return;
-            //PlayerDataManager.Instance.money += scorePoint / scoreRatio * thisQuestData.baseReward;
-
+            if (PlayerMoneyTest_Scene2.Instance == null) return;
+            PlayerMoneyTest_Scene2.Instance.AddMoney(score / 10 * thisQuestData.baseReward);
         }
     }
 
@@ -230,6 +228,6 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
         percent = (correctItem / allItemsCount) * 100;
         barText.text = "Done Accuracy : " + percent + "%";
 
-        winAiTraining_TrashGame();
+        completeAiTraining_TrashGame();
     }
 }

@@ -123,9 +123,8 @@ public class ProgrammingMinigame : MonoBehaviour
         {
             addOneTime = true;
             FreelanceHubManager.Instance.RemoveQuest(questType);
-            if (PlayerDataManager.Instance == null) return;
-            PlayerDataManager.Instance.money += scorePoint / scoreRatio * thisQuestData.baseReward;
-
+            if (PlayerMoneyTest_Scene2.Instance == null) return;
+            PlayerMoneyTest_Scene2.Instance.AddMoney(scorePoint / scoreRatio * thisQuestData.baseReward);
         }
     }
 
