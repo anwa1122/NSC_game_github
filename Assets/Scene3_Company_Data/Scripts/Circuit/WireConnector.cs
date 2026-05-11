@@ -6,8 +6,12 @@ public class WireConnector : MonoBehaviour
 {
     public static WireConnector Instance;
 
+    [Header("=== โหมดการแสดงผล ===")]
+    public bool useObjectInsteadOfLine = false; // ✅ เปิดเพื่อใช้โมเดล 3D แทน LineRenderer
+    public GameObject wirePrefab; // ลาก Cylinder หรือโมเดลที่ต้องการใส่ตรงนี้
+
     [Header("=== สไตล์เส้น ===")]
-    public WireStyle wireStyle = WireStyle.LShape;   // รูปแบบการหักมุม
+    public WireStyle wireStyle = WireStyle.Straight;   // รูปแบบการหักมุม (ใช้ได้เฉพาะ LineRenderer)
 
     [Header("=== ขนาดและสี ===")]
     public float wireWidth = 0.05f;               // ความหนาของเส้น
@@ -25,6 +29,7 @@ public class WireConnector : MonoBehaviour
 
     // ---- private ----
     private LineRenderer previewLine;
+    private GameObject previewWireObject; // โมเดลตอนลาก
     private List<WireConnection> connections = new List<WireConnection>();
     private WirePort draggingFrom = null;
     private bool isDragging = false;
@@ -56,7 +61,16 @@ public class WireConnector : MonoBehaviour
         if (plane.Raycast(ray, out float dist))
         {
             Vector3 mouseWorld = ray.GetPoint(dist);
-            DrawWire(previewLine, draggingFrom.transform.position, mouseWorld);
+
+            // เลือกแสดงผลตามโหมด
+            if (useObjectInsteadOfLine && previewWireObject != null)
+            {
+                UpdateWireObject(previewWireObject, draggingFrom.transform.position, mouseWorld);
+            }
+            else
+            {
+                DrawWire(previewLine, draggingFrom.transform.position, mouseWorld);
+            }
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -70,7 +84,19 @@ public class WireConnector : MonoBehaviour
     {
         draggingFrom = fromPort;
         isDragging = true;
-        previewLine.enabled = true;
+
+        if (useObjectInsteadOfLine && wirePrefab != null)
+        {
+            // สร้างโมเดล preview
+            previewWireObject = Instantiate(wirePrefab);
+            previewWireObject.name = "PreviewWire";
+            SetObjectColor(previewWireObject, previewColor);
+        }
+        else
+        {
+            // ใช้ LineRenderer แบบเดิม
+            previewLine.enabled = true;
+        }
     }
 
     void TryConnectToPort()
@@ -91,6 +117,14 @@ public class WireConnector : MonoBehaviour
     {
         isDragging = false;
         draggingFrom = null;
+
+        // ลบโมเดล preview
+        if (previewWireObject != null)
+        {
+            Destroy(previewWireObject);
+            previewWireObject = null;
+        }
+
         previewLine.enabled = false;
     }
 
@@ -99,23 +133,110 @@ public class WireConnector : MonoBehaviour
         foreach (var c in connections)
             if ((c.from == from && c.to == to) || (c.from == to && c.to == from)) return;
 
-        GameObject wireObj = new GameObject($"Wire_{from.name}_{to.name}");
-        LineRenderer lr = wireObj.AddComponent<LineRenderer>();
-        SetupLineRenderer(lr, wireColor);
-        DrawWire(lr, from.transform.position, to.transform.position);
+        if (useObjectInsteadOfLine && wirePrefab != null)
+        {
+            // ใช้โมเดล 3D
+            GameObject wireObj = Instantiate(wirePrefab);
+            wireObj.name = $"Wire_{from.name}_{to.name}";
+            UpdateWireObject(wireObj, from.transform.position, to.transform.position);
+            SetObjectColor(wireObj, wireColor);
 
-        connections.Add(new WireConnection { from = from, to = to, lineRenderer = lr });
+            connections.Add(new WireConnection
+            {
+                from = from,
+                to = to,
+                wireObject = wireObj
+            });
+        }
+        else
+        {
+            // ใช้ LineRenderer แบบเดิม
+            GameObject wireObj = new GameObject($"Wire_{from.name}_{to.name}");
+            LineRenderer lr = wireObj.AddComponent<LineRenderer>();
+            SetupLineRenderer(lr, wireColor);
+            DrawWire(lr, from.transform.position, to.transform.position);
+
+            connections.Add(new WireConnection
+            {
+                from = from,
+                to = to,
+                lineRenderer = lr
+            });
+        }
+
         Debug.Log($"[Wire] {from.name} → {to.name}");
     }
 
     public void RemoveAllConnections()
     {
         foreach (var c in connections)
+        {
             if (c.lineRenderer != null) Destroy(c.lineRenderer.gameObject);
+            if (c.wireObject != null) Destroy(c.wireObject);
+        }
         connections.Clear();
     }
 
-    // ---- วาดเส้นตามสไตล์ที่เลือก ----
+    // ---- อัปเดตตำแหน่งและขนาดของโมเดล 3D ----
+    // ---- อัปเดตตำแหน่งและขนาดของโมเดล 3D ----
+    // ---- อัปเดตตำแหน่งและขนาดของโมเดล 3D ----
+    // ---- อัปเดตตำแหน่งและขนาดของโมเดล 3D ----
+    void UpdateWireObject(GameObject obj, Vector3 start, Vector3 end)
+    {
+        float distance = Vector3.Distance(start, end);
+        Vector3 direction = (end - start).normalized;
+
+        // วางที่จุดเริ่มต้น
+        obj.transform.position = start;
+
+        // หมุนให้ชี้ไปหาจุดปลายทาง
+        obj.transform.rotation = Quaternion.LookRotation(direction);
+
+        // ===== ลองวิธีนี้ก่อน (แกนยาว = X) =====
+        obj.transform.localScale = new Vector3(
+            distance,         // ความยาว X
+            wireWidth * 10f,  // ความหนา Y
+            wireWidth * 10f   // ความหนา Z
+        );
+
+        // ถ้าไม่ได้ ลบ 4 บรรทัดบนแล้วลองนี้แทน:
+
+        // ===== วิธีที่ 2: แกนยาว = Y =====
+        /*
+        obj.transform.localScale = new Vector3(
+            wireWidth * 10f,  // ความหนา X
+            distance,         // ความยาว Y
+            wireWidth * 10f   // ความหนา Z
+        );
+        obj.transform.Rotate(0f, 90f, 0f); // หมุนเพิ่มถ้าทิศทางไม่ตรง
+        */
+
+        // ===== วิธีที่ 3: แกนยาว = Z =====
+        /*
+        obj.transform.localScale = new Vector3(
+            wireWidth * 10f,  // ความหนา X
+            wireWidth * 10f,  // ความหนา Y
+            distance          // ความยาว Z
+        );
+        */
+
+        // ถ้า Pivot อยู่ตรงกลาง ให้เลื่อนไปครึ่งทาง
+        obj.transform.position = start + direction * (distance / 2f);
+    }
+
+    // ---- ตั้งค่าสีให้โมเดล ----
+    void SetObjectColor(GameObject obj, Color color)
+    {
+        Renderer rend = obj.GetComponent<Renderer>();
+        if (rend != null)
+        {
+            // สร้าง Material ใหม่เพื่อไม่ให้กระทบ Prefab เดิม
+            rend.material = new Material(rend.material);
+            rend.material.color = color;
+        }
+    }
+
+    // ---- วาดเส้นตามสไตล์ที่เลือก (สำหรับ LineRenderer) ----
     void DrawWire(LineRenderer lr, Vector3 start, Vector3 end)
     {
         switch (wireStyle)
@@ -132,7 +253,6 @@ public class WireConnector : MonoBehaviour
     {
         float midX = Mathf.Lerp(s.x, e.x, bendPosition);
         Vector3 corner = new Vector3(midX, s.y, s.z + (e.z - s.z) * 0f);
-        // จุดหักมุม: ไปแกน X ก่อน แล้วหัก Z
         Vector3 mid = new Vector3(midX, s.y, e.z);
         SetPoints(lr, s, mid, e);
     }
@@ -194,4 +314,5 @@ public class WireConnection
     public WirePort from;
     public WirePort to;
     public LineRenderer lineRenderer;
+    public GameObject wireObject; // เพิ่มตัวนี้เพื่อเก็บโมเดล 3D
 }
