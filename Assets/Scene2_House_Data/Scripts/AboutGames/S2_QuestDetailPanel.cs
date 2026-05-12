@@ -4,9 +4,9 @@ using TMPro;
 using NUnit.Framework;
 using Unity.VisualScripting;
 using System.Collections.Generic;
-public class QuestDetailPanel : MonoBehaviour
+public class S2_QuestDetailPanel : MonoBehaviour
 {
-    public static QuestDetailPanel Instance; //ถูกเรียกใช้ที่ QuestItemSlot
+    public static S2_QuestDetailPanel Instance; //ถูกเรียกใช้ที่ QuestItemSlot
 
     [Header("UI Elements")]
     public TextMeshProUGUI titleText;
@@ -27,7 +27,7 @@ public class QuestDetailPanel : MonoBehaviour
     private bool doneHide = false;
 
     private RectTransform rect;
-    private QuestData currentLoadedData;
+    private S2_QuestData currentLoadedData;
 
     [UnitHeaderInspectable("UI Minigames")]
     public List<GameObject> allMinigames;
@@ -60,7 +60,7 @@ public class QuestDetailPanel : MonoBehaviour
         }
     }
 
-    public void DisplayQuest(QuestData data, bool isRare)
+    public void DisplayQuest(S2_QuestData data, bool isRare)
     {
         currentLoadedData = data;
 
@@ -98,16 +98,17 @@ public class QuestDetailPanel : MonoBehaviour
             //Debug.Log("ประเภทเกมคือ: " + currentLoadedData.type);
 
             isShow = false; // ปิดหน้าต่าง Detail ลงไปก่อนe
-            PC_SystemManager.Instance.CloseAllWindows();
+            S2_PC_SystemManager.Instance.CloseAllWindows();
         }
         foreach (GameObject minigame in allMinigames)
         {
             foreach (Transform gameObj in minigame.transform)
             {
+                Debug.Log(gameObj.name + " : " + currentLoadedData.name);
                 if (gameObj.name == currentLoadedData.name)
                 {
                     //minigame.SetActive(true);
-                    PC_SystemManager.Instance.EnterWindow(minigame);
+                    S2_PC_SystemManager.Instance.EnterWindow(minigame);
                     sendQuestRare = isQuestRare;
                     break;
                 }

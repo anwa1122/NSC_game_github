@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 // สคริปต์นี้ไม่ต้องมี MonoBehaviour
-public enum DeviceType
+public enum S2_DeviceType
 {
     None,
     Battery_3V,
@@ -14,59 +14,59 @@ public enum DeviceType
     Servo
 }
 
-public enum DeviceClass
+public enum S2_DeviceClass
 {
     Battery,
     Controller,
     Output
 }
 
-public enum NodeClass
+public enum S2_NodeClass
 {
     Send,
     Get
 }
 
-public enum NodeType
+public enum S2_NodeType
 {
     Red, // ขั้วบวก (แดง)
     Black, // ขั้วลบ (ดำ)
     Signal    // สายสัญญาณ (เหลือง)
 }
 
-public class DataType : MonoBehaviour
+public class S2_DataType : MonoBehaviour
 {
-    public static DeviceClass GetDeviceClass(DeviceType type)
+    public static S2_DeviceClass GetDeviceClass(S2_DeviceType type)
     {
         switch (type)
         {
-            case DeviceType.Battery_3V:
-            case DeviceType.Battery_9V:
-            case DeviceType.Battery_12V:
-                return DeviceClass.Battery;
+            case S2_DeviceType.Battery_3V:
+            case S2_DeviceType.Battery_9V:
+            case S2_DeviceType.Battery_12V:
+                return S2_DeviceClass.Battery;
 
-            case DeviceType.Switch:
-                return DeviceClass.Controller;
+            case S2_DeviceType.Switch:
+                return S2_DeviceClass.Controller;
 
-            case DeviceType.LED:
-            case DeviceType.Motor:
-            case DeviceType.Servo:
-                return DeviceClass.Output;
+            case S2_DeviceType.LED:
+            case S2_DeviceType.Motor:
+            case S2_DeviceType.Servo:
+                return S2_DeviceClass.Output;
 
             default:
-                return DeviceClass.Controller;
+                return S2_DeviceClass.Controller;
         }
     }
 
-    public static DeviceType GetRandomDeviceByClass(DeviceClass targetClass)
+    public static S2_DeviceType GetRandomDeviceByClass(S2_DeviceClass targetClass)
     {
         // 1. สร้างลิสต์ชั่วคราวเพื่อเก็บอุปกรณ์ที่อยู่ในกลุ่มที่ต้องการ
-        List<DeviceType> candidates = new List<DeviceType>();
+        List<S2_DeviceType> candidates = new List<S2_DeviceType>();
 
         // 2. วนลูปหาว่า DeviceType ไหนบ้างที่ตรงกับกลุ่มที่เราอยากได้
-        foreach (DeviceType type in System.Enum.GetValues(typeof(DeviceType)))
+        foreach (S2_DeviceType type in System.Enum.GetValues(typeof(S2_DeviceType)))
         {
-            if (type == DeviceType.None) continue; // ข้าม None ไปจ้ะ
+            if (type == S2_DeviceType.None) continue; // ข้าม None ไปจ้ะ
 
             // ใช้ฟังก์ชันแยกประเภทที่เราเขียนไว้ก่อนหน้ามาช่วยเช็ค
             if (GetDeviceClass(type) == targetClass)
@@ -82,6 +82,6 @@ public class DataType : MonoBehaviour
             return candidates[randomIndex];
         }
 
-        return DeviceType.None; // ถ้าไม่เจอใครเลย
+        return S2_DeviceType.None; // ถ้าไม่เจอใครเลย
     }
 }

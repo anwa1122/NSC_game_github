@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public enum GameType { AiTraining_Trash, Circuit, Programming }
+public enum S2_GameType { AiTraining_Trash, Circuit, Programming }
 
 [CreateAssetMenu(fileName = "NewQuest", menuName = "freeLanceBilly/QuestData")]
-public class QuestData : ScriptableObject
+public class S2_QuestData : ScriptableObject
 {
     public string questName; // ชื่อเควส
 
@@ -15,7 +15,7 @@ public class QuestData : ScriptableObject
     public Sprite questImage; // รูปร่างเควส
 
 
-    public GameType type;        // ประเภทมินิเกมที่จะเล่น
+    public S2_GameType type;        // ประเภทมินิเกมที่จะเล่น
 
     [Header("Settings")]
     public bool isRare = false;  // เควสหายาก (ขอบรุ้ง)

@@ -3,9 +3,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-public class DraggableTrash_Scene2 : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class S2_DraggableTrash : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public TrashData_Scene2 itemData;
+    public S2_TrashData itemData;
     private Image displayImage;
 
     private Vector3 startPosition;
@@ -112,7 +112,7 @@ public class DraggableTrash_Scene2 : MonoBehaviour, IBeginDragHandler, IDragHand
         return null;
     }
 
-    public void SetupItem(TrashData_Scene2 data)
+    public void SetupItem(S2_TrashData data)
     {
         displayImage = GetComponent<Image>();
         itemData = data;

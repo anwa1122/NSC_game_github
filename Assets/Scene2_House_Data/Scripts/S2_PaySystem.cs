@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement; // เพิ่มอันนี้มาเพื่อเปลี่ยนฉาก
 using System.Collections; // เพิ่มอันนี้มาเพื่อใช้ Coroutine
 
-public class PaySystem_Scene2 : MonoBehaviour
+public class S2_PaySystem : MonoBehaviour
 {
     [Header("UI Elements")]
     public GameObject payListPanel;
@@ -14,7 +14,7 @@ public class PaySystem_Scene2 : MonoBehaviour
     [Header("Other settings")]
     public float price;
     [Header("Win the game script")]
-    public WinTheGameScript winScript;
+    public S2_WinTheGameScript winScript;
 
     void OnEnable()
     {
@@ -36,14 +36,14 @@ public class PaySystem_Scene2 : MonoBehaviour
         }
         */
 
-        if (PlayerMoneyTest_Scene2.Instance.playerMoney >= price)
+        if (S2_PlayerMoneyTest.Instance.playerMoney >= price)
         {
-            PlayerMoneyTest_Scene2.Instance.playerMoney -= price;
+            S2_PlayerMoneyTest.Instance.playerMoney -= price;
             payButton.interactable = false;
         }
     }
     public void ExitPayUi()
     {
-        PC_SystemManager.Instance.ExitWindow(payListPanel);
+        S2_PC_SystemManager.Instance.ExitWindow(payListPanel);
     }
 }

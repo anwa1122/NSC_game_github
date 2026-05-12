@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class WinTheGameScript : MonoBehaviour
+public class S2_WinTheGameScript : MonoBehaviour
 {
     [Header("Ui and Scene")]
     public CanvasGroup fadePanel;

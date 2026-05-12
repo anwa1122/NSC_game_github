@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-public class ErrorBlock  : MonoBehaviour
+public class S2_ErrorBlock : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 50f;      // ความเร็วในการเคลื่อนที่
@@ -15,7 +15,7 @@ public class ErrorBlock  : MonoBehaviour
     {
         rectTransform = GetComponent<RectTransform>();
         startPosition = rectTransform.anchoredPosition;
-        
+
         // สุ่มจุดหมายแรกทันทีที่เริ่มเกม
         SetNewRandomTarget();
     }
@@ -35,8 +35,8 @@ public class ErrorBlock  : MonoBehaviour
     {
         // คำนวณการเคลื่อนที่ให้นุ่มนวลด้วย MoveTowards
         rectTransform.anchoredPosition = Vector2.MoveTowards(
-            rectTransform.anchoredPosition, 
-            targetPosition, 
+            rectTransform.anchoredPosition,
+            targetPosition,
             moveSpeed * Time.deltaTime
         );
     }
@@ -46,7 +46,7 @@ public class ErrorBlock  : MonoBehaviour
         // สุ่มตำแหน่งใหม่ภายในรัศมีรอบๆ จุดเริ่มต้น
         float randomX = Random.Range(-wanderRadius, wanderRadius);
         float randomY = Random.Range(-wanderRadius, wanderRadius);
-        
+
         targetPosition = startPosition + new Vector2(randomX, randomY);
     }
 
@@ -67,9 +67,9 @@ public class ErrorBlock  : MonoBehaviour
         // 3. ล็อคไม่ให้ขยับ (ปิดการทำงานของสคริปต์นี้)
         // เมื่อเราปิด enabled = false ฟังก์ชัน Update() จะหยุดทำงานทันที
         this.enabled = false;
-    
+
         Debug.Log(gameObject.name + " has been locked and moved to top!");
-    }   
+    }
 
     public void UnLock()
     {

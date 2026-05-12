@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WireManager : MonoBehaviour
+public class S2_WireManager : MonoBehaviour
 {
     [Header("Settings")]
     public GameObject wirePrefab;
@@ -27,7 +27,7 @@ public class WireManager : MonoBehaviour
         // สร้างสายไฟไว้ภายใต้ Parent เดียวกับ Node เพื่อให้ Layer ถูกต้อง
         currentWire = Instantiate(wirePrefab, wireSpace);
 
-        currentWire.AddComponent<ConnectionInfo>();
+        currentWire.AddComponent<S2_ConnectionInfo>();
 
         allWires.Add(currentWire);
 
@@ -35,14 +35,14 @@ public class WireManager : MonoBehaviour
 
         // --- เพิ่มตรงนี้ครับ ---
         // 1. ดึงข้อมูลสีจาก Node ที่เราคลิก (ใช้ NodeInfo ที่เราทำไว้ก่อนหน้า)
-        WireNode info = node.GetComponent<WireNode>();
+        S2_WireNode info = node.GetComponent<S2_WireNode>();
         Image wireImage = currentWire.GetComponent<Image>();
 
         if (info != null && wireImage != null)
         {
             // 2. เปลี่ยนสี Image ของสายไฟให้ตรงกับประเภท Node
-            if (info.nodeType == NodeType.Red) wireImage.color = Color.red;
-            else if (info.nodeType == NodeType.Black) wireImage.color = Color.black;
+            if (info.nodeType == S2_NodeType.Red) wireImage.color = Color.red;
+            else if (info.nodeType == S2_NodeType.Black) wireImage.color = Color.black;
             else wireImage.color = Color.white; // สี default
         }
         // -----------------------
@@ -106,7 +106,7 @@ public class WireManager : MonoBehaviour
 
                 // 2. ลบชื่อออกจากบัญชีคนเป็น (List)
                 allWires.RemoveAt(lastIndex);
-                CircuitManager.Instance.UndoLastWire();
+                S2_CircuitManager.Instance.UndoLastWire();
             }
         }
 

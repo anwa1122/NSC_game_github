@@ -6,10 +6,10 @@ using Unity.VisualScripting;
 using UnityEngine.UI;
 using UnityEditor.UI;
 
-public class ProgrammingMinigame : MonoBehaviour
+public class S2_ProgrammingMinigame : MonoBehaviour
 {
     [Header("QuestName")]
-    public GameType questType;
+    public S2_GameType questType;
 
     [Header("About Spawning")]
     public RectTransform leftUpperLimit;
@@ -28,13 +28,13 @@ public class ProgrammingMinigame : MonoBehaviour
     [Header("Winning bool")]
     public bool playerWinTheGame = false;
 
-    private QuestData thisQuestData = null;
+    private S2_QuestData thisQuestData = null;
     private float scorePoint = 0f;
     private bool addOneTime = false;
     private bool lockedWord;
     private string errorWord;
-    private ErrorBlock erBlock;
-    private ErrorBlock erBlock2;
+    private S2_ErrorBlock erBlock;
+    private S2_ErrorBlock erBlock2;
 
     void OnEnable()
     {
@@ -74,8 +74,8 @@ public class ProgrammingMinigame : MonoBehaviour
                 TextMeshProUGUI tmpro = child.GetComponentInChildren<TextMeshProUGUI>(); //ไปเอาคำมา
                 if (tmpro.text.StartsWith(lastChar))  //ถ้าลูกตัวนั้น คำมันขึ้นต้นด้วย คำหลังสุดที่ Player พิมพ์มา เงื่อนไข = true
                 {
-                    erBlock = child.GetComponentInChildren<ErrorBlock>(); //ไปบอกโค้ดล๊อค
-                    erBlock2 = child.GetComponentInChildren<ErrorBlock>();
+                    erBlock = child.GetComponentInChildren<S2_ErrorBlock>(); //ไปบอกโค้ดล๊อค
+                    erBlock2 = child.GetComponentInChildren<S2_ErrorBlock>();
                     erBlock.LockAndMoveToTop(); //ให้อยู่บนสุดหน้า ui เพื่อที่มมันจะได้ไม่ซ้อนอันอื่น
                     lockedWord = true;
                     errorWord = tmpro.text;
@@ -116,21 +116,21 @@ public class ProgrammingMinigame : MonoBehaviour
         playerWinTheGame = true;
         //FreelanceHubManager.Instance.RemoveQuest(questType);
         //ไปเอาค่า questBaseReward ด้วย
-        FreelanceHubManager.Instance.GetQuestData(questType, out thisQuestData);
+        S2_FreelanceHubManager.Instance.GetQuestData(questType, out thisQuestData);
         Debug.Log("Got quest data : " + thisQuestData);
 
         if (!addOneTime)
         {
             addOneTime = true;
-            FreelanceHubManager.Instance.RemoveQuest(questType);
-            if (PlayerMoneyTest_Scene2.Instance == null) return;
-            PlayerMoneyTest_Scene2.Instance.AddMoney(scorePoint / scoreRatio * thisQuestData.baseReward);
+            S2_FreelanceHubManager.Instance.RemoveQuest(questType);
+            if (S2_PlayerMoneyTest.Instance == null) return;
+            S2_PlayerMoneyTest.Instance.AddMoney(scorePoint / scoreRatio * thisQuestData.baseReward);
         }
     }
 
     public void ExitGame()
     {
-        PC_SystemManager.Instance.ExitWindow(programmingPanel);
+        S2_PC_SystemManager.Instance.ExitWindow(programmingPanel);
     }
 
     void SpawnObject()

@@ -5,19 +5,19 @@ using TMPro;
 using System.Linq;
 using UnityEditor.PackageManager.Requests;
 
-public class CircuitManager : MonoBehaviour
+public class S2_CircuitManager : MonoBehaviour
 {
-    public static CircuitManager Instance;
+    public static S2_CircuitManager Instance;
 
     [Header("QuestName")]
-    public GameType questType;
+    public S2_GameType questType;
 
     [Header("Other")]
     public int componentCount;
 
     [Header("Get Device (Blanked Only)")]
-    public List<DeviceType> remainDevice; // ลำดับอุปกรณ์ปัจจุบันที่จะโชว์บนหน้าจอ
-    public List<DeviceType> requestDevice;
+    public List<S2_DeviceType> remainDevice; // ลำดับอุปกรณ์ปัจจุบันที่จะโชว์บนหน้าจอ
+    public List<S2_DeviceType> requestDevice;
 
     [Header("Ui management")]
     public GameObject circuitGamePanel;
@@ -32,10 +32,10 @@ public class CircuitManager : MonoBehaviour
     private bool addMoney = false;
     private int score;
 
-    private QuestData thisQuestData = null;
-    private DeviceType batteryDevice;
-    private DeviceType controlDevice;
-    private DeviceType outputDevice;
+    private S2_QuestData thisQuestData = null;
+    private S2_DeviceType batteryDevice;
+    private S2_DeviceType controlDevice;
+    private S2_DeviceType outputDevice;
 
     void Awake()
     {
@@ -64,9 +64,9 @@ public class CircuitManager : MonoBehaviour
 
     public void RandomDeviceType()
     {
-        batteryDevice = DataType.GetRandomDeviceByClass(DeviceClass.Battery);
-        controlDevice = DataType.GetRandomDeviceByClass(DeviceClass.Controller);
-        outputDevice = DataType.GetRandomDeviceByClass(DeviceClass.Output);
+        batteryDevice = S2_DataType.GetRandomDeviceByClass(S2_DeviceClass.Battery);
+        controlDevice = S2_DataType.GetRandomDeviceByClass(S2_DeviceClass.Controller);
+        outputDevice = S2_DataType.GetRandomDeviceByClass(S2_DeviceClass.Output);
     }
 
     public void checkResult()
@@ -101,7 +101,7 @@ public class CircuitManager : MonoBehaviour
 
         foreach (Transform child in wireSpaceObj)
         {
-            ConnectionInfo info = child.GetComponent<ConnectionInfo>();
+            S2_ConnectionInfo info = child.GetComponent<S2_ConnectionInfo>();
             if (info == null) continue;
 
             // สร้าง ID พิเศษเพื่อเช็คคู่ เช่น "Battery_3V-Switch"
@@ -111,7 +111,7 @@ public class CircuitManager : MonoBehaviour
             bool hasPartner = false;
             foreach (Transform otherChild in wireSpaceObj)
             {
-                ConnectionInfo otherInfo = otherChild.GetComponent<ConnectionInfo>();
+                S2_ConnectionInfo otherInfo = otherChild.GetComponent<S2_ConnectionInfo>();
                 if (otherInfo != null && otherChild != child) // ไม่เช็คตัวเอง
                 {
                     // ถ้าเชื่อมอุปกรณ์เดียวกัน แต่อีกเส้นเป็นคนละสี (เช่น แดง กับ ดำ)
@@ -179,21 +179,21 @@ public class CircuitManager : MonoBehaviour
 
     public void ExitGame()
     {
-        PC_SystemManager.Instance.ExitWindow(circuitGamePanel);
+        S2_PC_SystemManager.Instance.ExitWindow(circuitGamePanel);
     }
 
     public void completeCircuitMinigame()
     {
         completeCircuitGame = true;
 
-        FreelanceHubManager.Instance.GetQuestData(questType, out thisQuestData);
+        S2_FreelanceHubManager.Instance.GetQuestData(questType, out thisQuestData);
 
         if (!addMoney)
         {
             addMoney = true;
-            FreelanceHubManager.Instance.RemoveQuest(questType);
-            if (PlayerMoneyTest_Scene2.Instance == null) return;
-            PlayerMoneyTest_Scene2.Instance.AddMoney(score / 10 * thisQuestData.baseReward);
+            S2_FreelanceHubManager.Instance.RemoveQuest(questType);
+            if (S2_PlayerMoneyTest.Instance == null) return;
+            S2_PlayerMoneyTest.Instance.AddMoney(score / 10 * thisQuestData.baseReward);
 
         }
     }

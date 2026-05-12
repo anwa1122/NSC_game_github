@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class LockMouseScene2 : MonoBehaviour
+public class S2_LockMouse : MonoBehaviour
 {
     public bool lockMouse = true;
     void Start()

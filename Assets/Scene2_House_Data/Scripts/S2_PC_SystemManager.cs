@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System; // ต้องมีอันนี้เพื่อใช้ List
 
 
-public class PC_SystemManager : MonoBehaviour
+public class S2_PC_SystemManager : MonoBehaviour
 {
     // เพิ่มแค่บรรทัดนี้เพื่อทำ Instance
-    public static PC_SystemManager Instance;   //PAY System |||| FreelanceHubManager
+    public static S2_PC_SystemManager Instance;   //PAY System |||| FreelanceHubManager
 
     [Header("Apps Windows")]
     public GameObject payWindow; // หน้าต่างจ่ายหนี้
@@ -53,7 +53,7 @@ public class PC_SystemManager : MonoBehaviour
             }
         }
 
-        
+
     }
 
     public void startFreeLanceWindow()
@@ -74,7 +74,7 @@ public class PC_SystemManager : MonoBehaviour
 
     public void EnterWindow(GameObject targetWindow)
     {
-        
+
         foreach (GameObject window in allWindows)
         {
             if (window != targetWindow)
@@ -82,8 +82,8 @@ public class PC_SystemManager : MonoBehaviour
                 window.SetActive(false);
             }
             else
-            {               
-                rect =   window.GetComponent<RectTransform>();
+            {
+                rect = window.GetComponent<RectTransform>();
                 showPosition = rect.anchoredPosition;
                 rect.anchoredPosition = hidePosition;
 
@@ -93,7 +93,7 @@ public class PC_SystemManager : MonoBehaviour
                 windowLists.Add(currentWindow);
 
                 firstWindow = windowLists[windowLists.Count - 1];
-                Debug.Log("firstwindow = "+firstWindow);
+                Debug.Log("firstwindow = " + firstWindow);
                 firstWindow.SetActive(true);
             }
         }
@@ -150,7 +150,7 @@ public class PC_SystemManager : MonoBehaviour
         // --- ส่วนที่แก้ไข ---
         gameObject.SetActive(false);             // ปิดหน้าต่างไปก่อน
         gameObject.transform.localScale = Vector3.one; // รีเซ็ตขนาดกลับมาเป็น 1 ทันที (เตรียมพร้อมสำหรับตอนเปิดครั้งหน้า)
-        
-        
+
+
     }
 }

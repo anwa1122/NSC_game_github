@@ -1,9 +1,9 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-public class PlayerMoneyTest_Scene2 : MonoBehaviour
+public class S2_PlayerMoneyTest : MonoBehaviour
 {
-    public static PlayerMoneyTest_Scene2 Instance;
+    public static S2_PlayerMoneyTest Instance;
     public TextMeshProUGUI playerMoneytext;
     public float playerMoney;
     void Start()

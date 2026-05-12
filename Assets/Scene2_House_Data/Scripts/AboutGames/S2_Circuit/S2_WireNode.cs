@@ -2,39 +2,39 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-public class WireNode : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
+public class S2_WireNode : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     [Header("Node Type")]
-    public NodeType nodeType;
-    public NodeClass nodeClass;
+    public S2_NodeType nodeType;
+    public S2_NodeClass nodeClass;
 
-    private WireManager wireManager;
+    private S2_WireManager wireManager;
 
     void Start()
     {
         // หา Manager ใน Scene
-        wireManager = Object.FindFirstObjectByType<WireManager>();
+        wireManager = Object.FindFirstObjectByType<S2_WireManager>();
 
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (nodeClass == NodeClass.Get) return;
+        if (nodeClass == S2_NodeClass.Get) return;
         // เริ่มลากเส้นจากโหนดนี้
         wireManager.BeginDragWire(GetComponent<RectTransform>(), eventData.position);
 
 
-        wireManager.currentWire.GetComponent<ConnectionInfo>().firstDevice = this.transform.parent.gameObject.GetComponent<DeviceData>().deviceType;
-        wireManager.currentWire.GetComponent<ConnectionInfo>().nodeType = nodeType;
+        wireManager.currentWire.GetComponent<S2_ConnectionInfo>().firstDevice = this.transform.parent.gameObject.GetComponent<S2_DeviceData>().deviceType;
+        wireManager.currentWire.GetComponent<S2_ConnectionInfo>().nodeType = nodeType;
         //Debug.Log(this.transform.parent.gameObject.GetComponent<DeviceData>().deviceType);
 
-        DeviceData device = transform.parent.GetComponent<DeviceData>();
+        S2_DeviceData device = transform.parent.GetComponent<S2_DeviceData>();
         //CircuitManager.Instance.addDevice(device.deviceType);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (nodeClass == NodeClass.Get) return;
+        if (nodeClass == S2_NodeClass.Get) return;
         // อัปเดตตำแหน่งเส้นตามเมาส์ขณะลาก
         wireManager.UpdateWirePosition(eventData.position);
     }
@@ -45,12 +45,12 @@ public class WireNode : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, results);
 
-        WireNode targetNode = null;
+        S2_WireNode targetNode = null;
 
         foreach (RaycastResult result in results)
         {
             // เช็คว่าสิ่งที่เจอมีสคริปต์ WireNode หรือไม่
-            WireNode node = result.gameObject.GetComponent<WireNode>();
+            S2_WireNode node = result.gameObject.GetComponent<S2_WireNode>();
 
             // เงื่อนไข: ต้องเป็น WireNode และ "ไม่ใช่ตัวมันเอง"
             if (node != null && node != this && node.nodeClass != this.nodeClass)
@@ -58,12 +58,12 @@ public class WireNode : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
                 targetNode = node;
                 // เข้าถึง GameObject ของพ่อ   /////เฮ้ targetNode! ช่วยไปดูที่ Transform ของ GameObject ที่เธอแปะอยู่ให้หน่อยสิ! //มองย้อนกลับไปหา "พ่อ" // ไปเอาพ่อมันมา
                 GameObject parentObj = targetNode.transform.parent.gameObject;
-                DeviceData device = parentObj.GetComponent<DeviceData>();
+                S2_DeviceData device = parentObj.GetComponent<S2_DeviceData>();
 
-                wireManager.currentWire.GetComponent<ConnectionInfo>().secondDevice = device.deviceType;
+                wireManager.currentWire.GetComponent<S2_ConnectionInfo>().secondDevice = device.deviceType;
                 //Debug.Log(device.deviceType);
 
-                CircuitManager.Instance.RefreshRemainDevice();
+                S2_CircuitManager.Instance.RefreshRemainDevice();
                 break; // เจอโหนดเป้าหมายแล้ว หยุดหาทันที
             }
         }

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // ประเภทย่อยของขยะ
-public enum TrashType_Scene2
+public enum S2_TrashType
 {
     None,
     Glass,   // 0
@@ -11,12 +11,12 @@ public enum TrashType_Scene2
 }
 
 [CreateAssetMenu(fileName = "New Item", menuName = "TrainAI/Item Data")]
-public class TrashData_Scene2 : ScriptableObject
+public class S2_TrashData : ScriptableObject
 {
     public string itemName;
 
     // แยกออกมาเป็น Dropdown ให้เลือกได้เลยใน Unity
-    public TrashType_Scene2 trashType;
+    public S2_TrashType trashType;
 
     public Sprite icon;
 }

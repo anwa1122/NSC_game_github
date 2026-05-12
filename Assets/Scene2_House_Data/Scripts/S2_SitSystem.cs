@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using System.Collections;
 
-public class SitSystem_Scene2 : MonoBehaviour
+public class S2_SitSystem : MonoBehaviour
 {
     [Header("AboutSit")]
     public GameObject E_toSitText;

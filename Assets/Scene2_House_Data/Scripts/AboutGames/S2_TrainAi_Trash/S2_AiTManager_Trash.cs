@@ -5,12 +5,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
+public class S2_AiTManager_Trash : MonoBehaviour
 {
-    public static AiT_Trash_Minigame_Scene2 Instance;
+    public static S2_AiTManager_Trash Instance;
 
     [Header("QuestName")]
-    public GameType questType;
+    public S2_GameType questType;
 
     [Header("Ui Settings")]
     public GameObject aiTrainingPanel;
@@ -21,7 +21,7 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
     public TextMeshProUGUI barText;
 
     [Header("Item Database")]
-    public List<TrashData_Scene2> allItems; // ลากไฟล์ ScriptableObject ที่สร้างไว้มาใส่ที่นี่ให้หมด
+    public List<S2_TrashData> allItems; // ลากไฟล์ ScriptableObject ที่สร้างไว้มาใส่ที่นี่ให้หมด
     public GameObject itemPrefab;    // ตัว Prefab ที่มี DraggableItem_Scene2 ติดอยู่
     public RectTransform spawnArea;  // จุดที่จะให้ไอเทมไปเกิด (เช่น UI Panel)
 
@@ -34,7 +34,7 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
     public bool thisGameStart = false;
     public bool playerWinTheGame = false;
 
-    private QuestData thisQuestData = null;
+    private S2_QuestData thisQuestData = null;
 
     private bool onTrainingAi = false;
     private bool gameAlreadyStart = false;
@@ -66,7 +66,7 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
         {
             thisGameStart = true;
 
-            thisRare = QuestDetailPanel.Instance.sendQuestRare;
+            thisRare = S2_QuestDetailPanel.Instance.sendQuestRare;
             if (thisRare)
             {
                 rarityText.text = "Rare";
@@ -92,13 +92,13 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
         {
             if (allItems.Count == 0) break; //ถ้าประเภทไอเทมไม่มีก้ไม่ต้องทำงานฟังชันนี้
 
-            TrashData_Scene2 randomData = allItems[Random.Range(0, allItems.Count)]; //ให้ randomData มีค่าเป็น ไอเทมที่สุ่มประเภทมา และจะสุ่มแต่ละ item ในลิสต์อีกเพื่อที่จะไปใส่ให้กับ randomData เพื่อที่จะเอาไปสร้างเป็นตัว gameobject
+            S2_TrashData randomData = allItems[Random.Range(0, allItems.Count)]; //ให้ randomData มีค่าเป็น ไอเทมที่สุ่มประเภทมา และจะสุ่มแต่ละ item ในลิสต์อีกเพื่อที่จะไปใส่ให้กับ randomData เพื่อที่จะเอาไปสร้างเป็นตัว gameobject
 
             Vector3 randomPos = GetRandomPosInArea();
             GameObject newItem = Instantiate(itemPrefab, spawnArea);  //สร้าง newItem มาใหม่โดยจะมีแม่แบบเป็น itemPrefab และตำแหน่งเกิดที่ spawnLocation
 
             newItem.transform.localPosition = GetRandomPosInArea();
-            if (newItem.TryGetComponent<DraggableTrash_Scene2>(out var draggable)) //จะไปเอา component ที่เป็นสคริปต์ DraggableItem_Scene2 ให้ออกมาเป็น ตัวแปร draggable
+            if (newItem.TryGetComponent<S2_DraggableTrash>(out var draggable)) //จะไปเอา component ที่เป็นสคริปต์ DraggableItem_Scene2 ให้ออกมาเป็น ตัวแปร draggable
             {
                 draggable.SetupItem(randomData); //ในตัว draggable นี้จะมีค่าเป็นตัวสคริปต์ DraggableItem ทำให้เรียกใช้ฟังชั่น Setup เรียกใช้แล้วก้ส่งข้อมูลออกไปเป็น randomData ก้คือ Item ที่เราสุ่มมาทั้งหมดแล้วแล้วให้มันไปแสดงผล ไปมีค่าในตัว Draggable เพื่อที่จะนำไปใช้ในการแยกประเภทต่อ
             }
@@ -126,8 +126,8 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
         {
             foreach (Transform child in slot)
             {
-                TrashData_Scene2 itemData = child.GetComponent<DraggableTrash_Scene2>().itemData;
-                TrashType_Scene2 trashSlotType = slot.GetComponent<TrashSlot_Scene2>().trashType;
+                S2_TrashData itemData = child.GetComponent<S2_DraggableTrash>().itemData;
+                S2_TrashType trashSlotType = slot.GetComponent<S2_TrashSlot>().trashType;
                 allItemsCount++;
                 if (itemData.trashType == trashSlotType)
                 {
@@ -155,7 +155,7 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
     {
         if (!onTrainingAi)
         {
-            PC_SystemManager.Instance.ExitWindow(aiTrainingPanel);
+            S2_PC_SystemManager.Instance.ExitWindow(aiTrainingPanel);
         }
     }
 
@@ -164,14 +164,14 @@ public class AiT_Trash_Minigame_Scene2 : MonoBehaviour
         playerWinTheGame = true;
         //FreelanceHubManager.Instance.RemoveQuest(questType);
         //ไปเอาค่า questBaseReward ด้วย
-        FreelanceHubManager.Instance.GetQuestData(questType, out thisQuestData);
+        S2_FreelanceHubManager.Instance.GetQuestData(questType, out thisQuestData);
 
         if (!addMoney)
         {
             addMoney = true;
-            FreelanceHubManager.Instance.RemoveQuest(questType);
-            if (PlayerMoneyTest_Scene2.Instance == null) return;
-            PlayerMoneyTest_Scene2.Instance.AddMoney(score / 10 * thisQuestData.baseReward);
+            S2_FreelanceHubManager.Instance.RemoveQuest(questType);
+            if (S2_PlayerMoneyTest.Instance == null) return;
+            S2_PlayerMoneyTest.Instance.AddMoney(score / 10 * thisQuestData.baseReward);
         }
     }
 
