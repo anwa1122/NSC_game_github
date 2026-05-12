@@ -5,15 +5,19 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 public class S2_FreelanceHubManager : MonoBehaviour
 {
+    public static S2_FreelanceHubManager Instance; // ประกาศตัวแปร Static
+
     [Header("Game Settings")]
     public GameObject freelancePanel;
     public GameObject slotPrefab; //Prefab ที่จะเป็นแม่แบบให้มินิเกมต่างๆ
     public Transform contentParent; //ตำแหน่งที่จะให้เควสไปอยุ่
     public List<S2_QuestData> allQuests; //List quest ที่เรามีทั้งหมดภายในเกม
     public float rarity = 20f;
+    public bool regenQuest = false;
 
 
-    public static S2_FreelanceHubManager Instance; // ประกาศตัวแปร Static
+    public int allQuestCount = 0;
+    public bool hideDetailPanel = false;
     private S2_QuestData data;
 
     void Awake()
@@ -25,6 +29,24 @@ public class S2_FreelanceHubManager : MonoBehaviour
     {
         GenerateQuestList(); //เรียกใช้ฟังชันตอนเริ่มเกมเลย
     }
+
+    void Update()
+    {
+        if (regenQuest)
+        {
+            GenerateQuestList();
+            regenQuest = false;
+        }
+
+        allQuestCount = contentParent.childCount;
+
+        if (allQuestCount <= 0 && !hideDetailPanel)
+        {
+            hideDetailPanel = true;
+            S2_QuestDetailPanel.Instance.ClosePanel();
+        }
+    }
+
     public void GenerateQuestList()
     {
         foreach (S2_QuestData data in allQuests) //เรียกแต่ละตัว สร้างตัวแปร data ที่เป็นประเภทสคริปต์ QuestData ที่เอามาจากภายในลิสต์ allQuests
@@ -38,7 +60,9 @@ public class S2_FreelanceHubManager : MonoBehaviour
             slotScript.Setup(data, isRare);
             //เรียกใช้ฟังชันใน slotScript ที่มี QuestItemSlot เป็น component ทำให้เรียกใช้ Setup ฟังชันได้ แล้วก้ใส่ตัวแปร data กับค่าความจริง isRare ที่สุ่มมา
             //โดยเอา data ไปเพื่อให้กำหนดว่ารูป และ ชื่อ หรือื่นๆมีค่าเป็นไปตาม data ที่เรียงมาในลิสต์e
+
         }
+        hideDetailPanel = false;
     }
 
     public void ExitFreeLanceHub()

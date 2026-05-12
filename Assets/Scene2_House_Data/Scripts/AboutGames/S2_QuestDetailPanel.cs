@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using System.Collections.Generic;
 public class S2_QuestDetailPanel : MonoBehaviour
 {
-    public static S2_QuestDetailPanel Instance; //ถูกเรียกใช้ที่ QuestItemSlot
+    public static S2_QuestDetailPanel Instance; //ถูกเรียกใช้ที่ QuestItemSlot และ freelance
 
     [Header("UI Elements")]
     public TextMeshProUGUI titleText;

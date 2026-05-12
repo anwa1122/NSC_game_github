@@ -41,6 +41,10 @@ public class S2_PaySystem : MonoBehaviour
             S2_PlayerMoneyTest.Instance.playerMoney -= price;
             payButton.interactable = false;
         }
+        else
+        {
+            S2_WarningSystem.Instance.WarnPlayer("You don't have enough money");
+        }
     }
     public void ExitPayUi()
     {
