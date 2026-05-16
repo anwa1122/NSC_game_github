@@ -817,6 +817,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 73885558}
+  - component: {fileID: 73885559}
   m_Layer: 0
   m_Name: Food
   m_TagString: Untagged
@@ -847,6 +848,23 @@ RectTransform:
   m_AnchoredPosition: {x: 41, y: -26}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &73885559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 73885557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93539ef4bbb23a2468cf7826bf90606f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S2_EachPayment
+  priceText: {fileID: 257930377}
+  slot: {fileID: 1405032922}
+  price: 10
+  upgradePrice: 2
+  paidAll: 0
 --- !u!1 &95643778
 GameObject:
   m_ObjectHideFlags: 0
@@ -6673,7 +6691,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 517811619}
-  - component: {fileID: 517811618}
+  - component: {fileID: 517811620}
   m_Layer: 0
   m_Name: "\U0001F4DCPaymentManager"
   m_TagString: Untagged
@@ -6681,23 +6699,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &517811618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 517811617}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5530ef1b746d06b42a3eb9e9b17535ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PaySystem_Scene2
-  payListPanel: {fileID: 32237905}
-  costText: {fileID: 531548211}
-  payButton: {fileID: 683700713}
-  price: 30
-  winScript: {fileID: 1485224696}
 --- !u!4 &517811619
 Transform:
   m_ObjectHideFlags: 0
@@ -6713,6 +6714,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &517811620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517811617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5530ef1b746d06b42a3eb9e9b17535ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S2_PaySystem
+  payListPanel: {fileID: 32237905}
+  eachPayment:
+  - {fileID: 1940734893}
+  - {fileID: 73885559}
+  - {fileID: 1177849570}
+  winScript: {fileID: 1485224696}
+  allScriptsCount: 0
+  paidAllCount: 0
 --- !u!1 &525849535
 GameObject:
   m_ObjectHideFlags: 0
@@ -7230,7 +7251,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 517811618}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PaySystem_Scene2, Assembly-CSharp
         m_MethodName: playerPayMoney
         m_Mode: 1
@@ -9188,9 +9209,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 517811618}
-        m_TargetAssemblyTypeName: PaySystem_Scene2, Assembly-CSharp
-        m_MethodName: playerPayMoney
+      - m_Target: {fileID: 1940734893}
+        m_TargetAssemblyTypeName: S2_EachPayment, Assembly-CSharp
+        m_MethodName: payThisBill
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10403,9 +10424,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 517811618}
-        m_TargetAssemblyTypeName: PaySystem_Scene2, Assembly-CSharp
-        m_MethodName: playerPayMoney
+      - m_Target: {fileID: 1177849570}
+        m_TargetAssemblyTypeName: S2_EachPayment, Assembly-CSharp
+        m_MethodName: payThisBill
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14493,8 +14514,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1177849569}
+  - component: {fileID: 1177849570}
   m_Layer: 0
-  m_Name: Future
+  m_Name: Capital
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14523,6 +14545,23 @@ RectTransform:
   m_AnchoredPosition: {x: 663, y: -26}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1177849570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177849568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93539ef4bbb23a2468cf7826bf90606f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S2_EachPayment
+  priceText: {fileID: 1540555496}
+  slot: {fileID: 2125023458}
+  price: 10
+  upgradePrice: 2
+  paidAll: 0
 --- !u!1 &1200699027
 GameObject:
   m_ObjectHideFlags: 0
@@ -19261,7 +19300,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 517811618}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PaySystem_Scene2, Assembly-CSharp
         m_MethodName: ExitPayUi
         m_Mode: 1
@@ -20503,9 +20542,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 517811618}
-        m_TargetAssemblyTypeName: PaySystem_Scene2, Assembly-CSharp
-        m_MethodName: playerPayMoney
+      - m_Target: {fileID: 73885559}
+        m_TargetAssemblyTypeName: S2_EachPayment, Assembly-CSharp
+        m_MethodName: payThisBill
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -22628,8 +22667,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 517811618}
-        m_TargetAssemblyTypeName: PaySystem_Scene2, Assembly-CSharp
+      - m_Target: {fileID: 517811620}
+        m_TargetAssemblyTypeName: S2_PaySystem, Assembly-CSharp
         m_MethodName: ExitPayUi
         m_Mode: 1
         m_Arguments:
@@ -25379,6 +25418,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1940734892}
+  - component: {fileID: 1940734893}
   m_Layer: 0
   m_Name: Electric and Water
   m_TagString: Untagged
@@ -25409,6 +25449,23 @@ RectTransform:
   m_AnchoredPosition: {x: -614, y: -26}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1940734893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940734891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93539ef4bbb23a2468cf7826bf90606f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S2_EachPayment
+  priceText: {fileID: 531548211}
+  slot: {fileID: 497020327}
+  price: 20
+  upgradePrice: 2
+  paidAll: 0
 --- !u!1 &1951865304
 GameObject:
   m_ObjectHideFlags: 0
