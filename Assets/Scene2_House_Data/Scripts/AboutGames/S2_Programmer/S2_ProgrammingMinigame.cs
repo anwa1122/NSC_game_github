@@ -26,12 +26,14 @@ public class S2_ProgrammingMinigame : MonoBehaviour
     public GameObject programmingPanel;
 
     [Header("Winning bool")]
-    public bool playerWinTheGame = false;
+    public bool playerCompleteTheGame = false;
+
 
     private S2_QuestData thisQuestData = null;
     private float scorePoint = 0f;
     private bool addOneTime = false;
     private bool lockedWord;
+    private bool showedNotification = false;
     private string errorWord;
     private S2_ErrorBlock erBlock;
     private S2_ErrorBlock erBlock2;
@@ -46,6 +48,8 @@ public class S2_ProgrammingMinigame : MonoBehaviour
     }
     void Update()
     {
+        if (programmingPanel.activeSelf == false) return;
+
         if (inputField.text == null || inputField.text == "")
         {
             lockedWord = false;
@@ -57,7 +61,12 @@ public class S2_ProgrammingMinigame : MonoBehaviour
         }
         if (spawnParent.childCount < 1)
         {
-            if (!playerWinTheGame) winTheGame();
+            if (!playerCompleteTheGame) winTheGame();
+        }
+        if (playerCompleteTheGame && !showedNotification)
+        {
+            S2_NotificationManager.Instance.showNotificationWithSetTime("You can leave the game", 5f);
+            showedNotification = true;
         }
     }
     public void onValueChange(string word)
@@ -113,7 +122,7 @@ public class S2_ProgrammingMinigame : MonoBehaviour
 
     void winTheGame()
     {
-        playerWinTheGame = true;
+        playerCompleteTheGame = true;
         //FreelanceHubManager.Instance.RemoveQuest(questType);
         //ไปเอาค่า questBaseReward ด้วย
         S2_FreelanceHubManager.Instance.GetQuestData(questType, out thisQuestData);
@@ -124,13 +133,14 @@ public class S2_ProgrammingMinigame : MonoBehaviour
             addOneTime = true;
             S2_FreelanceHubManager.Instance.RemoveQuest(questType);
             if (S2_PlayerMoneyTest.Instance == null) return;
-            S2_PlayerMoneyTest.Instance.AddMoney(scorePoint / scoreRatio * thisQuestData.baseReward);
+            S2_PlayerMoneyTest.Instance.AddMoney(scorePoint / scoreRatio * thisQuestData.baseReward); //////////////////////////////////// MONEY PLUS
         }
     }
 
     public void ExitGame()
     {
         S2_PC_SystemManager.Instance.ExitWindow(programmingPanel);
+        S2_NotificationManager.Instance.stopNotification();
     }
 
     void SpawnObject()

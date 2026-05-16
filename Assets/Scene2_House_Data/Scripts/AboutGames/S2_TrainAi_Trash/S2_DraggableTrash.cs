@@ -23,6 +23,7 @@ public class S2_DraggableTrash : MonoBehaviour, IBeginDragHandler, IDragHandler,
         // ถ้าไม่ได้ลากมาใส่ ให้ถือว่า Parent ตอนเริ่มคือพื้นที่ BeginSlot
         if (beginSlotRect == null)
             beginSlotRect = transform.parent.GetComponent<RectTransform>();
+
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -68,6 +69,7 @@ public class S2_DraggableTrash : MonoBehaviour, IBeginDragHandler, IDragHandler,
         {
             // [โจทย์ของคุณ] ถ้าปล่อยข้างนอก (ไม่เจอ Tag) ให้เด้งไปที่ "ขอบ" ของ BeginSlot ที่ใกล้ที่สุด
             rectTransform.position = GetClosestPointOnRect(beginSlotRect, Input.mousePosition);
+            transform.SetParent(beginSlotRect);
         }
     }
 

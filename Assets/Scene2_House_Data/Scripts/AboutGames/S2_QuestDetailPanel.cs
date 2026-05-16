@@ -104,7 +104,7 @@ public class S2_QuestDetailPanel : MonoBehaviour
         {
             foreach (Transform gameObj in minigame.transform)
             {
-                Debug.Log(gameObj.name + " : " + currentLoadedData.name);
+                //Debug.Log(gameObj.name + " : " + currentLoadedData.name);
                 if (gameObj.name == currentLoadedData.name)
                 {
                     //minigame.SetActive(true);

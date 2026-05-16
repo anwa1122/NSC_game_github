@@ -29,6 +29,7 @@ public class S2_CircuitManager : MonoBehaviour
     [Header("End game bool")]
     public bool completeCircuitGame = false;
 
+    private bool setupCircuit = false;
     private bool addMoney = false;
     private int score;
 
@@ -40,10 +41,20 @@ public class S2_CircuitManager : MonoBehaviour
     void Awake()
     {
         if (Instance == null) Instance = this;
-        StartCircuitgame();
+
     }
 
+    void Update()
+    {
+        if (circuitGamePanel.activeSelf == false) return;
 
+        if (!setupCircuit)
+        {
+            StartCircuitgame();
+            setupCircuit = true;
+        }
+
+    }
 
 
     public void StartCircuitgame()
@@ -71,11 +82,16 @@ public class S2_CircuitManager : MonoBehaviour
 
     public void checkResult()
     {
-        if (completeCircuitGame) return;
+        if (completeCircuitGame)
+        {
+            S2_NotificationManager.Instance.showNotificationNormally("You have already checked.");
+            return;
+        }
         for (int i = 0; i < componentCount; i++)
         {
             if (3 > remainDevice.Count || componentCount > requestDevice.Count)
             {
+                S2_NotificationManager.Instance.showNotificationNormally("Not done yet.");
                 return;
             }
             else if (requestDevice[i] == remainDevice[i])//e
@@ -152,7 +168,11 @@ public class S2_CircuitManager : MonoBehaviour
 
     public void UndoLastWire()
     {
-        if (completeCircuitGame) return;
+        if (completeCircuitGame)
+        {
+            S2_NotificationManager.Instance.showNotificationNormally("You have already completed.");
+            return;
+        }
 
         int childCount = wireSpaceObj.childCount;
         if (childCount > 0)
@@ -161,6 +181,7 @@ public class S2_CircuitManager : MonoBehaviour
             // ใช้ Destroy ปกติถ้าเรียกตอนรันเกมทั่วไปนะจ๊ะ
             Destroy(wireSpaceObj.GetChild(childCount - 1).gameObject);
 
+            S2_NotificationManager.Instance.showNotificationNormally("Undo lastest wire");
             // รอจบเฟรมแล้วค่อยรีเฟรช หรือใช้ Invoke ก็ได้ 
             // แต่ในที่นี้เราเรียก Refresh ต่อท้ายไปเลยเพื่อให้ List อัปเดตทันที
             // *หมายเหตุ: ถ้าใช้ Destroy ธรรมดา childCount จะยังไม่ลดทันทีในเฟรมนั้น 
@@ -172,6 +193,7 @@ public class S2_CircuitManager : MonoBehaviour
         else
         {
             // ถ้าสายไฟหมดแล้ว ก็ล้างลิสต์โชว์ให้ว่างเปล่า
+            S2_NotificationManager.Instance.showNotificationNormally("there is no wire to undo");
             remainDevice.Clear();
             UpdateDisplayText();
         }
@@ -180,12 +202,13 @@ public class S2_CircuitManager : MonoBehaviour
     public void ExitGame()
     {
         S2_PC_SystemManager.Instance.ExitWindow(circuitGamePanel);
+        S2_NotificationManager.Instance.stopNotification();
     }
 
     public void completeCircuitMinigame()
     {
         completeCircuitGame = true;
-
+        S2_NotificationManager.Instance.showNotificationWithSetTime("Completed the game", 5f);
         S2_FreelanceHubManager.Instance.GetQuestData(questType, out thisQuestData);
 
         if (!addMoney)
@@ -193,7 +216,7 @@ public class S2_CircuitManager : MonoBehaviour
             addMoney = true;
             S2_FreelanceHubManager.Instance.RemoveQuest(questType);
             if (S2_PlayerMoneyTest.Instance == null) return;
-            S2_PlayerMoneyTest.Instance.AddMoney(score / 10 * thisQuestData.baseReward);
+            S2_PlayerMoneyTest.Instance.AddMoney(score / 10 * thisQuestData.baseReward);  //////////////////////////////////// MONEY PLUS
 
         }
     }

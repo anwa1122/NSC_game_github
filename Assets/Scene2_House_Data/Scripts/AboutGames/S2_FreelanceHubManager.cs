@@ -44,6 +44,7 @@ public class S2_FreelanceHubManager : MonoBehaviour
         {
             hideDetailPanel = true;
             S2_QuestDetailPanel.Instance.ClosePanel();
+            S2_NotificationManager.Instance.showNotificationNormally("There is no quest left");
         }
     }
 
@@ -93,6 +94,7 @@ public class S2_FreelanceHubManager : MonoBehaviour
             if (gameType == target)
             {
                 Destroy(child.gameObject);
+                S2_QuestDetailPanel.Instance.ClosePanel();
                 return;
             }
         }

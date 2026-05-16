@@ -107,7 +107,11 @@ public class S2_AiTManager_Trash : MonoBehaviour
 
     public void CheckItemInSlot()
     {
-        if (alreadyChecked) return;
+        if (alreadyChecked)
+        {
+            S2_NotificationManager.Instance.showNotificationNormally("You have already checked.");
+            return;
+        }
 
 
 
@@ -156,6 +160,11 @@ public class S2_AiTManager_Trash : MonoBehaviour
         if (!onTrainingAi)
         {
             S2_PC_SystemManager.Instance.ExitWindow(aiTrainingPanel);
+            S2_NotificationManager.Instance.stopNotification();
+        }
+        else
+        {
+            S2_NotificationManager.Instance.showNotificationNormally("You can't leave right now");
         }
     }
 
@@ -165,13 +174,13 @@ public class S2_AiTManager_Trash : MonoBehaviour
         //FreelanceHubManager.Instance.RemoveQuest(questType);
         //ไปเอาค่า questBaseReward ด้วย
         S2_FreelanceHubManager.Instance.GetQuestData(questType, out thisQuestData);
-
+        S2_NotificationManager.Instance.showNotificationWithSetTime("Completed the game", 5f);
         if (!addMoney)
         {
             addMoney = true;
             S2_FreelanceHubManager.Instance.RemoveQuest(questType);
             if (S2_PlayerMoneyTest.Instance == null) return;
-            S2_PlayerMoneyTest.Instance.AddMoney(score / 10 * thisQuestData.baseReward);
+            S2_PlayerMoneyTest.Instance.AddMoney(score / 10 * thisQuestData.baseReward); ///////////////////////////////////// MONEY PLUS
         }
     }
 
