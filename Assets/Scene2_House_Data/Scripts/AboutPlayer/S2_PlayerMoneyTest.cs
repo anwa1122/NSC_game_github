@@ -25,4 +25,10 @@ public class S2_PlayerMoneyTest : MonoBehaviour
         Debug.Log(getMoney);
         //PlayerDataManager.Instance.money += getMoney;
     }
+
+    public void SubtractMoney(float getMoney)
+    {
+        playerMoney -= getMoney;
+        playerMoneytext.text = "PlayerMoney : " + playerMoney;
+    }
 }

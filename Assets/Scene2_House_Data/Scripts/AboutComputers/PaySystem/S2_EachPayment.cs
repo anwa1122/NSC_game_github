@@ -28,7 +28,7 @@ public class S2_EachPayment : MonoBehaviour
         {
             childGreen = 0;
 
-            S2_PlayerMoneyTest.Instance.playerMoney -= price;
+            S2_PlayerMoneyTest.Instance.SubtractMoney(price);
 
             //S2_PaySystem.Instance.playerPayMoney();
             foreach (Transform child in slot)
