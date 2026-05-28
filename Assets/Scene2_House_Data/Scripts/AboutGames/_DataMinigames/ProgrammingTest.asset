@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dd01837258dc5f4eb6719e7a16c87d9, type: 3}
+  m_Name: ProgrammingTest
+  m_EditorClassIdentifier: Assembly-CSharp::S2_QuestData
+  questName: 
+  clientMessages: []
+  questIcon: {fileID: 21300000, guid: 0cbb25928ba653b44967e8e899a6c84d, type: 3}
+  questImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  type: 2
+  isRare: 0
+  baseReward: 50
+  minigameObject: {fileID: 8840033021780242751, guid: 92470d3f8d1a261479d9e5683162ffac, type: 3}
+  difficultyMultiplier: 1

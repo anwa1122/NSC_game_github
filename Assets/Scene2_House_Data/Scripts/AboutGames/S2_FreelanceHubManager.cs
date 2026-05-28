@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using System.Security.Cryptography;
 public class S2_FreelanceHubManager : MonoBehaviour
 {
     public static S2_FreelanceHubManager Instance; // ประกาศตัวแปร Static
@@ -14,7 +15,7 @@ public class S2_FreelanceHubManager : MonoBehaviour
     public List<S2_QuestData> allQuests; //List quest ที่เรามีทั้งหมดภายในเกม
     public float rarity = 20f;
     public bool regenQuest = false;
-
+    public bool regenOneQuest = false;
 
     public int allQuestCount = 0;
     public bool hideDetailPanel = false;
@@ -27,15 +28,22 @@ public class S2_FreelanceHubManager : MonoBehaviour
 
     void Start()
     {
-        GenerateQuestList(); //เรียกใช้ฟังชันตอนเริ่มเกมเลย
+        //GenerateAllQuest(); //เรียกใช้ฟังชันตอนเริ่มเกมเลย
+        GenerateRandomQuest(Random.Range(2, 5));
     }
 
     void Update()
     {
         if (regenQuest)
         {
-            GenerateQuestList();
+            GenerateRandomQuest(Random.Range(2, 5));
             regenQuest = false;
+        }
+
+        if (regenOneQuest)
+        {
+            GenerateOneQuest();
+            regenOneQuest = false;
         }
 
         allQuestCount = contentParent.childCount;
@@ -48,7 +56,7 @@ public class S2_FreelanceHubManager : MonoBehaviour
         }
     }
 
-    public void GenerateQuestList()
+    public void GenerateAllQuest()
     {
         foreach (S2_QuestData data in allQuests) //เรียกแต่ละตัว สร้างตัวแปร data ที่เป็นประเภทสคริปต์ QuestData ที่เอามาจากภายในลิสต์ allQuests
         {
@@ -64,6 +72,51 @@ public class S2_FreelanceHubManager : MonoBehaviour
 
         }
         hideDetailPanel = false;
+    }
+
+    public void GenerateRandomQuest(int countToSpawn)
+    {
+        // กันไว้ดีกว่าแก้: ถ้าไม่มีเควสในลิสต์เลย ไม่ต้องทำอะไร
+        if (allQuests == null || allQuests.Count == 0) return;
+
+        for (int i = 0; i < countToSpawn; i++)
+        {
+            // 1. สุ่มหยิบเลขดัชนี (Index) จากลิสต์เควสที่มีทั้งหมด
+            int randomIndex = Random.Range(0, allQuests.Count);
+            S2_QuestData randomData = allQuests[randomIndex];
+
+            /*
+            if (randomData.minigameObject != null)
+            {
+                GameObject newSlot2 = Instantiate(slotPrefab, contentParent);
+            }
+            */
+            // 2. สั่งสร้าง UI แค่ชุดเดียว ไม่ต้องเขียนซ้ำใน if-else
+            GameObject newSlot = Instantiate(slotPrefab, contentParent);
+            S2_QuestItemSlot slotScript = newSlot.GetComponent<S2_QuestItemSlot>();
+
+            // 3. สุ่มความหายาก (Rare)
+            bool isRare = Random.Range(0f, 100f) <= rarity;
+
+            // 4. ส่งข้อมูลให้ปุ่มทำงาน
+            slotScript.Setup(randomData, isRare);
+        }
+
+        hideDetailPanel = false;
+    }
+
+    public void GenerateOneQuest()
+    {
+        int randomIndex = Random.Range(0, allQuests.Count);
+        S2_QuestData randomData = allQuests[randomIndex];
+        GameObject newSlot = Instantiate(slotPrefab, contentParent);
+        S2_QuestItemSlot slotScript = newSlot.GetComponent<S2_QuestItemSlot>();
+
+        // 3. สุ่มความหายาก (Rare)
+        bool isRare = Random.Range(0f, 100f) <= rarity;
+
+        // 4. ส่งข้อมูลให้ปุ่มทำงาน
+        slotScript.Setup(randomData, isRare);
     }
 
     public void ExitFreeLanceHub()

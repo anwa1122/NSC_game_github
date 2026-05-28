@@ -20,6 +20,7 @@ public class S2_QuestData : ScriptableObject
     [Header("Settings")]
     public bool isRare = false;  // เควสหายาก (ขอบรุ้ง)
     public float baseReward;     // เงินรางวัลพื้นฐาน
+    public GameObject minigameObject;
 
     [Range(1f, 3f)]
     public float difficultyMultiplier = 1f; // ตัวคูณความยาก
