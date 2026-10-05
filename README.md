@@ -4,7 +4,7 @@
 
 ## บทบาทหน้าที่
 - **Programmer:** ออกแบบระบบเกม (Game System), เขียน Game Logic, ระบบ Quest, UI และ Mini-games
-- **Team Collaboration:** ใช้ GitHub Desktop ในการจัดการไฟล์ ทำงานร่วมกับฝ่ายโมเดล และคุม Version Control ของโปรเจกต์
+- **Team Collaboration:** ใช้ GitHub Desktop ในการจัดการไฟล์ ทำงานร่วมกับฝ่ายโมเดล
 
 ## Tools
 - Unity Engine (C#, ShaderLab, HLSL)
