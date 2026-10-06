@@ -10,5 +10,4 @@
 ### Tools
 - Unity
 - C#
-- ShaderLab / HLSL
 - GitHub Desktop
